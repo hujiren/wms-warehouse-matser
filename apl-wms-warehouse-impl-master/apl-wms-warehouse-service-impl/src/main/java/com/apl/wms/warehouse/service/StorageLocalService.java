@@ -1,0 +1,107 @@
+package com.apl.wms.warehouse.service;
+
+import com.apl.lib.pojo.dto.PageDto;
+import com.apl.lib.utils.ResultUtils;
+import com.apl.wms.lib.pojo.bo.PullBatchOrderItemBo;
+import com.apl.wms.lib.vo.StorageLocalInfoVo;
+import com.apl.wms.warehouse.dto.StorageLocationAddDto;
+import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
+import com.apl.wms.warehouse.dto.StorageLocationKeyDto;
+import com.apl.wms.warehouse.po.StorageLocalPo;
+import com.apl.wms.warehouse.vo.StorageLocalListVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * <p>
+ * 库位 service接口
+ * </p>
+ *
+ * @author cy
+ * @since 2019-12-17
+ */
+public interface StorageLocalService extends IService<StorageLocalPo> {
+
+        /**
+         * @Desc: 添加一个StorageLocationPo实体
+         * @author cy
+         * @since 2019-12-17
+         */
+        ResultUtils<Map> add(StorageLocationAddDto storageLocationAddDto);
+
+
+        /**
+         * @Desc: 根据id 更新一个StorageLocationPo 实体
+         * @author cy
+         * @since 2019-12-17
+         */
+        ResultUtils<Boolean> updById(StorageLocalPo storageLocation);
+
+
+        /**
+         * @Desc: 根据id 查找一个StorageLocationPo 实体
+         * @author cy
+         * @since 2019-12-17
+         */
+        ResultUtils<Boolean> delById(Long id);
+
+
+        /**
+         * @Desc: 根据id 查找一个 StorageLocalPo 实体
+         * @author cy
+         * @since 2019-12-17
+         */
+        ResultUtils<StorageLocalInfoVo> getStorageLocalBySn(String storageLocalSn);
+
+
+        /**
+         * @Desc: 分页查找 StorageLocalPo 列表
+         * @author cy
+         * @since 2019-12-17
+         */
+        ResultUtils<Page<StorageLocalListVo>>getList(PageDto pageDto, StorageLocationKeyDto keyDto);
+
+
+        /**
+         * @Desc: 批量修改 库位
+         * @Author: CY
+         * @Date: 2019/12/17 17:21
+         */
+        ResultUtils<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto);
+
+
+        /**
+         * @Description : 打印
+         * @Param ： * @param null
+         * @Return ：
+         * @Author : arran
+         * @Date :
+         */
+        void print(String id)  throws Exception;
+
+        /**
+         * @Desc: 分配库位
+         * @Author: CY
+         * @Date: 2020/1/3 10:04
+         */
+        ResultUtils<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , String storageLocal)  throws Exception;
+
+        /**
+         * @Description : 库位锁定
+         * @Param ：
+         * @Return ：
+         * Created by arran on 2020/3/12
+         */
+        ResultUtils<Boolean> changeStorageLocalStatus(String lockIds , String unLockIds);
+
+        /**
+         * @Desc: 分配当个库位
+         * @Author: CY
+         * @Date: 2020/3/24 9:31
+         */
+        ResultUtils<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn);
+
+}

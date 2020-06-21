@@ -1,0 +1,34 @@
+package com.apl.wms.warehouse.vo;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+
+/**
+ * <p>
+ * 附加服务操作名称 详细实体
+ * </p>
+ *
+ * @author cy
+ * @since 2019-12-17
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class OperatorServiceInfoVo implements Serializable {
+
+
+private static final long serialVersionUID=1L;
+
+
+    // 
+    private Long id;
+
+    // 服务名称
+    private String serviceName;
+
+    // 服务英文名称
+    private String serviceNameEn;
+
+
+}

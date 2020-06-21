@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: apl-wms-warehouse-buyer-app
+
+  profiles:
+    include:
+      common, apl-wms-warehouse-buyer-app

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apl.wms.warehouse.mapper.OperatorServiceMapper">
+
+
+
+    <!-- 查找详情 2019-12-17-->
+    <select id="getById" resultType="com.apl.wms.warehouse.vo.OperatorServiceInfoVo">
+        SELECT
+          id, 
+          service_name,
+          service_name_en,
+          inner_org_id
+        FROM
+          operator_service
+        where
+          id = #{id}
+    </select>
+
+    <!-- 查找列表 2019-12-17-->
+    <select id="getList" resultType="com.apl.wms.warehouse.vo.OperatorServiceListVo">
+        SELECT
+           id, 
+           service_name,
+           service_name_en,
+           inner_org_id
+        FROM
+           operator_service
+        where
+        1 = 1
+        <if test="kd.keyword != null">
+            and (service_name like CONCAT("%" , #{kd.keyword} , "%") or service_name_en like CONCAT("%" , #{kd.keyword} , "%"))
+        </if>
+        order by service_name
+    </select>
+
+    <!-- 检查记录是否重复 -->
+    <select id="exists" resultType="com.apl.wms.warehouse.vo.OperatorServiceInfoVo">
+        SELECT
+           id,
+           service_name,
+           service_name_en
+        FROM
+           operator_service
+        WHERE
+           (service_name = #{name} or service_name_en = #{nameEn})
+        <if test="id != null and id>0">
+            AND id !=  #{id}
+        </if>
+    </select>
+
+</mapper>

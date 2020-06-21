@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apl.wms.warehouse.mapper.CommodityBrandMapper">
+
+
+    <!-- 查找详情 2019-12-09-->
+    <select id="getList" resultType="com.apl.wms.warehouse.vo.CommodityBrandListVo">
+        SELECT
+        id,
+        brand_name,
+        brand_name_en,
+        customer_id
+        FROM
+        commodity_brand
+        where
+        1 = 1
+        <if test="kd.customerId != null">
+           and customer_id = #{kd.customerId}
+        </if>
+        <if test="kd.keyword != null and kd.keyword.length>0">
+            and (locate(#{kd.keyword}, brand_name)>0 or locate(#{kd.keyword}, brand_name_en)>0)
+        </if>
+    </select>
+
+    <!-- 查找列表 2019-12-09-->
+    <select id="getById" resultType="com.apl.wms.warehouse.vo.CommodityBrandInfoVo">
+        SELECT
+        id,
+        brand_name,
+        brand_name_en,
+        customer_id,
+        inner_org_id
+        FROM
+        commodity_brand
+        where
+            id = #{id}
+    </select>
+
+
+    <select id="exist" resultType="com.apl.wms.warehouse.vo.CommodityBrandInfoVo">
+        SELECT
+        id,
+        brand_name,
+        brand_name_en
+        FROM
+        commodity_brand
+        where
+        (brand_name = #{brandName} or brand_name_en = #{brandNameEn})
+        <if test="id != null and id>0">
+            and id!= #{id}
+        </if>
+    </select>
+
+</mapper>

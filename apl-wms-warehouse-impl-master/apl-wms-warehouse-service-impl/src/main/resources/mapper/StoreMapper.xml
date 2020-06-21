@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apl.wms.warehouse.mapper.StoreMapper">
+
+    <!-- 查找详情 2019-12-23-->
+    <select id="getById" resultType="com.apl.wms.warehouse.vo.StoreInfoVo">
+        SELECT
+          id, 
+          store_code, 
+          store_name, 
+          store_name_en, 
+          customer_id, 
+          electric_code, 
+          store_status,
+          remark
+        FROM
+          store
+        where
+          customer_id = #{customerId} and id = #{id}
+    </select>
+
+    <!-- 获取API参数 2019-12-29-->
+    <select id="getApiConfig" resultType="com.apl.wms.warehouse.po.StoreApiPo">
+        SELECT
+          id,
+          customer_id,
+          api_config,
+          auto_cr_sync_time_zone,
+          is_auto_cr_sync_order,
+          auto_cr_sync_time_zone,
+          auto_cr_sync_order_time,
+          sync_order_start_time,
+          sync_order_end_time
+        FROM
+          store
+        where
+          id = #{id}
+          <if test="customerId != null and customerId>0">
+            and customer_id = #{kd.customerId}
+          </if>
+    </select>
+
+    <!-- 获取API参数 2019-12-29-->
+    <select id="getApiConfigStrVal" resultType="string">
+        SELECT
+          api_config
+        FROM
+          store
+        where
+        id = #{id}
+        <if test="customerId != null and customerId>0">
+            and customer_id = #{kd.customerId}
+        </if>
+    </select>
+
+    <!-- 查找列表 2019-12-23-->
+    <select id="getList" resultType="com.apl.wms.warehouse.vo.StoreListVo">
+        SELECT
+           id,
+           store_code, 
+           store_name, 
+           store_name_en, 
+           customer_id, 
+           electric_code,
+           store_status,
+           remark
+        FROM
+           store
+        where
+           store_status = #{kd.storeStatus}
+        <if test="kd.customerId != null and kd.customerId>0">
+           and customer_id = #{kd.customerId}
+        </if>
+        <if test="kd.electricCode != null and kd.electricCode.length>0">
+            <!--and electric_code = #{kd.electricCode}  -->
+        </if>
+        <if test="kd.keyword != null and kd.keyword.length>0">
+            and (locate(#{kd.keyword}, store_code)>0
+            or locate(#{kd.keyword}, store_name)>0
+            or locate(#{kd.keyword}, store_name_en)>0
+            or locate(#{kd.keyword}, remark)>0)
+        </if>
+        order by store_code
+    </select>
+
+    <!-- 检查记录是否重复 -->
+    <select id="exists" resultType="com.apl.wms.warehouse.vo.StoreInfoVo">
+        SELECT
+           id,
+           customer_id, 
+           store_code, 
+           store_name, 
+           store_name_en
+        FROM
+           store
+        WHERE
+           customer_id = #{customerId} AND (store_code = #{storeCode} or store_name = #{storeName} or store_name_en = #{storeNameEn})
+        <if test="id != null and id>0">
+            AND id !=  #{id}
+        </if>
+    </select>
+
+</mapper>
