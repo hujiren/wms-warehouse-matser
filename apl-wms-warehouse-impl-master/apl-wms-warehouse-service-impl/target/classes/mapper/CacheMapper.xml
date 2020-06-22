@@ -4,7 +4,7 @@
 
 
     <!-- 添加仓库缓存 -->
-    <select id="addWarehouseCache" resultType="com.apl.wms.lib.cache.WarehouseCacheBo">
+    <select id="addWarehouseCache" resultType="com.apl.wms.warehouse.lib.cache.WarehouseCacheBo">
         SELECT
             concat('JOIN_CACHE:warehouse_',  ${innerOrgId}, '_', id) AS cache_key,
             id,
@@ -27,7 +27,7 @@
 
 
     <!-- 添加商品缓存(根据id) -->
-    <select id="addCommodityCacheById" resultType="com.apl.wms.lib.cache.CommodityCacheBo">
+    <select id="addCommodityCacheById" resultType="com.apl.wms.warehouse.lib.cache.CommodityCacheBo">
         SELECT
             concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
             c.id,
@@ -56,7 +56,7 @@
     </select>
 
     <!-- 添加商品缓存(根据SKU) -->
-    <select id="addCommodityCacheBySku" resultType="com.apl.wms.lib.cache.CommodityCacheBo">
+    <select id="addCommodityCacheBySku" resultType="com.apl.wms.warehouse.lib.cache.CommodityCacheBo">
         SELECT
             concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
             c.id,
@@ -82,7 +82,7 @@
     </select>
 
     <!-- 添加操作员 缓存 -->
-    <select id="addOperatorCache" resultType="com.apl.wms.lib.cache.OperatorCacheBo">
+    <select id="addOperatorCache" resultType="com.apl.wms.warehouse.lib.cache.OperatorCacheBo">
         SELECT
             concat('JOIN_CACHE:operator_',  ${innerOrgId}, '_', member_id) AS cache_key,
             id,
@@ -104,7 +104,7 @@
     </select>
 
     <!-- 添加操作服务缓存 -->
-    <select id="addOperatorServiceCache" resultType="com.apl.wms.lib.cache.OperatorServiceBo">
+    <select id="addOperatorServiceCache" resultType="com.apl.wms.warehouse.lib.cache.OperatorServiceBo">
         SELECT
             concat('JOIN_CACHE:operator_service_',  ${innerOrgId}, '_', id) AS cache_key,
             id,
@@ -126,7 +126,7 @@
 
 
     <!-- 添加商品缓存 -->
-    <select id="addCommodityCategoryCache" resultType="com.apl.wms.lib.pojo.bo.CommodityCategoryCacheVo">
+    <select id="addCommodityCategoryCache" resultType="com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo">
         SELECT
             concat('JOIN_CACHE:commodityCategory_',  ${innerOrgId}, '_', id) AS cache_key,
             id,
@@ -148,8 +148,8 @@
         </if>
     </select>
 
-    <!-- 添加商品缓存 -->
-    <select id="addStoreCache" resultType="com.apl.wms.lib.cache.StoreCacheBo">
+    <!-- 添加网店铺缓存 -->
+    <select id="addStoreCache" resultType="com.apl.wms.warehouse.lib.cache.StoreCacheBo">
         SELECT
             concat('JOIN_CACHE:store_',  ${innerOrgId}, '_', id) AS cache_key,
             id as storeId,
@@ -170,8 +170,8 @@
     </select>
 
 
-    <!-- 添加商品缓存 -->
-    <select id="addStorageLocalCache" resultType="com.apl.wms.lib.cache.StorageLocalCacheBo">
+    <!-- 添加库位缓存 -->
+    <select id="addStorageLocalCache" resultType="com.apl.wms.warehouse.lib.cache.StorageLocalCacheBo">
         SELECT
             concat('JOIN_CACHE:storage_local_',  ${innerOrgId}, '_', sl.id) AS cache_key,
             sl.id as storageLocalId ,

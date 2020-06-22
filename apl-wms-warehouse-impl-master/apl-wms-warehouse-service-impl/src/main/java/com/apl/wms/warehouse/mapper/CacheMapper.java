@@ -7,11 +7,9 @@
 
 package com.apl.wms.warehouse.mapper;
 
-import com.apl.wms.lib.cache.CommodityCacheBo;
-import com.apl.wms.lib.cache.OperatorServiceBo;
-import com.apl.wms.lib.cache.StoreCacheBo;
-import com.apl.wms.lib.cache.WarehouseCacheBo;
-import com.apl.wms.lib.pojo.bo.*;
+
+import com.apl.wms.warehouse.lib.cache.*;
+import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
@@ -65,14 +63,13 @@ public interface CacheMapper extends BaseMapper {
 
 
 
-
     /**
      * @Desc: 添加 店铺 缓存
      * @Author: CY
      * @Date: 2020/1/13 18:37
      */
     @MapKey("cacheKey")
-    Map<String, StoreCacheBo> addStorageLocalCache(@Param("keys") String keys, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey, @Param("innerOrgId") Long innerOrgId);
+    Map<String, StorageLocalCacheBo> addStorageLocalCache(@Param("keys") String keys, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey, @Param("innerOrgId") Long innerOrgId);
 
 
 

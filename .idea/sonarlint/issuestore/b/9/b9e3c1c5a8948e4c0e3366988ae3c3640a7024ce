@@ -1,0 +1,25 @@
+
+R
+java:S2696 "6Make the enclosing method "static" or remove this set.(··÷ªùÿÿÿÿ
+J
+java:S3740W"/Provide the parametrized type for this generic.(£ü‰üÿÿÿÿÿ
+F
+java:S3740è"/Provide the parametrized type for this generic.(Óª¾»
+K
+java:S3740î"/Provide the parametrized type for this generic.(§Š¬ıûÿÿÿÿ
+K
+java:S3740—"/Provide the parametrized type for this generic.(§Š¬ıûÿÿÿÿ
+F
+java:S3740©"/Provide the parametrized type for this generic.(±Şÿí
+=
+java:S1075³"&Remove this hard-coded path-delimiter.(Í‘÷
+F
+java:S3740´"/Provide the parametrized type for this generic.(±Şÿí
+=
+java:S1075¨"&Remove this hard-coded path-delimiter.(Í‘÷
+\	java:S112­"FDefine and throw a dedicated exception instead of using a generic one.(÷¯²°
+O	java:S106§"9Replace this use of System.out or System.err by a logger.(¦óö¹
+M
+java:S2696÷"6Make the enclosing method "static" or remove this set.(«‘ÇÁ
+M
+java:S2696ƒ"6Make the enclosing method "static" or remove this set.(Ù•òğ

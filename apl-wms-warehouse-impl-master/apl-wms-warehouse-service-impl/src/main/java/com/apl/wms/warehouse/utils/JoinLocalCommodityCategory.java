@@ -3,7 +3,7 @@ package com.apl.wms.warehouse.utils;
 import com.apl.lib.datasource.DataSourceContextHolder;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtils;
-import com.apl.wms.lib.pojo.bo.CommodityCategoryCacheVo;
+import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.apl.wms.warehouse.service.CacheService;
 import org.springframework.data.redis.core.RedisTemplate;
 

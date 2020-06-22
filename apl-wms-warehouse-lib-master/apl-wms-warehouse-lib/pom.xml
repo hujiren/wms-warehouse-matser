@@ -10,9 +10,10 @@
 
         <dependency>
             <groupId>com.apl</groupId>
-            <artifactId>apl-sys-lib</artifactId>
+            <artifactId>apl-lib</artifactId>
             <version>1.0.0</version>
         </dependency>
+
 
     </dependencies>
 

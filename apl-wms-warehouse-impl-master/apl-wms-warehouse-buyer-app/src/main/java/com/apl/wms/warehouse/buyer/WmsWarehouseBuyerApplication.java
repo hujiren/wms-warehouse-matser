@@ -11,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(scanBasePackages = {"com.apl.wms.warehouse", "com.apl.lib", "com.apl.lib.handler"}, exclude = {DataSourceAutoConfiguration.class})
 @MapperScan("com.apl.wms.warehouse.mapper")
-@EnableFeignClients(basePackages = {"com.apl.wms.lib.feign","com.apl.sys.lib.feign"})
+@EnableFeignClients(basePackages = {"com.apl.wms.warehouse.lib.feign","com.apl.sys.lib.feign"})
 @EnableDiscoveryClient
 @EnableSwagger2
 public class WmsWarehouseBuyerApplication {

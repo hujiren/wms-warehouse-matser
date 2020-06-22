@@ -5,11 +5,11 @@ import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinUtils;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtils;
-import com.apl.wms.lib.bo.PlatformOutOrderStockBo;
-import com.apl.wms.lib.constants.AplConstants;
-import com.apl.wms.lib.pojo.bo.PullBatchOrderItemBo;
-import com.apl.wms.lib.vo.StorageLocalStock;
-import com.apl.wms.order.bo.StockUpdBo;
+import com.apl.wms.warehouse.bo.StockUpdBo;
+import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
+import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
+import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
 import com.apl.wms.warehouse.mapper.StorageLocalStocksMapper;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
 import com.apl.wms.warehouse.po.CommodityPo;
@@ -70,7 +70,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
 
 
     @Override
-    public List<StorageLocalStock > getCommodityStorageLocalStockList(Long whId, List<Long> commodityIdList) {
+    public List<StorageLocalStock> getCommodityStorageLocalStockList(Long whId, List<Long> commodityIdList) {
 
         return baseMapper.getCommodityStorageLocalStockList(whId , commodityIdList);
     }
@@ -176,9 +176,9 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
             //判断库位状态是否已满
             if (storageLocalAllVolume - storeVolume.intValue() > 0) {
                 //未满状态
-                storageLocalPo.setStorageStatus(AplConstants.STORAGE_UN_FULL_STATUS);
+                storageLocalPo.setStorageStatus(WmsWarehouseAplConstants.STORAGE_UN_FULL_STATUS);
             } else {//已满
-                storageLocalPo.setStorageStatus(AplConstants.STORAGE_FULL_STATUS);
+                storageLocalPo.setStorageStatus(WmsWarehouseAplConstants.STORAGE_FULL_STATUS);
             }
             //更新库位状态
             storageLocalService.updateById(storageLocalPo);

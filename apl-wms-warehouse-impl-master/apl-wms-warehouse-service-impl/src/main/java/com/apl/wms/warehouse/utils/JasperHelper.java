@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.utils;
 
+import com.apl.wms.outstorage.order.lib.enumwms.PullStatusType;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -52,7 +53,15 @@ public class JasperHelper {
 				pageHeight.setInt(jasperReport, 2147483647);
 			} catch (Exception exception) {
 			}
+
+
+			test(PullStatusType.ALREADY_ALLOCATION);
 	}
+
+	private static void test(PullStatusType alreadyAllocation) {
+	}
+
+
 
 	/**
 	 * 导出excel

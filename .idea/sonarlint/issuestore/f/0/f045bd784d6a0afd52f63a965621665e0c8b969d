@@ -1,0 +1,226 @@
+
+E
+java:S3740ñ"/Provide the parametrized type for this generic.(èô„
+p
+java:S1104 "UMake base64pdf a static final constant or non-public and provide accessors if needed.(Í…†ìÿÿÿÿÿ
+R
+java:S1874º";Remove this use of "JRExporterParameter"; it is deprecated.(Í…ÔÎ
+K
+java:S1874»"4Remove this use of "setParameter"; it is deprecated.(¤Ýá
+R
+java:S1874Ç";Remove this use of "JRExporterParameter"; it is deprecated.(¿Ê†·
+]
+java:S2259Ð"FA "NullPointerException" could be thrown; "exporter" is nullable here.(¿Ê†·
+J
+java:S1874X"4Remove this use of "JASPER_PRINT"; it is deprecated.(¿Ê†·
+
+java:S1130œ"€Remove the declaration of thrown exception 'net.sf.jasperreports.engine.JRException', as it cannot be thrown from method's body.(ÅâÄøÿÿÿÿ
+>	java:S1086")Either remove or fill this block of code.(®ËúÃ
+I
+java:S1874Æ"2Remove this use of "JRExporter"; it is deprecated.(ßêÑ¼
+R
+java:S1874¹";Remove this use of "JRExporterParameter"; it is deprecated.(¿Ê†·
+K
+java:S1874È"4Remove this use of "setParameter"; it is deprecated.(Üá³õ
+P
+java:S1874°"4Remove this use of "setParameter"; it is deprecated.(Éþ†–þÿÿÿÿ
+W	java:S125¢"<This block of commented-out lines of code should be removed.(©ÄŸóûÿÿÿÿ
+K
+java:S1874­"4Remove this use of "setParameter"; it is deprecated.(¤Ýá
+U
+java:S1874`"@Remove this use of "IS_WHITE_PAGE_BACKGROUND"; it is deprecated.(†×Ô}
+K
+java:S1874º"4Remove this use of "setParameter"; it is deprecated.(Í…ÔÎ
+?
+java:S1148ì"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+P
+java:S1874Z"5Remove this use of "OUTPUT_STREAM"; it is deprecated.(Éþ†–þÿÿÿÿ
+J
+java:S1172‰".Remove this unused method parameter "request".(Åâ·½øÿÿÿÿ
+V
+java:S1874»"?Remove this use of "JRHtmlExporterParameter"; it is deprecated.(¤Ýá
+R	java:S125’"<This block of commented-out lines of code should be removed.(Øå¦ª
+›
+java:S3252\"„Use static access with "net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter" for "IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS".(°Ôæ’
+P
+java:S4719Ä"9Replace charset name argument with StandardCharsets.UTF_8(®ÜÖ
+R
+java:S1172«"6Remove this unused method parameter "defaultFilename".(þîÐ ÿÿÿÿÿ
+R
+java:S1172•"6Remove this unused method parameter "defaultFilename".(þîÐ ÿÿÿÿÿ
+K
+java:S1874Ñ"4Remove this use of "setParameter"; it is deprecated.(Í…ÔÎ
+Œ
+java:S3252^"wUse static access with "net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter" for "IS_ONE_PAGE_PER_SHEET".(Ë€òu
+V
+java:S1874Z";Remove this use of "JRExporterParameter"; it is deprecated.(Éþ†–þÿÿÿÿ
+R
+java:S1874®";Remove this use of "JRExporterParameter"; it is deprecated.(¿Ê†·
+F
+java:S3740Â"/Provide the parametrized type for this generic.(Ó®†
+P
+java:S1874¯"4Remove this use of "setParameter"; it is deprecated.(„”«ëýÿÿÿÿ
+L
+java:S1874¬"6Remove this use of "JRHtmlExporter"; it is deprecated.(„¤¯
+ž
+java:S1186="€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ô„¨Ÿ8“ª‚Ø­.
+E
+java:S3740k"/Provide the parametrized type for this generic.(çÖºü
+W
+java:S1874¥"@Remove this use of "IS_USING_IMAGES_TO_ALIGN"; it is deprecated.(¤Ýá
+ˆ
+java:S1130œ"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(ÅâÄøÿÿÿÿ
+F
+java:S3740Ù"/Provide the parametrized type for this generic.(©œ±ø
+K
+java:S1874Ç"4Remove this use of "JASPER_PRINT"; it is deprecated.(¿Ê†·
+]
+java:S1192Ä"FDefine a constant instead of duplicating this literal "utf-8" 7 times.(®ÜÖ
+S
+java:S1874`">Remove this use of "JRXlsExporterParameter"; it is deprecated.(†×Ô}
+R
+java:S1874È";Remove this use of "JRExporterParameter"; it is deprecated.(Üá³õ
+K
+java:S1874£"4Remove this use of "setParameter"; it is deprecated.(¿Ê†·
+V
+java:S1874­"?Remove this use of "JRHtmlExporterParameter"; it is deprecated.(¤Ýá
+W
+java:S1874°";Remove this use of "JRExporterParameter"; it is deprecated.(Éþ†–þÿÿÿÿ
+F
+java:S3740²"/Provide the parametrized type for this generic.(úáæ
+T
+java:S1874\">Remove this use of "JRXlsExporterParameter"; it is deprecated.(°Ôæ’
+J
+java:S1172»".Remove this unused method parameter "request".(¸ôÀ¹øÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(ÙÁó·ûÿÿÿÿ
+K
+java:S1874®"4Remove this use of "setParameter"; it is deprecated.(¿Ê†·
+R
+java:S1874£";Remove this use of "JRExporterParameter"; it is deprecated.(¿Ê†·
+R
+java:S1874^"=Remove this use of "IS_ONE_PAGE_PER_SHEET"; it is deprecated.(Ë€òu
+Q
+java:S1874°"5Remove this use of "OUTPUT_STREAM"; it is deprecated.(Éþ†–þÿÿÿÿ
+U
+java:S1172="8Remove this unused method parameter "alreadyAllocation".(Ô„¨Ÿ8“ª‚Ø­.
+L
+java:S1874¤"5Remove this use of "OUTPUT_WRITER"; it is deprecated.(Í…ÔÎ
+F
+java:S3740œ"/Provide the parametrized type for this generic.(úáæ
+F
+java:S3740Æ"/Provide the parametrized type for this generic.(ßêÑ¼
+J
+java:S1444 "/Make this "public static base64pdf" field final(Í…†ìÿÿÿÿÿ
+K
+java:S3740É"/Provide the parametrized type for this generic.(ý Æ±ýÿÿÿÿ
+O
+java:S1874t"9Remove this use of "JExcelApiExporter"; it is deprecated.(œÄ–¡
+?
+java:S2786f")Remove this redundant "static" qualifier.(¾…æ’
+Q
+java:S1874q"6Remove this use of "JRHtmlExporter"; it is deprecated.(¦²ôÄÿÿÿÿÿ
+W
+java:S1874­"@Remove this use of "IS_USING_IMAGES_TO_ALIGN"; it is deprecated.(¤Ýá
+•
+java:S3252Ì"yUse static access with "net.sf.jasperreports.j2ee.servlets.BaseHttpServlet" for "DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE".(È¸³Ëúÿÿÿÿ
+K
+java:S1874Ð"4Remove this use of "JASPER_PRINT"; it is deprecated.(¿Ê†·
+V
+java:S1874¥"?Remove this use of "JRHtmlExporterParameter"; it is deprecated.(¤Ýá
+`
+java:S1874\"JRemove this use of "IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"; it is deprecated.(°Ôæ’
+B
+java:S1172¨"&Remove these unused method parameters.(êÓùéúÿÿÿÿ
+L
+java:S1874¬"6Remove this use of "JRHtmlExporter"; it is deprecated.(„¤¯
+K
+java:S1874¹"4Remove this use of "setParameter"; it is deprecated.(¿Ê†·
+L
+java:S1874º"5Remove this use of "OUTPUT_WRITER"; it is deprecated.(Í…ÔÎ
+R
+java:S2589L"7Remove this expression which always evaluates to "true"(…Ê¤èþÿÿÿÿ
+K
+java:S1874£"4Remove this use of "JASPER_PRINT"; it is deprecated.(¿Ê†·
+B
+java:S1172›"&Remove these unused method parameters.(ØŸìúÿÿÿÿ
+W	java:S125"<This block of commented-out lines of code should be removed.(¾úÅøÿÿÿÿ
+R	java:S125”"<This block of commented-out lines of code should be removed.(Öš‚í
+I
+java:S1874`"4Remove this use of "setParameter"; it is deprecated.(†×Ô}
+K
+java:S3740–"/Provide the parametrized type for this generic.(ïÏþýÿÿÿÿ
+M
+java:S1172Á"6Remove this unused method parameter "defaultFilename".(¡±Ì
+K
+java:S1874Ð"4Remove this use of "setParameter"; it is deprecated.(¿Ê†·
+Q
+java:S1874X";Remove this use of "JRExporterParameter"; it is deprecated.(¿Ê†·
+•
+java:S3252Ÿ"yUse static access with "net.sf.jasperreports.j2ee.servlets.BaseHttpServlet" for "DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE".(È¸³Ëúÿÿÿÿ
+K
+java:S1874®"4Remove this use of "JASPER_PRINT"; it is deprecated.(¿Ê†·
+S
+java:S1874^">Remove this use of "JRXlsExporterParameter"; it is deprecated.(Ë€òu
+l
+java:S1104"VMake reportFile a static final constant or non-public and provide accessors if needed.(·Íú½
+f
+java:S1192ª"JDefine a constant instead of duplicating this literal "text/html" 4 times.(ïòîÀþÿÿÿÿ
+•
+java:S3252µ"yUse static access with "net.sf.jasperreports.j2ee.servlets.BaseHttpServlet" for "DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE".(È¸³Ëúÿÿÿÿ
+J
+java:S1874X"4Remove this use of "setParameter"; it is deprecated.(¿Ê†·
+V	java:S125$"<This block of commented-out lines of code should be removed.(«ðèÎüÿÿÿÿ
+K
+java:S1874¹"4Remove this use of "JASPER_PRINT"; it is deprecated.(¿Ê†·
+W
+java:S1874»"@Remove this use of "IS_USING_IMAGES_TO_ALIGN"; it is deprecated.(¤Ýá
+K
+java:S1874¥"4Remove this use of "setParameter"; it is deprecated.(¤Ýá
+]
+java:S2259¹"FA "NullPointerException" could be thrown; "exporter" is nullable here.(¿Ê†·
+O
+java:S1874Z"4Remove this use of "setParameter"; it is deprecated.(Éþ†–þÿÿÿÿ
+S
+java:S2589¿"7Remove this expression which always evaluates to "true"(…Ê¤èþÿÿÿÿ
+I
+java:S1172E".Remove this unused method parameter "request".(¯‘Ýµúÿÿÿÿ
+E
+java:S3740j"/Provide the parametrized type for this generic.(”Þ¬ö
+R
+java:S1874Ñ";Remove this use of "JRExporterParameter"; it is deprecated.(Í…ÔÎ
+F
+java:S3740ø"/Provide the parametrized type for this generic.(Æ…Âî
+J
+java:S1874\"4Remove this use of "setParameter"; it is deprecated.(°Ôæ’
+R
+java:S1874¤";Remove this use of "JRExporterParameter"; it is deprecated.(Í…ÔÎ
+V
+java:S1874¯":Remove this use of "CHARACTER_ENCODING"; it is deprecated.(„”«ëýÿÿÿÿ
+]
+java:S2259£"FA "NullPointerException" could be thrown; "exporter" is nullable here.(¿Ê†·
+F
+java:S3740¬"/Provide the parametrized type for this generic.(Ó®†
+W	java:S125ž"<This block of commented-out lines of code should be removed.(¿Ö´Àûÿÿÿÿ
+I
+java:S1874^"4Remove this use of "setParameter"; it is deprecated.(Ë€òu
+W
+java:S1874¯";Remove this use of "JRExporterParameter"; it is deprecated.(„”«ëýÿÿÿÿ
+E
+java:S3740ñ"/Provide the parametrized type for this generic.(èô„
+L
+java:S1874Ñ"5Remove this use of "OUTPUT_WRITER"; it is deprecated.(Í…ÔÎ
+Y
+java:S1854"CRemove this useless assignment to local variable "defaultFilename".(Ü¸™
+R
+java:S1874Ð";Remove this use of "JRExporterParameter"; it is deprecated.(¿Ê†·
+K
+java:S1874¤"4Remove this use of "setParameter"; it is deprecated.(Í…ÔÎ
+W	java:S125 "<This block of commented-out lines of code should be removed.(ñ‡¤Ÿúÿÿÿÿ
+
+java:S3252`"zUse static access with "net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter" for "IS_WHITE_PAGE_BACKGROUND".(†×Ô}
+f
+java:S1192("PUse already-defined constant 'EXCEL_TYPE' instead of duplicating its value here.(·´ÀÁ
+L
+java:S1874È"5Remove this use of "OUTPUT_STREAM"; it is deprecated.(Üá³õ
+K
+java:S1874Ç"4Remove this use of "setParameter"; it is deprecated.(¿Ê†·

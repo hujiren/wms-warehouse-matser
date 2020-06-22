@@ -13,7 +13,6 @@ import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
 import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.sys.lib.feign.OuterFeign;
-import com.apl.wms.lib.constants.AplConstants;
 import com.apl.wms.warehouse.mapper.CommodityMapper;
 import com.apl.wms.warehouse.mapper.CommodityPicMapper;
 import com.apl.wms.warehouse.service.CacheService;
@@ -132,7 +131,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         commodity.setUnitCode(commodity.getUnitCode().toUpperCase());
 
         Integer flag = baseMapper.insert(commodity);
-        if(flag.equals(AplConstants.SUCCESS)){
+        if(flag.equals(1)){
             return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodity.getId());
         }
 
@@ -181,7 +180,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         this.exists(commodity.getId() , commodity.getSku(),  commodity.getCommodityName(),  commodity.getCommodityNameEn() );
 
         Integer flag = baseMapper.updateById(commodity);
-        if(flag.equals(AplConstants.SUCCESS)){
+        if(flag.equals(1)){
             return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 

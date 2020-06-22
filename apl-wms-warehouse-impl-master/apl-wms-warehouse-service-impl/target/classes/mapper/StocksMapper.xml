@@ -4,7 +4,7 @@
 
 
 
-    <select id="getWareHouseCommodityCountList" resultType="com.apl.wms.lib.vo.CheckOrderStockDetailsVo">
+    <select id="getWareHouseCommodityCountList" resultType="com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo">
         SELECT
         wh_id,
         commodity_id,
@@ -72,7 +72,7 @@
         from stocks where wh_id = #{whId} and commodity_id = #{commodityId}
     </select>
 
-    <insert id="addStock" parameterType="com.apl.wms.order.bo.StockUpdBo">
+    <insert id="addStock" parameterType="com.apl.wms.warehouse.bo.StockUpdBo">
         INSERT INTO stocks ( wh_id, commodity_id, available_stock_count )
         VALUE
             ( #{stockUpdBo.whId} ,

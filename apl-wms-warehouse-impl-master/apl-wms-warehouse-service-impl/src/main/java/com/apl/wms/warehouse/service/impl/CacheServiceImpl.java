@@ -5,12 +5,9 @@ import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtils;
 import com.apl.lib.utils.StringUtil;
-import com.apl.wms.lib.cache.CommodityCacheBo;
-import com.apl.wms.lib.cache.OperatorServiceBo;
-import com.apl.wms.lib.cache.StoreCacheBo;
-import com.apl.wms.lib.cache.WarehouseCacheBo;
-import com.apl.wms.lib.pojo.bo.*;
 
+import com.apl.wms.warehouse.lib.cache.*;
+import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.apl.wms.warehouse.mapper.CacheMapper;
 import com.apl.wms.warehouse.service.CacheService;
 import lombok.extern.slf4j.Slf4j;
@@ -179,7 +176,7 @@ public class CacheServiceImpl implements CacheService {
     public ResultUtils<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey) {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
-        Map<String, StoreCacheBo> maps = cacheMapper.addStorageLocalCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
+        Map<String, StorageLocalCacheBo> maps = cacheMapper.addStorageLocalCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
             redisTemplate.opsForValue().multiSet(maps);
             return ResultUtils.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);

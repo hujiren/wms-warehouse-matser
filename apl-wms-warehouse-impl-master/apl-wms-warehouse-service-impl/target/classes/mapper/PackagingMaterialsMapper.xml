@@ -4,7 +4,7 @@
 
 
     <!-- 查找详情 2019-12-09-->
-    <select id="getPackMaterialsByCommodityId" resultType="com.apl.wms.lib.bo.PackagingMaterialsCountBo">
+    <select id="getPackMaterialsByCommodityId" resultType="com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo">
         SELECT
         id,
         commodity_name,

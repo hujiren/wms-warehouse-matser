@@ -2,8 +2,8 @@ package com.apl.wms.warehouse.service;
 
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtils;
-import com.apl.wms.lib.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
+import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;

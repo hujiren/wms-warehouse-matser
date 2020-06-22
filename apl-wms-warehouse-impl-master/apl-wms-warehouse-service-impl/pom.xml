@@ -11,7 +11,25 @@
 
         <dependency>
             <groupId>com.apl</groupId>
-            <artifactId>apl-parent</artifactId>
+            <artifactId>apl-service-pom-parent</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.apl</groupId>
+            <artifactId>apl-sys-lib</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.apl</groupId>
+            <artifactId>apl-wms-warehouse-lib</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.apl</groupId>
+            <artifactId>apl-wms-outstorage-order-lib</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -21,11 +39,7 @@
             <version>1.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.apl</groupId>
-            <artifactId>apl-wms-order-pojo</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+
 
         <!-- jasperreports 报表打印 -->
         <dependency>

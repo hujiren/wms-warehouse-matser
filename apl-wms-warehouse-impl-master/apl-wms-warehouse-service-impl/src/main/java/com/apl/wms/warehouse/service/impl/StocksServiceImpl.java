@@ -7,11 +7,11 @@ import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.LockTool;
 import com.apl.lib.utils.ResultUtils;
 import com.apl.lib.utils.StringUtil;
-import com.apl.wms.lib.bo.PlatformOutOrderStockBo;
-import com.apl.wms.lib.feign.OutstorageOrderBusinessFeign;
-import com.apl.wms.lib.vo.CheckOrderStockDetailsVo;
-import com.apl.wms.lib.vo.StorageLocalStock;
-import com.apl.wms.order.bo.StockUpdBo;
+import com.apl.wms.warehouse.bo.StockUpdBo;
+import com.apl.wms.warehouse.lib.feign.OutstorageOrderBusinessFeign;
+import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
+import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
 import com.apl.wms.warehouse.mapper.StocksMapper;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
@@ -82,7 +82,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         //获取仓库下商品总库存
         List<CheckOrderStockDetailsVo> checkOrderStockDetailsVos = baseMapper.getWareHouseCommodityCountList(whId , commodityIdList);
 
-        List<StorageLocalStock > storageLocalStocks =  storageLocalStocksService.getCommodityStorageLocalStockList(whId , commodityIdList);
+        List<StorageLocalStock> storageLocalStocks =  storageLocalStocksService.getCommodityStorageLocalStockList(whId , commodityIdList);
 
         //获取商品列表 对应的库位库存列表
         Map<String, List<StorageLocalStock >> commodityStorageLocalStocks = JoinUtils.listGrouping(storageLocalStocks, "commodityId");

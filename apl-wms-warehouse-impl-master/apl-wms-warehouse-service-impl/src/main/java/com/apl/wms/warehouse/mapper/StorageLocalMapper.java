@@ -1,8 +1,8 @@
 package com.apl.wms.warehouse.mapper;
 
-import com.apl.wms.lib.vo.StorageLocalInfoVo;
-import com.apl.wms.lib.bo.StorageLocationBo;
 import com.apl.wms.warehouse.dto.StorageLocationKeyDto;
+import com.apl.wms.warehouse.lib.pojo.bo.StorageLocationBo;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
 import com.apl.wms.warehouse.vo.StorageLocalListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

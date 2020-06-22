@@ -1,10 +1,10 @@
 package com.apl.wms.warehouse.service;
 
 import com.apl.lib.utils.ResultUtils;
-import com.apl.wms.lib.bo.PlatformOutOrderStockBo;
-import com.apl.wms.lib.pojo.bo.PullBatchOrderItemBo;
-import com.apl.wms.lib.vo.StorageLocalStock;
-import com.apl.wms.order.bo.StockUpdBo;
+import com.apl.wms.warehouse.bo.StockUpdBo;
+import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
+import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
 import com.apl.wms.warehouse.vo.StorageLocalStocksListVo;

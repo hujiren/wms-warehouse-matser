@@ -39,6 +39,7 @@
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/vo/CommodityCategoryListVo.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/po/WarehousePo.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/dto/PicItemDto.java
+/Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/bo/StockUpdListBo.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/vo/StocksInfoVo.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/dto/WarehouseKeyDto.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/po/StoreApiPo.java
@@ -67,6 +68,7 @@
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/dto/WhOperatorKeyDto.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/dto/WhDetailsKeyDto.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/dto/OperatorServiceKeyDto.java
+/Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/bo/StockUpdBo.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/dto/StoreKeyDto.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/po/CommodityCategoryPo.java
 /Volumes/data/java/apl-wms/apl-wms-warehouse-master/apl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/po/CommodityNameLibPo.java

@@ -4,7 +4,7 @@
 
 
     <!-- 查找详情 2019-12-09-->
-    <select id="getCommodityStorageLocalStockList" resultType="com.apl.wms.lib.vo.StorageLocalStock">
+    <select id="getCommodityStorageLocalStockList" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock">
         SELECT
             sls.commodity_id,
             sls.storage_local_id,

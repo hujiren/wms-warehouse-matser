@@ -6,10 +6,10 @@ import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtils;
 import com.apl.lib.utils.StringUtil;
-import com.apl.wms.lib.constants.AplConstants;
-import com.apl.wms.lib.pojo.bo.PullBatchOrderItemBo;
-import com.apl.wms.lib.vo.StorageLocalInfoVo;
-import com.apl.wms.lib.bo.StorageLocationBo;
+
+import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
+import com.apl.wms.warehouse.lib.pojo.bo.StorageLocationBo;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import com.apl.wms.warehouse.mapper.StorageLocalMapper;
 import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
@@ -333,13 +333,14 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     @Transactional
     public ResultUtils<Boolean> changeStorageLocalStatus(String lockIds, String unLockIds) {
 
-        Boolean result = baseMapper.changeStorageLocalStatus(unLockIds, AplConstants.UN_LOCK);
+        Boolean result = baseMapper.changeStorageLocalStatus(unLockIds, WmsWarehouseAplConstants.UN_LOCK);
+
         //解锁库位id 不等于 零 且 更新失败 ，直接抛异常
         if (!result && !unLockIds.equals("0")) {
             //锁定库位失败
             throw new AplException(StorageLocationServiceCode.LOCK_STORAGE_LOCAL_FAIL.code, StorageLocationServiceCode.LOCK_STORAGE_LOCAL_FAIL.msg);
         }
-        result = baseMapper.changeStorageLocalStatus(lockIds, AplConstants.LOCK);
+        result = baseMapper.changeStorageLocalStatus(lockIds, WmsWarehouseAplConstants.LOCK);
         //锁定库位id 不等于 零 且 更新失败 ，直接抛异常
         if (!result && !lockIds.equals("0")) {
             //锁定库位失败

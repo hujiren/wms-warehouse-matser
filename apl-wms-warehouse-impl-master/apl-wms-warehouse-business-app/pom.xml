@@ -17,9 +17,16 @@
 
         <dependency>
             <groupId>com.apl</groupId>
+            <artifactId>apl-web-pom-parent</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.apl</groupId>
             <artifactId>apl-wms-warehouse-service-impl</artifactId>
             <version>1.0.0</version>
         </dependency>
+
 
     </dependencies>
 

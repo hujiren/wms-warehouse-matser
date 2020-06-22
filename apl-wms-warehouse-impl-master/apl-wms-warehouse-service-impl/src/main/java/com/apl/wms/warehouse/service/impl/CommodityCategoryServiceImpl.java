@@ -1,7 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.utils.ResultUtils;
-import com.apl.wms.lib.constants.AplConstants;
 import com.apl.wms.warehouse.mapper.CommodityCategoryMapper;
 import com.apl.wms.warehouse.vo.CommodityCategoryInfoVo;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +64,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
         //判断是否重复添加
         checkCategory(null  , categoryName , categoryEnName);
 
-        if(!parentId.equals(AplConstants.ZERO)){
+        if(!parentId.equals(0)){
             //查找 父级 分类
             CommodityCategoryInfoVo findCommodity = baseMapper.getById(parentId);
             //如果上级 分类不存在，则不可以进行添加
@@ -90,7 +89,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
         commodityCategory.setNumberOfPlies(numberOfPlies + 1);
 
         Integer flag = baseMapper.insert(commodityCategory);
-        if(flag.equals(AplConstants.SUCCESS)){
+        if(flag.equals(1)){
             return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityCategory.getId());
         }
 
@@ -110,7 +109,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
         commodityCategory.setCategoryNameEn(categoryEnName);
 
         Integer flag = baseMapper.updateById(commodityCategory);
-        if(flag.equals(AplConstants.SUCCESS)){
+        if(flag.equals(1)){
             return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
         

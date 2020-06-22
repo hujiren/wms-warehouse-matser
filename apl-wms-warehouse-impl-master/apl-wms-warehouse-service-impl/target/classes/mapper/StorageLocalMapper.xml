@@ -3,7 +3,7 @@
 <mapper namespace="com.apl.wms.warehouse.mapper.StorageLocalMapper">
 
     <!-- 查找详情 2019-12-17-->
-    <select id="getStorageLocalBySn" resultType="com.apl.wms.lib.vo.StorageLocalInfoVo">
+    <select id="getStorageLocalBySn" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
         SELECT
             sl.id,
             concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName,
@@ -45,7 +45,7 @@
     </select>
 
     <!-- 检查记录是否重复 -->
-    <select id="exists" resultType="com.apl.wms.lib.vo.StorageLocalInfoVo">
+    <select id="exists" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
         SELECT
            id,
            storage_sn
@@ -60,7 +60,7 @@
 
 
     <!-- 检查记录是否重复 -->
-    <select id="getPrintData" resultType="com.apl.wms.lib.bo.StorageLocationBo">
+    <select id="getPrintData" resultType="com.apl.wms.warehouse.lib.pojo.bo.StorageLocationBo">
         SELECT
            storage_sn,
            remark
@@ -75,7 +75,7 @@
     </select>
 
     <!-- 获取未满的库位-->
-    <select id="getUnFullStorageLocal" resultType="com.apl.wms.lib.vo.StorageLocalInfoVo">
+    <select id="getUnFullStorageLocal" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
         SELECT
             sl.id as storageLocalId,
             sl.volume,
@@ -92,7 +92,7 @@
     </select>
 
     <!-- 获取空的库位-->
-    <select id="getNullStorageLocal" resultType="com.apl.wms.lib.vo.StorageLocalInfoVo">
+    <select id="getNullStorageLocal" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
         SELECT
             sl.id ,
             sl.volume,

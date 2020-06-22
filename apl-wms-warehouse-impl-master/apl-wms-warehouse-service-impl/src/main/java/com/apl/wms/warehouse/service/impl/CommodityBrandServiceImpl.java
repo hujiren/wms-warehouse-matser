@@ -7,7 +7,7 @@ import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtils;
 import com.apl.lib.utils.StringUtil;
-import com.apl.wms.lib.constants.AplConstants;
+import com.apl.sys.lib.constants.AplConstants;
 import com.apl.wms.warehouse.mapper.CommodityBrandMapper;
 import com.apl.wms.warehouse.dto.CommodityBrandKeyDto;
 import com.apl.wms.warehouse.po.CommodityBrandPo;
@@ -71,7 +71,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
         commodityBrand.setCustomerId(securityUser.getOuterOrgId());
 
         Integer flag = baseMapper.insert(commodityBrand);
-        if(flag.equals(AplConstants.SUCCESS)){
+        if(flag.equals(1)){
             return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityBrand.getId());
         }
 
@@ -91,7 +91,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
         commodityBrand.setBrandNameEn(brandNameEn);
 
         Integer flag = baseMapper.updateById(commodityBrand);
-        if(flag.equals(AplConstants.SUCCESS)){
+        if(flag.equals(1)){
             return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
@@ -106,7 +106,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
         List<Long> brandIds = StringUtil.stringToLongList(brandIdList);
 
         Integer result = baseMapper.deleteBatchIds(brandIds);
-        if(!result.equals(AplConstants.ZERO)){
+        if(!result.equals(0)){
             return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 

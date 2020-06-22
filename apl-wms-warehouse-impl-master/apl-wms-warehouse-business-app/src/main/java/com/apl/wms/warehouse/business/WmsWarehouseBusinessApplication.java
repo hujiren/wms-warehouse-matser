@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @MapperScan("com.apl.wms.warehouse.mapper")
 @EnableDiscoveryClient
 @EnableSwagger2
-@EnableFeignClients(basePackages = {"com.apl.wms.lib.feign" , "com.apl.wms.lib.feign","com.apl.sys.lib.feign"})
+@EnableFeignClients(basePackages = {"com.apl.wms.warehouse.lib.feign","com.apl.sys.lib.feign"})
 public class WmsWarehouseBusinessApplication {
 
     public static void main(String[] args) {

@@ -1,7 +1,8 @@
 package com.apl.wms.warehouse.mapper;
 
-import com.apl.wms.lib.vo.CheckOrderStockDetailsVo;
-import com.apl.wms.order.bo.StockUpdBo;
+
+import com.apl.wms.warehouse.bo.StockUpdBo;
+import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.vo.StocksListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

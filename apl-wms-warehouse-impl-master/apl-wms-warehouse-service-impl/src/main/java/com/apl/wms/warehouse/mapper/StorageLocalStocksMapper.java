@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.mapper;
 
-import com.apl.wms.lib.vo.StorageLocalStock;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
 import com.apl.wms.warehouse.vo.StorageLocalStocksListVo;
@@ -24,7 +24,7 @@ public interface StorageLocalStocksMapper extends BaseMapper<StorageLocalStocksP
      * @Author: CY
      * @Date: 2020/6/19 16:54
      */
-    List<StorageLocalStock > getCommodityStorageLocalStockList(@Param("whId") Long whId , @Param("commodityIds") List<Long> commodityIds);
+    List<StorageLocalStock> getCommodityStorageLocalStockList(@Param("whId") Long whId , @Param("commodityIds") List<Long> commodityIds);
 
     /**
      * @Desc: 根据id 查找详情

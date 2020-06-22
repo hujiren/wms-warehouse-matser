@@ -1,8 +1,8 @@
 package com.apl.wms.warehouse.mapper;
 
-import com.apl.wms.lib.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
+import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;

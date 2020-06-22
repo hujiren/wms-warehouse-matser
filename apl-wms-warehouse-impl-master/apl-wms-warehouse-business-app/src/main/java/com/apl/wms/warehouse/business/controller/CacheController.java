@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 import com.apl.lib.utils.ResultUtils;
 import com.apl.lib.validate.ApiParamValidate;
-import com.apl.wms.lib.constants.WhInnerUrlConstants;
+import com.apl.wms.warehouse.lib.constants.WmsWarehouseUrlConstants;
 import com.apl.wms.warehouse.service.CacheService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(WhInnerUrlConstants.CACHE_PATH)
+@RequestMapping(WmsWarehouseUrlConstants.CACHE_PATH)
 @Api(value = "缓存",tags = "缓存")
 @Validated
 public class CacheController {

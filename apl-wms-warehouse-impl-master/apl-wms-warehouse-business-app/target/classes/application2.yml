@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: apl-wms-warehouse-business-app
-
-  profiles:
-    include:
-      common, apl-wms-warehouse-business-app
