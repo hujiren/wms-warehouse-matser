@@ -1,17 +1,21 @@
 
-=
-java:S2111®"!Use "BigDecimal.valueOf" instead.(È€Ê¦şÿÿÿÿ
-J
-java:S3740j"/Provide the parametrized type for this generic.(…‚Âúÿÿÿÿ
-a
-java:S1124Ã"EReorder the modifiers to comply with the Java Language Specification.(ãöÏõıÿÿÿÿ
-h
-java:S1192Ã"LDefine a constant instead of duplicating this literal "commodityId" 3 times.(ÃÔ÷Ëüÿÿÿÿ
-O	java:S106¹"9Replace this use of System.out or System.err by a logger.(¿ ë“
+F
+java:S5411Ÿ"*Use the primitive boolean expression here.(‡šÑ©ûÿÿÿÿ
 O	java:S106¼"9Replace this use of System.out or System.err by a logger.(óô¢ã
 N
 java:S2589"7Remove this expression which always evaluates to "true"(ëØ•„
-F
-java:S5411Ÿ"*Use the primitive boolean expression here.(‡šÑ©ûÿÿÿÿ
 S
 java:S2589š"7Remove this expression which always evaluates to "true"(†Ç®¬ÿÿÿÿÿ
+=
+java:S2111®"!Use "BigDecimal.valueOf" instead.(È€Ê¦şÿÿÿÿ
+h
+java:S1192Ã"LDefine a constant instead of duplicating this literal "commodityId" 3 times.(ÃÔ÷Ëüÿÿÿÿ
+a
+java:S1124Ã"EReorder the modifiers to comply with the Java Language Specification.(ãöÏõıÿÿÿÿ
+J
+java:S3740j"/Provide the parametrized type for this generic.(…‚Âúÿÿÿÿ
+O	java:S106¹"9Replace this use of System.out or System.err by a logger.(¿ ë“
+R
+java:S1068Å"/Remove this unused "commodityId" private field.(€éÕúÿÿÿÿ8œ£²ø­.
+L
+java:S1068Ç")Remove this unused "count" private field.(óğ¸€üÿÿÿÿ8œ£²ø­.

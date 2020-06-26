@@ -20,7 +20,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.apl:apl-service-pom-parent:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.apl:apl-service-dependency-parent:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-boot-starter:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-extension:3.2.0" level="project" />
@@ -155,6 +155,7 @@
     <orderEntry type="module" module-name="apl-wms-warehouse-lib" />
     <orderEntry type="library" name="Maven: com.apl:apl-wms-outstorage-order-lib:1.0.0" level="project" />
     <orderEntry type="module" module-name="apl-wms-warehouse-pojo" />
+    <orderEntry type="library" name="Maven: com.apl:apl-pojo-dependency-parent:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jasperreports:jasperreports:6.0.0" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.0" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />

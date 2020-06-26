@@ -10,9 +10,15 @@
 
         <dependency>
             <groupId>com.apl</groupId>
-            <artifactId>apl-lib</artifactId>
+            <artifactId>apl-pojo-dependency-parent</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.apl</groupId>
+            <artifactId>apl-lib</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
 
