@@ -111,7 +111,9 @@ public class StocksController {
     @ApiIgnore
     public ResultUtils<Boolean> checkStockCount(@RequestBody PlatformOutOrderStockBo platformOutOrderStockBo) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , stocksService.checkStockCount(platformOutOrderStockBo));
+        Boolean result = stocksService.checkStockCount(platformOutOrderStockBo);
+
+        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , result);
     }
 
 
