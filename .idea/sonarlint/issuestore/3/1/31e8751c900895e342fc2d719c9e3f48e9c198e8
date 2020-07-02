@@ -1,17 +1,3 @@
 
 M
 java:S1128"7Remove this unused import 'javax.servlet.AsyncContext'.(ÿν®χ
-L
-java:S1068"0Remove this unused "securityUser" private field.(¥•#8’ιμ‚―.
-P
-java:S1068".Remove this unused "customerId" private field.(‡ήσωÿÿÿÿ8’ιμ‚―.
-E
-java:S1068"(Remove this unused "whId" private field.(ƒϋ³8’ιμ‚―.
-W
-java:S1068":Remove this unused "platformOutOrderStocks" private field.(ΦκΜ”8’ιμ‚―.
-T
-java:S1068"2Remove this unused "storageLocalId" private field.(¬µ΄ωÿÿÿÿ8’ιμ‚―.
-L
-java:S1068 "/Remove this unused "commodityId" private field.(Π»¶8’ιμ‚―.
-L
-java:S1068#"/Remove this unused "changeCount" private field.(Ξσά8’ιμ‚―.
