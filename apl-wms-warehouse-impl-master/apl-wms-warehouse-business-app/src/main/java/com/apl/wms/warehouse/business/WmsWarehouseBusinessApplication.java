@@ -1,7 +1,6 @@
 package com.apl.wms.warehouse.business;
 
-import com.apl.lib.config.MyBatisPlusConfig;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
