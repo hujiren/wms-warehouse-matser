@@ -170,7 +170,7 @@ public interface WarehouseFeign {
     ResultUtils getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
 
 
-    @GetMapping(value = "/store/seata2-commit-2")
+    @GetMapping(value = "/store/seata2-commit")
     Integer seata2Commit();
 
 

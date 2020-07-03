@@ -1,0 +1,13 @@
+
+\
+java:S1128"?Remove this unused import 'com.apl.lib.exception.AplException'.(ϊ‚£Έ8ϊυς°.
+[
+java:S1128">Remove this unused import 'com.apl.lib.security.SecurityUser'.(ΉΉ¤έ8ϊυς°.
+_
+java:S1128"BRemove this unused import 'com.apl.lib.utils.CommonContextHolder'.(†ι…δ8ϊυς°.
+e
+java:S1128"CRemove this unused import 'com.apl.lib.constants.CommonStatusCode'.(ώρΣΤϊÿÿÿÿ8ϊυς°.
+b
+java:S1128"ERemove this unused import 'com.apl.lib.constants.CommonAplConstants'.( Έϊ8ϊυς°.
+Q
+java:S3740."/Provide the parametrized type for this generic.(£ό‰όÿÿÿÿÿ8κ³ΰρ°.

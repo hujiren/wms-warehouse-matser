@@ -176,19 +176,5 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, StorePo> implemen
         }
     }
 
-    @GlobalTransactional
-    public Integer seata2Commit(){
 
-        baseMapper.seata2();
-
-        return 1;
-    }
-
-    @GlobalTransactional
-    public Integer seata2Rollback(){
-
-        baseMapper.seata2();
-
-        return 1;
-    }
 }

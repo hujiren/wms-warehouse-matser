@@ -1,6 +1,11 @@
 package com.apl.wms.warehouse.business.controller;
 
+import com.apl.lib.constants.CommonAplConstants;
+import com.apl.lib.constants.CommonStatusCode;
+import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
+import com.apl.lib.security.SecurityUser;
+import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtils;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.StoreKeyDto;
@@ -12,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +42,9 @@ public class StoreController {
     @Autowired
     public StoreService storeService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
@@ -55,18 +64,5 @@ public class StoreController {
     }
 
 
-    @GetMapping("/seata2-commit")
-    @ApiOperation(value =  "seata2-commit")
-    public Integer seata2Commit() {
-
-        return storeService.seata2Commit();
-    }
-
-    @GetMapping("/seata2-rollback")
-    @ApiOperation(value =  "seata2-rollback")
-    public Integer seata2Rollback() {
-
-        return storeService.seata2Rollback();
-    }
 
 }
