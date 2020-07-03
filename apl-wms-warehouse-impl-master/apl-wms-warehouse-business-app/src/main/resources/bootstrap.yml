@@ -5,3 +5,5 @@ spring:
   profiles:
     include:
       common, apl-wms-warehouse-business-app
+
+

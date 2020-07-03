@@ -9,6 +9,7 @@ import com.apl.wms.warehouse.service.StoreService;
 import com.apl.wms.warehouse.po.StoreApiPo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -173,5 +174,21 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, StorePo> implemen
                  throw new AplException("STORE_NAME_EN_EXIST", "店铺英文名称已经存在");
            }
         }
+    }
+
+    @GlobalTransactional
+    public Integer seata2Commit(){
+
+        baseMapper.seata2();
+
+        return 1;
+    }
+
+    @GlobalTransactional
+    public Integer seata2Rollback(){
+
+        baseMapper.seata2();
+
+        return 1;
     }
 }

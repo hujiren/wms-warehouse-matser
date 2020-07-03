@@ -62,4 +62,8 @@ public interface StoreMapper extends BaseMapper<StorePo> {
      */
     List<StoreInfoVo> exists(@Param("id") Long id,  @Param("customerId") Long customerId,   @Param("storeCode") String storeCode,   @Param("storeName") String storeName,   @Param("storeNameEn") String storeNameEn );
 
+
+    void seata2();
+
+
 }

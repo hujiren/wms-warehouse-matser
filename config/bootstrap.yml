@@ -1,6 +1,6 @@
 spring:
   cloud:
-    nacos:
+    nacos-bak:
       discovery:
         server-addr: 192.168.1.185:8848
         ip: ${apl.client-address}
@@ -10,7 +10,7 @@ spring:
         #prefix: nacos-provider
         shared-dataids: common.yml  # 共享公共配置信息
 
-    consul-bak:
+    consul:
       host: 192.168.1.185
       port: 9034
       config:
@@ -25,6 +25,9 @@ spring:
     #  auto-registration:
     #    enabled：false    # 不要自动注册
 
+    alibaba2:
+      seata:
+        tx-service-group: warehouse
 
 apl:
   client-address: 192.168.1.116

@@ -9,6 +9,7 @@ import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -167,4 +168,11 @@ public interface WarehouseFeign {
      */
     @PostMapping(value = "/stocks/commodity/get")
     ResultUtils getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
+
+
+    @GetMapping(value = "/store/seata2-commit")
+    Integer seata2Commit();
+
+    @GetMapping(value = "/store/seata2-rollback")
+    Integer seata2Rollback();
 }

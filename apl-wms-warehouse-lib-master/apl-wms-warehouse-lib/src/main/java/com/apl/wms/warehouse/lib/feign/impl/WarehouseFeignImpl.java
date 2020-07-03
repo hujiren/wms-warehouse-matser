@@ -89,4 +89,15 @@ public class WarehouseFeignImpl implements WarehouseFeign {
         return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
+
+    @Override
+    public Integer seata2Commit() {
+        return 0;
+    }
+
+    @Override
+    public Integer seata2Rollback() {
+        return 0;
+    }
+
 }

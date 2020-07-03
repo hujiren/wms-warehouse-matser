@@ -100,4 +100,9 @@
         </if>
     </select>
 
+    <update id="seata2">
+        update seata02 set name='aaa' where id=1
+    </update>
+
+
 </mapper>

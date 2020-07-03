@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,21 @@ public class StoreController {
     public ResultUtils<String> getApiConfigStrVal(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return storeService.getApiConfigStrVal(id, 0l);
+    }
+
+
+    @GetMapping("/seata2-commit")
+    @ApiOperation(value =  "seata2-commit")
+    public Integer seata2Commit() {
+
+        return storeService.seata2Commit();
+    }
+
+    @GetMapping("/seata2-rollback")
+    @ApiOperation(value =  "seata2-rollback")
+    public Integer seata2Rollback() {
+
+        return storeService.seata2Rollback();
     }
 
 }
