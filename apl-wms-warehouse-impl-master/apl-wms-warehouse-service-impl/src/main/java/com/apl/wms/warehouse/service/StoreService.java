@@ -75,8 +75,6 @@ public interface StoreService extends IService<StorePo> {
          */
         ResultUtils<Page<StoreListVo>>getList(PageDto pageDto, StoreKeyDto keyDto);
 
-        Integer seata2Commit();
 
-        Integer seata2Rollback();
 
 }
