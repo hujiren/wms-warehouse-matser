@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service;
 
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
@@ -37,35 +37,35 @@ public interface StorageLocalStocksService extends IService<StorageLocalStocksPo
      * @author CY
      * @since 2019-12-09
      */
-    ResultUtils<Boolean> add(StorageLocalStocksPo storageCommodity);
+    ResultUtil<Boolean> add(StorageLocalStocksPo storageCommodity);
 
     /**
      * @Desc: 根据id 查找一个StorageCommodityPo 实体
      * @author CY
      * @since 2019-12-09
      */
-    ResultUtils<Boolean> deleteById(Long id);
+    ResultUtil<Boolean> deleteById(Long id);
 
     /**
      * @Desc: 根据id 更新一个StorageCommodityPo 实体
      * @author CY
      * @since 2019-12-09
      */
-    ResultUtils<Boolean> updById(StorageLocalStocksPo storageCommodity);
+    ResultUtil<Boolean> updById(StorageLocalStocksPo storageCommodity);
 
     /**
      * @Desc: 根据id 查找一个 StorageLocalStocksPo 实体
      * @author CY
      * @since 2019-12-09
      */
-    ResultUtils<StorageLocalStocksPo> selectById(Long id);
+    ResultUtil<StorageLocalStocksPo> selectById(Long id);
 
     /**
      * @Desc: 分页查找 StorageLocalStocksPo 列表
      * @author CY
      * @since 2019-12-09
      */
-    ResultUtils<Page<StorageLocalStocksListVo>> getList(PageDto pageDto, StorageCommodityKeyDto keyDto);
+    ResultUtil<Page<StorageLocalStocksListVo>> getList(PageDto pageDto, StorageCommodityKeyDto keyDto);
 
     /**
      * @Desc: 根据库位id 查找库位是否存放商品
@@ -95,7 +95,7 @@ public interface StorageLocalStocksService extends IService<StorageLocalStocksPo
      * @Author: CY
      * @Date: 2020/6/9 11:53
      */
-    ResultUtils<Map<String, List<PullBatchOrderItemBo>>> storageLocalLock(List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception;
+    ResultUtil<Map<String, List<PullBatchOrderItemBo>>> storageLocalLock(List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception;
 
     /**
      * @Desc: 库位库存减扣

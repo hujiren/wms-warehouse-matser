@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.lib.feign;
 
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseUrlConstants;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.feign.impl.WarehouseFeignImpl;
@@ -35,7 +35,7 @@ public interface WarehouseFeign {
      * @Date :
      */
     @PostMapping( WmsWarehouseUrlConstants.CACHE_PATH + "/add-warehouse-cache")
-    ResultUtils<Boolean> addWarehouseCache(@RequestParam("keys") String keys,
+    ResultUtil<Boolean> addWarehouseCache(@RequestParam("keys") String keys,
                                            @RequestParam("minKey") Long minKey,
                                            @RequestParam("maxKey") Long maxKey);
 
@@ -48,7 +48,7 @@ public interface WarehouseFeign {
      * @Date :
      */
     @PostMapping(WmsWarehouseUrlConstants.CACHE_PATH + "/add-commodity-cache-by-id")
-    ResultUtils<Boolean> addCommodityCacheById(@RequestParam("keys") String keys,
+    ResultUtil<Boolean> addCommodityCacheById(@RequestParam("keys") String keys,
                                                @RequestParam("minKey") Long minKey,
                                                @RequestParam("maxKey") Long maxKey);
 
@@ -61,7 +61,7 @@ public interface WarehouseFeign {
      * @Date :
      */
     @PostMapping(WmsWarehouseUrlConstants.CACHE_PATH + "/add-commodity-cache-by-sku")
-    ResultUtils<Boolean> addCommodityCacheBySku(@RequestParam("skus") String skus,
+    ResultUtil<Boolean> addCommodityCacheBySku(@RequestParam("skus") String skus,
                                                 @RequestParam("customerId") Long customerId);
 
 
@@ -71,7 +71,7 @@ public interface WarehouseFeign {
      * @Date: 2019/12/26 10:18
      */
     @PostMapping(WmsWarehouseUrlConstants.CACHE_PATH + "/add-operator-service-cache")
-    ResultUtils<Boolean> addOperatorServiceCache(@RequestParam("keys") String keys,
+    ResultUtil<Boolean> addOperatorServiceCache(@RequestParam("keys") String keys,
                                                  @RequestParam("minKey") Long minKey,
                                                  @RequestParam("maxKey") Long maxKey);
 
@@ -81,7 +81,7 @@ public interface WarehouseFeign {
      * @Date: 2019/12/26 10:18
      */
     @PostMapping(WmsWarehouseUrlConstants.CACHE_PATH + "/add-operator-cache")
-    ResultUtils<Boolean> addOperatorCache(@RequestParam("keys") String keys,
+    ResultUtil<Boolean> addOperatorCache(@RequestParam("keys") String keys,
                                           @RequestParam("minKey") Long minKey,
                                           @RequestParam("maxKey") Long maxKey);
 
@@ -92,7 +92,7 @@ public interface WarehouseFeign {
      * @Date: 2020/1/13 18:32
      */
     @PostMapping(WmsWarehouseUrlConstants.CACHE_PATH + "/add-store-cache")
-    ResultUtils<Boolean> addStoreCache(@RequestParam("keys") String keys,
+    ResultUtil<Boolean> addStoreCache(@RequestParam("keys") String keys,
                                        @RequestParam("minKey") Long minKey,
                                        @RequestParam("maxKey") Long maxKey);
 
@@ -103,7 +103,7 @@ public interface WarehouseFeign {
      * @Date: 2020/1/13 18:32
      */
     @PostMapping(WmsWarehouseUrlConstants.CACHE_PATH + "/add-storage-local-cache")
-    ResultUtils<Boolean> addStorageLocalCache(@RequestParam("keys") String keys,
+    ResultUtil<Boolean> addStorageLocalCache(@RequestParam("keys") String keys,
                                               @RequestParam("minKey") Long minKey,
                                               @RequestParam("maxKey") Long maxKey);
 
@@ -114,7 +114,7 @@ public interface WarehouseFeign {
      * @Date: 2020/1/3 9:43
      */
     @PostMapping("/storage_local/allocation-storage")
-    ResultUtils<List<StorageLocalInfoVo>> allocationStorageLocal(
+    ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(
             @RequestParam("commodityId") Long commodityId ,
             @RequestParam("count") Integer count ,
             @RequestParam("whId") Long whId ,
@@ -126,7 +126,7 @@ public interface WarehouseFeign {
      * @Date: 2020/1/3 9:43
      */
     @PostMapping("/storage_local/manual_allocation")
-    ResultUtils<StorageLocalInfoVo> manualAllotLocal(@RequestParam("commodityId")Long commodityId ,
+    ResultUtil<StorageLocalInfoVo> manualAllotLocal(@RequestParam("commodityId")Long commodityId ,
                                                      @RequestParam("storageLocalSn") String storageLocalSn);
 
 
@@ -135,7 +135,7 @@ public interface WarehouseFeign {
      *  @Return ：
      *  Created by arran on 2020/3/12 */
     @PostMapping("/storage_local/change-status")
-    ResultUtils<Boolean> changeStorageLocalStatus(@RequestParam("lockIds") String lockIds , @RequestParam("unLockIds") String unLockIds);
+    ResultUtil<Boolean> changeStorageLocalStatus(@RequestParam("lockIds") String lockIds , @RequestParam("unLockIds") String unLockIds);
 
     /**
      * @Desc: 给上架订单 分配 库位
@@ -143,7 +143,7 @@ public interface WarehouseFeign {
      * @Date: 2020/1/3 9:43
      */
     @PostMapping("/store/feign/apiconfig-strval")
-    ResultUtils<String> getStoreApiConfigStrVal(@RequestParam("id") Long id);
+    ResultUtil<String> getStoreApiConfigStrVal(@RequestParam("id") Long id);
 
     /**
      * @Desc: 校验库存
@@ -151,7 +151,7 @@ public interface WarehouseFeign {
      * @Date: 2020/6/8 11:56
      */
     @PostMapping(value = "/stocks/check" , consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResultUtils<Boolean> checkStockCount(PlatformOutOrderStockBo platformOutOrderStockBo);
+    ResultUtil<Boolean> checkStockCount(PlatformOutOrderStockBo platformOutOrderStockBo);
 
     /**
      * @Desc: 锁定库位库存
@@ -159,7 +159,7 @@ public interface WarehouseFeign {
      * @Date: 2020/6/9 11:38
      */
     @PostMapping(value = "/storage-local-stocks/storage/lock" , consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResultUtils<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(List<PullBatchOrderItemBo> pullBatchOrderItems);
+    ResultUtil<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(List<PullBatchOrderItemBo> pullBatchOrderItems);
 
     /**
      * @Desc: 锁定库位库存
@@ -167,8 +167,6 @@ public interface WarehouseFeign {
      * @Date: 2020/6/9 11:38
      */
     @PostMapping(value = "/stocks/commodity/get")
-    ResultUtils getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
-
-
+    ResultUtil getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
 
 }

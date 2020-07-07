@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;
@@ -49,56 +49,56 @@ public class GoodsBasketServiceImpl extends ServiceImpl<GoodsBasketMapper, Goods
 
 
     @Override
-    public ResultUtils<Integer> add(GoodsBasketPo goodsBasket){
+    public ResultUtil<Integer> add(GoodsBasketPo goodsBasket){
 
         this.exists(0L, goodsBasket.getBasketSn() );
 
         Integer flag = baseMapper.insert(goodsBasket);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , goodsBasket.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , goodsBasket.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(GoodsBasketPo goodsBasket){
+    public ResultUtil<Boolean> updById(GoodsBasketPo goodsBasket){
 
         this.exists(goodsBasket.getId(), goodsBasket.getBasketSn() );
 
         Integer flag = baseMapper.updateById(goodsBasket);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<GoodsBasketInfoVo> selectById(Long id){
+    public ResultUtil<GoodsBasketInfoVo> selectById(Long id){
 
         GoodsBasketInfoVo goodsBasketInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, goodsBasketInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, goodsBasketInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<GoodsBasketListVo>> getList(PageDto pageDto, GoodsBasketKeyDto keyDto){
+    public ResultUtil<Page<GoodsBasketListVo>> getList(PageDto pageDto, GoodsBasketKeyDto keyDto){
 
         Page<GoodsBasketListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -107,7 +107,7 @@ public class GoodsBasketServiceImpl extends ServiceImpl<GoodsBasketMapper, Goods
         List<GoodsBasketListVo> list = baseMapper.getList(page , keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 

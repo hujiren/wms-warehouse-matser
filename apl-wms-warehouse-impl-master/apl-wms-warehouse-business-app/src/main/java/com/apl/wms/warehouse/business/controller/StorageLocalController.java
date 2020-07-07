@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
@@ -45,7 +45,7 @@ public class StorageLocalController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "批量添加库位添加", notes ="批量添加库位添加")
-    public ResultUtils<Map> add(StorageLocationAddDto storageLocationAddDto) {
+    public ResultUtil<Map> add(StorageLocationAddDto storageLocationAddDto) {
         ApiParamValidate.validate(storageLocationAddDto);
 
         return storageLocalService.add(storageLocationAddDto);
@@ -54,7 +54,7 @@ public class StorageLocalController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新",  notes ="STORAGE_NO_EXIST -> 编号已经存在")
-    public ResultUtils<Boolean> updById(StorageLocalPo storageLocalPo) {
+    public ResultUtil<Boolean> updById(StorageLocalPo storageLocalPo) {
         ApiParamValidate.notEmpty("id", storageLocalPo.getId());
         ApiParamValidate.validate(storageLocalPo);
 
@@ -64,7 +64,7 @@ public class StorageLocalController {
 
     @PostMapping(value = "/batch-upd")
     @ApiOperation(value =  "批量更新",  notes ="STORAGE_NO_EXIST -> 编号已经存在")
-    public ResultUtils<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto) {
+    public ResultUtil<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto) {
 
         return storageLocalService.batchUpdate(storageLocationBatchUpdDto);
     }
@@ -73,7 +73,7 @@ public class StorageLocalController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除库位，如果库位存在商品 ，删除失败")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return storageLocalService.delById(id);
     }
@@ -82,7 +82,7 @@ public class StorageLocalController {
     @PostMapping(value = "/get-storage-local-details")
     @ApiOperation(value =  "获取库位详情详细" , notes = "获取库位详情详细")
     @ApiImplicitParam(name = "storageLocalSn",value = "storageLocalSn",required = true  , paramType = "query")
-    public ResultUtils<StorageLocalInfoVo> getStorageLocalBySn(@NotNull(message = "id不能为空") String storageLocalSn) {
+    public ResultUtil<StorageLocalInfoVo> getStorageLocalBySn(@NotNull(message = "id不能为空") String storageLocalSn) {
 
         return storageLocalService.getStorageLocalBySn(storageLocalSn);
     }
@@ -92,7 +92,7 @@ public class StorageLocalController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<StorageLocalListVo>> getList(PageDto pageDto, @Validated StorageLocationKeyDto keyDto) {
+    public ResultUtil<Page<StorageLocalListVo>> getList(PageDto pageDto, @Validated StorageLocationKeyDto keyDto) {
 
         return storageLocalService.getList(pageDto , keyDto);
     }
@@ -115,7 +115,7 @@ public class StorageLocalController {
             @ApiImplicitParam(name = "count",value = "商品数量",required = true  , paramType = "query"),
             @ApiImplicitParam(name = "storageLocal",value = "库位名称",required = true  , paramType = "query")
     })
-    public ResultUtils<List<StorageLocalInfoVo>> allocationStorageLocal(@NotNull(message = "commodityId不能为空") Long commodityId,
+    public ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(@NotNull(message = "commodityId不能为空") Long commodityId,
                                                                       @Min(value = 0 ,message = "数量不能小于零") Integer count,
                                                                       @NotNull(message = "storageLocal不能为空") String storageLocal)throws Exception{
 
@@ -130,7 +130,7 @@ public class StorageLocalController {
             @ApiImplicitParam(name = "storageLocalSn",value = "库位编号",required = true  , paramType = "query")
     })
 
-    public ResultUtils<StorageLocalInfoVo> allocationOneStorageLocal(@Min(value = 1 , message = "商品id不能小于零") Long commodityId,
+    public ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(@Min(value = 1 , message = "商品id不能小于零") Long commodityId,
                                                                      @NotNull(message = "storageLocalSn") String storageLocalSn){
 
         return storageLocalService.allocationOneStorageLocal(commodityId , storageLocalSn);
@@ -143,7 +143,7 @@ public class StorageLocalController {
             @ApiImplicitParam(name = "lockIds",value = "lockIds 修改为锁定状态",required = true  , paramType = "query"),
             @ApiImplicitParam(name = "unLockIds",value = "unLockIds 修改为解锁状态",required = true  , paramType = "query")
     })
-    public ResultUtils<Boolean> changeStorageLocalStatus(@NotNull(message = "lockIds不能为空")String lockIds ,
+    public ResultUtil<Boolean> changeStorageLocalStatus(@NotNull(message = "lockIds不能为空")String lockIds ,
                                                          @NotNull(message = "ubLockIds不能为空") String unLockIds){
 
         return storageLocalService.changeStorageLocalStatus(lockIds , unLockIds);

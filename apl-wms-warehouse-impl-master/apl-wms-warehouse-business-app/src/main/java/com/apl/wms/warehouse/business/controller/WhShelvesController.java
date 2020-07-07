@@ -16,7 +16,7 @@ import com.apl.wms.warehouse.vo.WhShelvesListVo;
 import com.apl.wms.warehouse.vo.WhShelvesInfoVo;
 import com.apl.wms.warehouse.dto.WhShelvesKeyDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 
 import javax.annotation.Resource;
@@ -41,7 +41,7 @@ public class WhShelvesController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加", notes ="SHELVES_NO_EXIST -> shelvesNo已经存在")
-    public ResultUtils<Integer> add(WhShelvesPo whShelvesPo) {
+    public ResultUtil<Integer> add(WhShelvesPo whShelvesPo) {
         ApiParamValidate.validate(whShelvesPo);
 
         return whShelvesService.add(whShelvesPo);
@@ -50,7 +50,7 @@ public class WhShelvesController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新",  notes ="SHELVES_NO_EXIST -> shelvesNo已经存在")
-    public ResultUtils<Boolean> updById(WhShelvesPo whShelvesPo) {
+    public ResultUtil<Boolean> updById(WhShelvesPo whShelvesPo) {
         ApiParamValidate.notEmpty("id", whShelvesPo.getId());
         ApiParamValidate.validate(whShelvesPo);
 
@@ -61,7 +61,7 @@ public class WhShelvesController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return whShelvesService.delById(id);
     }
@@ -70,7 +70,7 @@ public class WhShelvesController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<WhShelvesInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<WhShelvesInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return whShelvesService.selectById(id);
     }
@@ -78,7 +78,7 @@ public class WhShelvesController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<WhShelvesListVo>> getList(PageDto pageDto, @Validated WhShelvesKeyDto keyDto) {
+    public ResultUtil<Page<WhShelvesListVo>> getList(PageDto pageDto, @Validated WhShelvesKeyDto keyDto) {
 
         return whShelvesService.getList(pageDto , keyDto);
     }

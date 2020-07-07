@@ -16,7 +16,7 @@ import com.apl.wms.warehouse.service.WhZoneService;
 import com.apl.wms.warehouse.vo.WhZoneInfoVo;
 import com.apl.wms.warehouse.dto.WhZoneKeyDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 
 import javax.annotation.Resource;
@@ -43,7 +43,7 @@ public class WhZoneController {
     @ApiOperation(value =  "添加", notes ="ZONE_CODE_EXIST -> zoneCode已经存在\n"+
                                          "ZONE_NAME_EXIST -> zoneName已经存在\n"+
                                          "ZONE_NAME_EN_EXIST -> zoneNameEn已经存在")
-    public ResultUtils<Integer> add(WhZonePo whZone) {
+    public ResultUtil<Integer> add(WhZonePo whZone) {
         ApiParamValidate.validate(whZone);
 
         return whZoneService.add(whZone);
@@ -54,7 +54,7 @@ public class WhZoneController {
     @ApiOperation(value =  "更新",  notes ="ZONE_CODE_EXIST -> zoneCode已经存在\n"+
                                           "ZONE_NAME_EXIST -> zoneName已经存在\n"+
                                           "ZONE_NAME_EN_EXIST -> zoneNameEn已经存在")
-    public ResultUtils<Boolean> updById(WhZonePo whZonePo) {
+    public ResultUtil<Boolean> updById(WhZonePo whZonePo) {
         ApiParamValidate.notEmpty("id", whZonePo.getId());
         ApiParamValidate.validate(whZonePo);
 
@@ -65,7 +65,7 @@ public class WhZoneController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Integer id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Integer id) {
 
         return whZoneService.delById(id);
     }
@@ -74,7 +74,7 @@ public class WhZoneController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<WhZoneInfoVo> getById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Integer id) {
+    public ResultUtil<WhZoneInfoVo> getById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Integer id) {
 
         return whZoneService.getById(id);
     }
@@ -82,7 +82,7 @@ public class WhZoneController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<WhZoneListVo>> getList(PageDto pageDto, @Validated WhZoneKeyDto keyDto) {
+    public ResultUtil<Page<WhZoneListVo>> getList(PageDto pageDto, @Validated WhZoneKeyDto keyDto) {
 
         return whZoneService.getList(pageDto , keyDto);
     }

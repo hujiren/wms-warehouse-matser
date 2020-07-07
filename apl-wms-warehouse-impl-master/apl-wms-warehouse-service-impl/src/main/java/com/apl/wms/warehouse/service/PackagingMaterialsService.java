@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service;
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
 import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
@@ -28,14 +28,14 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
          * @Author: CY
          * @Date: 2020/6/13 10:06
          */
-        ResultUtils<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception;
+        ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception;
 
         /**
          * @Desc: 添加一个CommodityPo实体
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Long> add(PackagingMaterialsPo packagingMaterialsPo);
+        ResultUtil<Long> add(PackagingMaterialsPo packagingMaterialsPo);
 
 
         /**
@@ -43,7 +43,7 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Boolean> updById(PackagingMaterialsPo packagingMaterialsPo);
+        ResultUtil<Boolean> updById(PackagingMaterialsPo packagingMaterialsPo);
 
 
         /**
@@ -51,7 +51,7 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -59,7 +59,7 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<CommodityInfoVo> selectById(Long id);
+        ResultUtil<CommodityInfoVo> selectById(Long id);
 
 
         /**
@@ -67,7 +67,7 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Page<PackagingMaterialsListVo>>getList(PageDto pageDto, PackagingMaterialsKeyDto packagingMaterialsKeyDto)  throws Exception;
+        ResultUtil<Page<PackagingMaterialsListVo>>getList(PageDto pageDto, PackagingMaterialsKeyDto packagingMaterialsKeyDto)  throws Exception;
 
 
         /**

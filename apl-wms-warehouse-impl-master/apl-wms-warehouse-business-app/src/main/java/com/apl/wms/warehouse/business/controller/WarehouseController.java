@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.WarehouseKeyDto;
 import com.apl.wms.warehouse.po.WarehousePo;
@@ -47,7 +47,7 @@ public class WarehouseController {
                     "WH_NAME_CAN_NOT_REPEAT->仓库中文名不能重复\n" +
                     "WH_NAME_EN_CAN_NOT_REPEAT->仓库英文名不能重复"
     )
-    public ResultUtils<Boolean> add(@Validated WarehousePo warehouse) {
+    public ResultUtil<Boolean> add(@Validated WarehousePo warehouse) {
 
         return warehouseService.add(warehouse);
     }
@@ -58,7 +58,7 @@ public class WarehouseController {
             "WH_CODE_CAN_NOT_REPEAT->仓库代码不能重复\n" +
                     "WH_NAME_CAN_NOT_REPEAT->仓库中文名不能重复\n" +
                     "WH_NAME_EN_CAN_NOT_REPEAT->仓库英文名不能重复")
-    public ResultUtils<Boolean> updById(@Validated WarehousePo warehouse) {
+    public ResultUtil<Boolean> updById(@Validated WarehousePo warehouse) {
         ApiParamValidate.notEmpty("id", warehouse.getId());
         return warehouseService.updById(warehouse);
     }
@@ -67,28 +67,28 @@ public class WarehouseController {
     @PostMapping(value = "/get")
     @ApiOperation(value = "获取基本信息", notes = "获取基本信息")
     @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "query")
-    public ResultUtils<WarehouseInfoVo> getById(@Min(value = 1, message = "id不能小于 1") Long id) {
+    public ResultUtil<WarehouseInfoVo> getById(@Min(value = 1, message = "id不能小于 1") Long id) {
 
         return warehouseService.selectById(id);
     }
 
     @PostMapping("/get-list")
     @ApiOperation(value = "分页查找", notes = "分页查找")
-    public ResultUtils<Page<WarehouseListVo>> getList(PageDto pageDto, @Validated WarehouseKeyDto keyDto) {
+    public ResultUtil<Page<WarehouseListVo>> getList(PageDto pageDto, @Validated WarehouseKeyDto keyDto) {
 
         return warehouseService.getList(pageDto, keyDto);
     }
 
     /*@PostMapping("/get-bind-wh")
     @ApiOperation(value = "获取绑定数据-仓库", notes = "")
-    public ResultUtils<List<WarehouseListVo>> getBindWh() {
+    public ResultUtil<List<WarehouseListVo>> getBindWh() {
 
         return warehouseService.getBind();
     }*/
 
     @PostMapping(value = "/upd-details")
     @ApiOperation(value = "更新仓库详细", notes = "更新仓库详细")
-    public ResultUtils<Boolean> updateByWhId(@Validated WhDetailsPo whDetailsPo) {
+    public ResultUtil<Boolean> updateByWhId(@Validated WhDetailsPo whDetailsPo) {
         System.out.println(whDetailsPo);
 
         return whDetailsService.updByWhId(whDetailsPo);
@@ -98,7 +98,7 @@ public class WarehouseController {
     @PostMapping(value = "/get-details")
     @ApiOperation(value = "获取详细", notes = "获取详细")
     @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "long")
-    public ResultUtils<WhDetailsPo> getByWhId(@Min(value = 1, message = "id不能小于 1") Long id) {
+    public ResultUtil<WhDetailsPo> getByWhId(@Min(value = 1, message = "id不能小于 1") Long id) {
 
         return whDetailsService.selectById(id);
     }

@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
@@ -43,7 +43,7 @@ public class StorageLocalStocksController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Boolean> add(@Validated StorageLocalStocksPo storageCommodity) {
+    public ResultUtil<Boolean> add(@Validated StorageLocalStocksPo storageCommodity) {
 
         return storageCommodityService.add(storageCommodity);
     }
@@ -53,7 +53,7 @@ public class StorageLocalStocksController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "long")
-    public ResultUtils<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return storageCommodityService.deleteById(id);
     }
@@ -61,7 +61,7 @@ public class StorageLocalStocksController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated StorageLocalStocksPo storageLocalStocksPo) {
+    public ResultUtil<Boolean> updById(@Validated StorageLocalStocksPo storageLocalStocksPo) {
 
         return storageCommodityService.updById(storageLocalStocksPo);
     }
@@ -70,14 +70,14 @@ public class StorageLocalStocksController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtils<StorageLocalStocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<StorageLocalStocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
             return storageCommodityService.selectById(id);
     }
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<StorageLocalStocksListVo>> getList(PageDto pageDto, @Validated StorageCommodityKeyDto keyDto) {
+    public ResultUtil<Page<StorageLocalStocksListVo>> getList(PageDto pageDto, @Validated StorageCommodityKeyDto keyDto) {
 
 
         return storageCommodityService.getList(pageDto , keyDto);
@@ -86,7 +86,7 @@ public class StorageLocalStocksController {
     @PostMapping("/storage/lock")
     @ApiOperation(value =  "锁定库位库存数据" , notes = "锁定库位库存数据，给每个订单商品分配不同的库位")
     @ApiIgnore
-    public ResultUtils<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(@RequestBody List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception {
+    public ResultUtil<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(@RequestBody List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception {
 
         return storageCommodityService.storageLocalLock(pullBatchOrderItems);
     }

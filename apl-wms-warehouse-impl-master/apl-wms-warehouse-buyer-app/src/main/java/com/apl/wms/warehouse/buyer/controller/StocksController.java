@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.buyer.controller;
 
 
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.service.StocksService;
 import io.swagger.annotations.Api;
@@ -34,7 +34,7 @@ public class StocksController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Boolean> add(@Validated StocksPo stocks) {
+    public ResultUtil<Boolean> add(@Validated StocksPo stocks) {
 
         return stocksService.add(stocks);
     }
@@ -44,7 +44,7 @@ public class StocksController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "long")
-    public ResultUtils<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return stocksService.deleteById(id);
     }
@@ -52,7 +52,7 @@ public class StocksController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated StocksPo stocksPo) {
+    public ResultUtil<Boolean> updById(@Validated StocksPo stocksPo) {
 
         return stocksService.updById(stocksPo);
     }
@@ -61,7 +61,7 @@ public class StocksController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtils<StocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<StocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return stocksService.selectById(id);
     }

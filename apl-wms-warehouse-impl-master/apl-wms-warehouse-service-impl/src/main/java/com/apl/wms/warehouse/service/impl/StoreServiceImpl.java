@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.mapper.StoreApiMapper;
 import com.apl.wms.warehouse.mapper.StoreMapper;
 import com.apl.wms.warehouse.service.StoreService;
@@ -55,22 +55,22 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, StorePo> implemen
 
 
     @Override
-    public ResultUtils<Integer> add(StorePo store){
+    public ResultUtil<Integer> add(StorePo store){
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         this.exists(0L, securityUser.getOuterOrgId(),  store.getStoreCode(),  store.getStoreName(),  store.getStoreNameEn() );
         store.setCustomerId(securityUser.getOuterOrgId());
 
         Integer flag = baseMapper.insert(store);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , store.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , store.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(StorePo store){
+    public ResultUtil<Boolean> updById(StorePo store){
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         this.exists(store.getId(), securityUser.getOuterOrgId(),  store.getStoreCode(),  store.getStoreName(),  store.getStoreNameEn() );
         //store.setCustomerId(securityUser.getOuterOrgId());
@@ -80,14 +80,14 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, StorePo> implemen
         wrapper.eq("id", store.getId());
         Integer flag =  baseMapper.update(store, wrapper);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
     @Override
-    public ResultUtils<Boolean> updConfig(StoreApiPo storeApiPo){
+    public ResultUtil<Boolean> updConfig(StoreApiPo storeApiPo){
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
 
@@ -96,57 +96,57 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, StorePo> implemen
         wrapper.eq("id", storeApiPo.getId());
         Integer flag =  storeApiMapper.updateById(storeApiPo);
         if(flag==1){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
 
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<StoreInfoVo> selectById(Long id){
+    public ResultUtil<StoreInfoVo> selectById(Long id){
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
 
         StoreInfoVo storeInfoVo = baseMapper.getById(securityUser.getOuterOrgId(), id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, storeInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, storeInfoVo);
     }
 
 
     @Override
-    public ResultUtils<StoreApiPo> getApiConfig(Long id, Long customerId){
+    public ResultUtil<StoreApiPo> getApiConfig(Long id, Long customerId){
 
         StoreApiPo storeApiPo = baseMapper.getApiConfig(id, customerId);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, storeApiPo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, storeApiPo);
     }
 
 
     @Override
-    public ResultUtils<String> getApiConfigStrVal(Long id, Long customerId){
+    public ResultUtil<String> getApiConfigStrVal(Long id, Long customerId){
 
         String val = baseMapper.getApiConfigStrVal(id, customerId);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, val);
+        return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, val);
     }
 
 
     @Override
-    public ResultUtils<Page<StoreListVo>> getList(PageDto pageDto, StoreKeyDto keyDto){
+    public ResultUtil<Page<StoreListVo>> getList(PageDto pageDto, StoreKeyDto keyDto){
 
         Page<StoreListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -155,7 +155,7 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, StorePo> implemen
         List<StoreListVo> list = baseMapper.getList(page , keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
     }
 
 

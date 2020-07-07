@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.WhOperatorKeyDto;
 import com.apl.wms.warehouse.po.WhOperatorPo;
 import com.apl.wms.warehouse.service.WhOperatorService;
@@ -39,7 +39,7 @@ public class WhOperatorController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Integer> add(@Validated WhOperatorPo whOperator) {
+    public ResultUtil<Integer> add(@Validated WhOperatorPo whOperator) {
 
         return whOperatorService.add(whOperator);
     }
@@ -49,7 +49,7 @@ public class WhOperatorController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "long")
-    public ResultUtils<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return whOperatorService.delById(id);
     }
@@ -57,7 +57,7 @@ public class WhOperatorController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated WhOperatorPo whOperatorPo) {
+    public ResultUtil<Boolean> updById(@Validated WhOperatorPo whOperatorPo) {
 
         return whOperatorService.updById(whOperatorPo);
     }
@@ -66,14 +66,14 @@ public class WhOperatorController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtils<WhOperatorInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<WhOperatorInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
             return whOperatorService.selectById(id);
     }
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<WhOperatorListVo>> getList(PageDto pageDto, @Validated WhOperatorKeyDto keyDto) {
+    public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, @Validated WhOperatorKeyDto keyDto) {
 
 
         return whOperatorService.getList(pageDto , keyDto);

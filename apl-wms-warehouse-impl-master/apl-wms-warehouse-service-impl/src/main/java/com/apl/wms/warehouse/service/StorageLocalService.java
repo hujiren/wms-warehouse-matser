@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service;
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
 import com.apl.wms.warehouse.dto.StorageLocationKeyDto;
@@ -29,7 +29,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Map> add(StorageLocationAddDto storageLocationAddDto);
+        ResultUtil<Map> add(StorageLocationAddDto storageLocationAddDto);
 
 
         /**
@@ -37,7 +37,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Boolean> updById(StorageLocalPo storageLocation);
+        ResultUtil<Boolean> updById(StorageLocalPo storageLocation);
 
 
         /**
@@ -45,7 +45,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -53,7 +53,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<StorageLocalInfoVo> getStorageLocalBySn(String storageLocalSn);
+        ResultUtil<StorageLocalInfoVo> getStorageLocalBySn(String storageLocalSn);
 
 
         /**
@@ -61,7 +61,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Page<StorageLocalListVo>>getList(PageDto pageDto, StorageLocationKeyDto keyDto);
+        ResultUtil<Page<StorageLocalListVo>>getList(PageDto pageDto, StorageLocationKeyDto keyDto);
 
 
         /**
@@ -69,7 +69,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @Author: CY
          * @Date: 2019/12/17 17:21
          */
-        ResultUtils<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto);
+        ResultUtil<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto);
 
 
         /**
@@ -86,7 +86,7 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @Author: CY
          * @Date: 2020/1/3 10:04
          */
-        ResultUtils<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , String storageLocal)  throws Exception;
+        ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , String storageLocal)  throws Exception;
 
         /**
          * @Description : 库位锁定
@@ -94,13 +94,13 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @Return ：
          * Created by arran on 2020/3/12
          */
-        ResultUtils<Boolean> changeStorageLocalStatus(String lockIds , String unLockIds);
+        ResultUtil<Boolean> changeStorageLocalStatus(String lockIds , String unLockIds);
 
         /**
          * @Desc: 分配当个库位
          * @Author: CY
          * @Date: 2020/3/24 9:31
          */
-        ResultUtils<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn);
+        ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn);
 
 }

@@ -7,7 +7,7 @@ import com.apl.lib.join.JoinFieldInfo;
 import com.apl.lib.join.JoinUtils;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.SnowflakeIdWorker;
 import com.apl.lib.utils.StringUtil;
 import com.apl.sys.lib.cache.JoinCustomer;
@@ -95,7 +95,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
 
 
     @Override
-    public ResultUtils<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
+    public ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
 
         OrderCountVo orderCountVo = (OrderCountVo) redisTemplate.opsForValue().get("packaging:" + orderId);
 
@@ -123,11 +123,11 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
             redisTemplate.opsForValue().set("packaging:count:" + orderId , commodityPackMap);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , commodityPackMap);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , commodityPackMap);
     }
 
     @Override
-    public ResultUtils<Long> add(PackagingMaterialsPo packagingMaterialsPo){
+    public ResultUtil<Long> add(PackagingMaterialsPo packagingMaterialsPo){
 
         packagingMaterialsPo.setId(SnowflakeIdWorker.generateId());
         packagingMaterialsPo.setReviewStatus(2);// 审核状态 1已审核  2未审核
@@ -141,52 +141,52 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         packagingMaterialsPo.setId(SnowflakeIdWorker.generateId());
         baseMapper.insert(packagingMaterialsPo);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , packagingMaterialsPo.getId());
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , packagingMaterialsPo.getId());
     }
 
     @Override
-    public ResultUtils<Boolean> updById(PackagingMaterialsPo packagingMaterialsPo){
+    public ResultUtil<Boolean> updById(PackagingMaterialsPo packagingMaterialsPo){
 
         this.exists(packagingMaterialsPo.getId(), packagingMaterialsPo.getSku(),  packagingMaterialsPo.getCommodityName(),  packagingMaterialsPo.getCommodityNameEn() );
 
         baseMapper.updateById(packagingMaterialsPo);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , true);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , true);
     }
 
 
     @Transactional
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         if(baseMapper.existsOwm(id) == null){
             //检测此客户是否拥有此商品
-            return ResultUtils.APPRESULT(PackagingMaterialsServiceCode.COMMODITY_IS_NOT_EXIST.code , PackagingMaterialsServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
+            return ResultUtil.APPRESULT(PackagingMaterialsServiceCode.COMMODITY_IS_NOT_EXIST.code , PackagingMaterialsServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
         }
         //删除图片
         commodityPicMapper.delByCommodityId(id);
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<CommodityInfoVo> selectById(Long id){
+    public ResultUtil<CommodityInfoVo> selectById(Long id){
 
         //将商品赋值给 info
         PackagingMaterialsInfoVo packagingMaterialsInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, packagingMaterialsInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, packagingMaterialsInfoVo);
     }
 
     static JoinFieldInfo joinCommodityFieldInfo = null; //缓存联客户表反射字段
     @Override
-    public ResultUtils<Page<PackagingMaterialsListVo>> getList(PageDto pageDto, PackagingMaterialsKeyDto packagingMaterialsKeyDto)  throws Exception{
+    public ResultUtil<Page<PackagingMaterialsListVo>> getList(PageDto pageDto, PackagingMaterialsKeyDto packagingMaterialsKeyDto)  throws Exception{
 
         Page<PackagingMaterialsListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -212,7 +212,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
 
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 

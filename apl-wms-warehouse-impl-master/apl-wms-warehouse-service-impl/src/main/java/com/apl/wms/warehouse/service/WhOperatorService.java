@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.WhOperatorPo;
 import com.apl.wms.warehouse.vo.WhOperatorListVo;
@@ -23,7 +23,7 @@ public interface WhOperatorService extends IService<WhOperatorPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Integer> add(WhOperatorPo whOperator);
+        ResultUtil<Integer> add(WhOperatorPo whOperator);
 
 
         /**
@@ -31,7 +31,7 @@ public interface WhOperatorService extends IService<WhOperatorPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Boolean> updById(WhOperatorPo whOperator);
+        ResultUtil<Boolean> updById(WhOperatorPo whOperator);
 
 
         /**
@@ -39,7 +39,7 @@ public interface WhOperatorService extends IService<WhOperatorPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface WhOperatorService extends IService<WhOperatorPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<WhOperatorInfoVo> selectById(Long id);
+        ResultUtil<WhOperatorInfoVo> selectById(Long id);
 
 
         /**
@@ -55,6 +55,6 @@ public interface WhOperatorService extends IService<WhOperatorPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Page<WhOperatorListVo>>getList(PageDto pageDto, WhOperatorKeyDto keyDto);
+        ResultUtil<Page<WhOperatorListVo>>getList(PageDto pageDto, WhOperatorKeyDto keyDto);
 
 }

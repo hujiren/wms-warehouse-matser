@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.exception.AplException;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;
@@ -50,56 +50,56 @@ public class WhOperatorServiceImpl extends ServiceImpl<WhOperatorMapper, WhOpera
 
 
     @Override
-    public ResultUtils<Integer> add(WhOperatorPo whOperator) {
+    public ResultUtil<Integer> add(WhOperatorPo whOperator) {
 
         this.exists(0L, whOperator.getWhId(), whOperator.getMemberId());
 
         Integer flag = baseMapper.insert(whOperator);
         if (flag.equals(1)) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, whOperator.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, whOperator.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(WhOperatorPo whOperator) {
+    public ResultUtil<Boolean> updById(WhOperatorPo whOperator) {
 
         this.exists(whOperator.getId(),whOperator.getWhId(), whOperator.getMemberId());
 
         Integer flag = baseMapper.updateById(whOperator);
         if (flag.equals(1)) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id) {
+    public ResultUtil<Boolean> delById(Long id) {
 
         boolean flag = removeById(id);
         if (flag) {
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS, true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS, true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL, false);
     }
 
 
     @Override
-    public ResultUtils<WhOperatorInfoVo> selectById(Long id) {
+    public ResultUtil<WhOperatorInfoVo> selectById(Long id) {
 
         WhOperatorInfoVo whOperatorInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, whOperatorInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, whOperatorInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<WhOperatorListVo>> getList(PageDto pageDto, WhOperatorKeyDto keyDto) {
+    public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, WhOperatorKeyDto keyDto) {
 
         Page<WhOperatorListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -108,7 +108,7 @@ public class WhOperatorServiceImpl extends ServiceImpl<WhOperatorMapper, WhOpera
         List<WhOperatorListVo> list = baseMapper.getList(page, keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
     }
 
 

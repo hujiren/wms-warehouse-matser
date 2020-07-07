@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.StoreApiPo;
 import com.apl.wms.warehouse.po.StorePo;
@@ -25,7 +25,7 @@ public interface StoreService extends IService<StorePo> {
          * @author arran
          * @since 2019-12-21
          */
-        ResultUtils<Integer> add(StorePo store);
+        ResultUtil<Integer> add(StorePo store);
 
 
         /**
@@ -33,7 +33,7 @@ public interface StoreService extends IService<StorePo> {
          * @author arran
          * @since 2019-12-21
          */
-        ResultUtils<Boolean> updById(StorePo store);
+        ResultUtil<Boolean> updById(StorePo store);
 
 
         /**
@@ -43,7 +43,7 @@ public interface StoreService extends IService<StorePo> {
          * @Author  arran
          * @Date  2019/12/30
          */
-        ResultUtils<Boolean> updConfig(StoreApiPo storeApiPo);
+        ResultUtil<Boolean> updConfig(StoreApiPo storeApiPo);
 
 
         /**
@@ -51,7 +51,7 @@ public interface StoreService extends IService<StorePo> {
          * @author arran
          * @since 2019-12-21
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -59,13 +59,13 @@ public interface StoreService extends IService<StorePo> {
          * @author arran
          * @since 2019-12-21
          */
-        ResultUtils<StoreInfoVo> selectById(Long id);
+        ResultUtil<StoreInfoVo> selectById(Long id);
 
 
-        ResultUtils<StoreApiPo> getApiConfig(Long id, Long customerId);
+        ResultUtil<StoreApiPo> getApiConfig(Long id, Long customerId);
 
 
-        ResultUtils<String> getApiConfigStrVal(Long id, Long customerId);
+        ResultUtil<String> getApiConfigStrVal(Long id, Long customerId);
 
 
         /**
@@ -73,7 +73,7 @@ public interface StoreService extends IService<StorePo> {
          * @author arran
          * @since 2019-12-21
          */
-        ResultUtils<Page<StoreListVo>>getList(PageDto pageDto, StoreKeyDto keyDto);
+        ResultUtil<Page<StoreListVo>>getList(PageDto pageDto, StoreKeyDto keyDto);
 
 
 

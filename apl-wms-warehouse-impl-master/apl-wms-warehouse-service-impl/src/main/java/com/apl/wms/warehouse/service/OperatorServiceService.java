@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service;
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.OperatorServiceKeyDto;
 import com.apl.wms.warehouse.po.OperatorServicePo;
 import com.apl.wms.warehouse.vo.OperatorServiceInfoVo;
@@ -24,7 +24,7 @@ public interface OperatorServiceService extends IService<OperatorServicePo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Integer> add(OperatorServicePo operatorService);
+        ResultUtil<Integer> add(OperatorServicePo operatorService);
 
 
         /**
@@ -32,7 +32,7 @@ public interface OperatorServiceService extends IService<OperatorServicePo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Boolean> updById(OperatorServicePo operatorService);
+        ResultUtil<Boolean> updById(OperatorServicePo operatorService);
 
 
         /**
@@ -40,7 +40,7 @@ public interface OperatorServiceService extends IService<OperatorServicePo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -48,7 +48,7 @@ public interface OperatorServiceService extends IService<OperatorServicePo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<OperatorServiceInfoVo> selectById(Long id);
+        ResultUtil<OperatorServiceInfoVo> selectById(Long id);
 
 
         /**
@@ -56,6 +56,6 @@ public interface OperatorServiceService extends IService<OperatorServicePo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtils<Page<OperatorServiceListVo>>getList(PageDto pageDto, OperatorServiceKeyDto keyDto);
+        ResultUtil<Page<OperatorServiceListVo>>getList(PageDto pageDto, OperatorServiceKeyDto keyDto);
 
 }

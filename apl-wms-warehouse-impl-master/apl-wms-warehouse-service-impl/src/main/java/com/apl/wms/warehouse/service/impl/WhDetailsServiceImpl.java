@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.mapper.WarehouseMapper;
 import com.apl.wms.warehouse.po.WarehousePo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -54,20 +54,20 @@ public class WhDetailsServiceImpl extends ServiceImpl<WhDetailsMapper, WhDetails
     }
 
     @Override
-    public ResultUtils<Boolean> add(WhDetailsPo whDetails) {
+    public ResultUtil<Boolean> add(WhDetailsPo whDetails) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , save(whDetails));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , save(whDetails));
     }
 
     @Override
-    public ResultUtils<Boolean> deleteById(Long id) {
+    public ResultUtil<Boolean> deleteById(Long id) {
 
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , removeById(id));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , removeById(id));
     }
 
     @Override
-    public ResultUtils<Boolean> updByWhId(WhDetailsPo whDetails) {
+    public ResultUtil<Boolean> updByWhId(WhDetailsPo whDetails) {
         if (whDetails.getWhId() != null && whDetails.getWhId() >= 1) {
             QueryWrapper<WarehousePo> wrapper2 = new QueryWrapper<>();
             wrapper2.eq("id", whDetails.getWhId());
@@ -82,27 +82,27 @@ public class WhDetailsServiceImpl extends ServiceImpl<WhDetailsMapper, WhDetails
                 } else {
                     res = save(whDetails);
                 }
-                if (res) return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, whDetails.getWhId());
+                if (res) return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, whDetails.getWhId());
             } else {
-                return ResultUtils.APPRESULT(
+                return ResultUtil.APPRESULT(
                         WhDetailsServiceImplStatusCode.WH_ID_NOT_EXIST.code,
                         WhDetailsServiceImplStatusCode.WH_ID_NOT_EXIST.msg,
                         null);
             }
         }
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
     }
 
     @Override
-    public ResultUtils<WhDetailsPo> selectById(Long id) {
+    public ResultUtil<WhDetailsPo> selectById(Long id) {
         WhDetailsPo whDetailsPo = baseMapper.getByWhId(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, whDetailsPo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, whDetailsPo);
     }
 
 
     @Override
-    public ResultUtils<Page<WhDetailsListVo>> getList(PageDto pageDto, WhDetailsKeyDto keyDto) {
+    public ResultUtil<Page<WhDetailsListVo>> getList(PageDto pageDto, WhDetailsKeyDto keyDto) {
 
         Page<WhDetailsListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -110,7 +110,7 @@ public class WhDetailsServiceImpl extends ServiceImpl<WhDetailsMapper, WhDetails
 
         List<WhDetailsListVo> list = baseMapper.getList(page, keyDto);
         page.setRecords(list);
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
     }
 
 }

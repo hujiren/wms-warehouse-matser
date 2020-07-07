@@ -5,7 +5,7 @@ import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinUtils;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.LockTool;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutstorageOrderBusinessFeign;
 import com.apl.wms.warehouse.bo.StockUpdBo;
@@ -76,7 +76,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
     OutstorageOrderBusinessFeign outstorageOrderBusinessFeign;
 
     @Override
-    public ResultUtils<List<CheckOrderStockDetailsVo>> getCommodityStockMsg(Long whId , String commodityIds) throws Exception {
+    public ResultUtil<List<CheckOrderStockDetailsVo>> getCommodityStockMsg(Long whId , String commodityIds) throws Exception {
 
         List<Long> commodityIdList = StringUtil.stringToLongList(commodityIds);
         //获取仓库下商品总库存
@@ -93,37 +93,37 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
             checkOrderStockDetailsVo.setStorageLocalStocks(commodityStorageLocalStockList);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , checkOrderStockDetailsVos);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , checkOrderStockDetailsVos);
     }
 
     @Override
-    public ResultUtils<Boolean> add(StocksPo stocks) {
+    public ResultUtil<Boolean> add(StocksPo stocks) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, save(stocks));
-    }
-
-
-    @Override
-    public ResultUtils<Boolean> deleteById(Long id) {
-
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, removeById(id));
-    }
-
-    @Override
-    public ResultUtils<Boolean> updById(StocksPo stocks) {
-
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, updateById(stocks));
-    }
-
-    @Override
-    public ResultUtils<StocksPo> selectById(Long id) {
-
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, getById(id));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, save(stocks));
     }
 
 
     @Override
-    public ResultUtils<Page<StocksListVo>> listStocks(Long whId, Long customerId, Integer isCorrespondence, String keyword, PageDto pageDto) {
+    public ResultUtil<Boolean> deleteById(Long id) {
+
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, removeById(id));
+    }
+
+    @Override
+    public ResultUtil<Boolean> updById(StocksPo stocks) {
+
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, updateById(stocks));
+    }
+
+    @Override
+    public ResultUtil<StocksPo> selectById(Long id) {
+
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, getById(id));
+    }
+
+
+    @Override
+    public ResultUtil<Page<StocksListVo>> listStocks(Long whId, Long customerId, Integer isCorrespondence, String keyword, PageDto pageDto) {
 
         Page<StocksListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -133,7 +133,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         List<StocksListVo> result = baseMapper.listStocks(page, whId, customerId, isCorrespondence, keyword);
         page.setRecords(result);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
     @Override

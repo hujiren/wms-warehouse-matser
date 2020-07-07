@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.vo.WarehouseInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -65,64 +65,64 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
     }
 
     @Override
-    public ResultUtils add(WarehousePo warehouse) {
+    public ResultUtil add(WarehousePo warehouse) {
 
         this.exist( 0l,  warehouse.getWhCode(),  warehouse.getWhName(),  warehouse.getWhNameEn());
 
         Integer flag = baseMapper.insert(warehouse);
         if (flag.equals(1)) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, warehouse.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, warehouse.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
     }
 
     @Override
-    public ResultUtils<Boolean> deleteById(Long id) {
+    public ResultUtil<Boolean> deleteById(Long id) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , removeById(id));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , removeById(id));
     }
 
     @Override
-    public ResultUtils<Boolean> updById(WarehousePo warehouse) {
+    public ResultUtil<Boolean> updById(WarehousePo warehouse) {
         this.exist(  warehouse.getId(),  warehouse.getWhCode(), warehouse.getWhName(),  warehouse.getWhNameEn());
 
         Integer flag = baseMapper.updateById(warehouse);
         if (flag.equals(1)) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
         }
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
     }
 
     @Override
-    public ResultUtils<WarehouseInfoVo> selectById(Long id) {
+    public ResultUtil<WarehouseInfoVo> selectById(Long id) {
 
         WarehouseInfoVo warehouseInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, warehouseInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, warehouseInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<WarehouseListVo>> getList(PageDto pageDto, WarehouseKeyDto keyDto) {
+    public ResultUtil<Page<WarehouseListVo>> getList(PageDto pageDto, WarehouseKeyDto keyDto) {
         Page<WarehouseListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
         page.setSize(pageDto.getPageSize());
 
         List<WarehouseListVo> list = baseMapper.getList(page, keyDto);
         page.setRecords(list);
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , page);
     }
 
     @Override
-    public ResultUtils<List<WarehouseListVo>> getBind() {
+    public ResultUtil<List<WarehouseListVo>> getBind() {
 
         WarehouseKeyDto keyDto = new WarehouseKeyDto();
         keyDto.setWhStatus(1);
 
         List<WarehouseListVo> list = baseMapper.getList(null, keyDto);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , list);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , list);
     }
 
 }

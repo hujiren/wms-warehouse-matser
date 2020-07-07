@@ -16,7 +16,7 @@ import com.apl.wms.warehouse.vo.ShelvesSpecListVo;
 import com.apl.wms.warehouse.vo.ShelvesSpecInfoVo;
 import com.apl.wms.warehouse.dto.ShelvesSpecKeyDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 
 import javax.annotation.Resource;
@@ -41,7 +41,7 @@ public class ShelvesSpecController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加", notes ="SPEC_NO_EXIST -> specNo已经存在")
-    public ResultUtils<Integer> add(ShelvesSpecPo shelvesSpecPo) {
+    public ResultUtil<Integer> add(ShelvesSpecPo shelvesSpecPo) {
         ApiParamValidate.validate(shelvesSpecPo);
 
         return shelvesSpecService.add(shelvesSpecPo);
@@ -50,7 +50,7 @@ public class ShelvesSpecController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新",  notes ="SPEC_NO_EXIST -> specNo已经存在")
-    public ResultUtils<Boolean> updById(ShelvesSpecPo shelvesSpecPo) {
+    public ResultUtil<Boolean> updById(ShelvesSpecPo shelvesSpecPo) {
         ApiParamValidate.notEmpty("id", shelvesSpecPo.getId());
         ApiParamValidate.validate(shelvesSpecPo);
 
@@ -61,7 +61,7 @@ public class ShelvesSpecController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return shelvesSpecService.delById(id);
     }
@@ -70,7 +70,7 @@ public class ShelvesSpecController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<ShelvesSpecInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<ShelvesSpecInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return shelvesSpecService.selectById(id);
     }
@@ -78,7 +78,7 @@ public class ShelvesSpecController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<ShelvesSpecListVo>> getList(PageDto pageDto, @Validated ShelvesSpecKeyDto keyDto) {
+    public ResultUtil<Page<ShelvesSpecListVo>> getList(PageDto pageDto, @Validated ShelvesSpecKeyDto keyDto) {
 
         return shelvesSpecService.getList(pageDto , keyDto);
     }

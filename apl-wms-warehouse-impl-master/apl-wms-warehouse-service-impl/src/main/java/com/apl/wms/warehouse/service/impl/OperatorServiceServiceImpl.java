@@ -3,7 +3,7 @@ package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.mapper.OperatorServiceMapper;
 import com.apl.wms.warehouse.dto.OperatorServiceKeyDto;
 import com.apl.wms.warehouse.po.OperatorServicePo;
@@ -48,56 +48,56 @@ public class OperatorServiceServiceImpl extends ServiceImpl<OperatorServiceMappe
 
 
     @Override
-    public ResultUtils<Integer> add(OperatorServicePo operatorService){
+    public ResultUtil<Integer> add(OperatorServicePo operatorService){
 
         this.exists(0L, operatorService.getServiceName(),  operatorService.getServiceNameEn() );
 
         Integer flag = baseMapper.insert(operatorService);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , operatorService.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , operatorService.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(OperatorServicePo operatorService){
+    public ResultUtil<Boolean> updById(OperatorServicePo operatorService){
 
         this.exists(operatorService.getId(), operatorService.getServiceName(),  operatorService.getServiceNameEn() );
 
         Integer flag = baseMapper.updateById(operatorService);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<OperatorServiceInfoVo> selectById(Long id){
+    public ResultUtil<OperatorServiceInfoVo> selectById(Long id){
 
         OperatorServiceInfoVo operatorServiceInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, operatorServiceInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, operatorServiceInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<OperatorServiceListVo>> getList(PageDto pageDto, OperatorServiceKeyDto keyDto){
+    public ResultUtil<Page<OperatorServiceListVo>> getList(PageDto pageDto, OperatorServiceKeyDto keyDto){
 
         Page<OperatorServiceListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -106,7 +106,7 @@ public class OperatorServiceServiceImpl extends ServiceImpl<OperatorServiceMappe
         List<OperatorServiceListVo> list = baseMapper.getList(page , keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 

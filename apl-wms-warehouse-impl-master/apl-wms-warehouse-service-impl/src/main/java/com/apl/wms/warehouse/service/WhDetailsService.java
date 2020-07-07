@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.WhDetailsPo;
 import com.apl.wms.warehouse.vo.WhDetailsListVo;
@@ -22,34 +22,34 @@ public interface WhDetailsService extends IService<WhDetailsPo> {
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> add(WhDetailsPo whDetails);
+        ResultUtil<Boolean> add(WhDetailsPo whDetails);
 
         /**
          * @Desc: 根据id 查找一个WhDetailsPo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> deleteById(Long id);
+        ResultUtil<Boolean> deleteById(Long id);
 
         /**
          * @Desc: 根据id 更新一个WhDetailsPo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> updByWhId(WhDetailsPo whDetails);
+        ResultUtil<Boolean> updByWhId(WhDetailsPo whDetails);
 
         /**
          * @Desc: 根据id 查找一个 WhDetailsPo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<WhDetailsPo> selectById(Long id);
+        ResultUtil<WhDetailsPo> selectById(Long id);
 
         /**
          * @Desc: 分页查找 WhDetailsPo 列表
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Page<WhDetailsListVo>>getList(PageDto pageDto, WhDetailsKeyDto keyDto);
+        ResultUtil<Page<WhDetailsListVo>>getList(PageDto pageDto, WhDetailsKeyDto keyDto);
 
         }

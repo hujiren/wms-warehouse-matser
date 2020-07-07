@@ -1,23 +1,23 @@
 package com.apl.wms.warehouse.service;
 
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 public interface CacheService {
 
-    ResultUtils<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey);
 
-    ResultUtils<Boolean> addCommodityCacheById(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addCommodityCacheById(String keys, Long minKey, Long maxKey);
 
-    ResultUtils<Boolean> addCommodityCacheBySku(String skus, Long customerId);
+    ResultUtil<Boolean> addCommodityCacheBySku(String skus, Long customerId);
 
-    ResultUtils<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey);
 
-    ResultUtils<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey);
 
-    ResultUtils<Boolean> addCommodityCategoryCache(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addCommodityCategoryCache(String keys, Long minKey, Long maxKey);
 
-    ResultUtils<Boolean> addStoreCache(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addStoreCache(String keys, Long minKey, Long maxKey);
 
-    ResultUtils<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey);
+    ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey);
 
 }

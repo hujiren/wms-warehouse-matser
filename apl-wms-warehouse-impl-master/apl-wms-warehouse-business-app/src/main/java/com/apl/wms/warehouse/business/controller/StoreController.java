@@ -1,12 +1,8 @@
 package com.apl.wms.warehouse.business.controller;
 
-import com.apl.lib.constants.CommonAplConstants;
-import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.exception.AplException;
+
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.security.SecurityUser;
-import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.StoreKeyDto;
 import com.apl.wms.warehouse.service.StoreService;
@@ -17,9 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +39,7 @@ public class StoreController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<StoreListVo>> getList(PageDto pageDto, @Validated StoreKeyDto keyDto) {
+    public ResultUtil<Page<StoreListVo>> getList(PageDto pageDto, @Validated StoreKeyDto keyDto) {
 
         ApiParamValidate.thanZero("customerId", keyDto.getCustomerId());
 
@@ -55,24 +49,11 @@ public class StoreController {
     @PostMapping(value = "/feign/apiconfig-strval")
     @ApiOperation(value =  "获取API参数值" , notes = "获取API参数")
     @ApiImplicitParam(name = "id",value = "id", required = true  , paramType = "query")
-    public ResultUtils<String> getApiConfigStrVal(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<String> getApiConfigStrVal(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return storeService.getApiConfigStrVal(id, 0l);
     }
 
 
-    @GetMapping("/seata2-commit")
-    @ApiOperation(value =  "seata2-commit")
-    public Integer seata2Commit() {
-
-        return storeService.seata2Commit();
-    }
-
-    @GetMapping("/seata2-rollback")
-    @ApiOperation(value =  "seata2-rollback")
-    public Integer seata2Rollback() {
-
-        return storeService.seata2Rollback();
-    }
 
 }

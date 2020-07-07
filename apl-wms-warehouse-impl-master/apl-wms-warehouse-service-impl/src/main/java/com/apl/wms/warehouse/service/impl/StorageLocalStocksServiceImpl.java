@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinUtils;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
@@ -76,32 +76,32 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
     }
 
     @Override
-    public ResultUtils<Boolean> add(StorageLocalStocksPo storageCommodity) {
+    public ResultUtil<Boolean> add(StorageLocalStocksPo storageCommodity) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, save(storageCommodity));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, save(storageCommodity));
     }
 
     @Override
-    public ResultUtils<Boolean> deleteById(Long id) {
+    public ResultUtil<Boolean> deleteById(Long id) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, removeById(id));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, removeById(id));
     }
 
     @Override
-    public ResultUtils<Boolean> updById(StorageLocalStocksPo storageCommodity) {
+    public ResultUtil<Boolean> updById(StorageLocalStocksPo storageCommodity) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, updateById(storageCommodity));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, updateById(storageCommodity));
     }
 
     @Override
-    public ResultUtils<StorageLocalStocksPo> selectById(Long id) {
+    public ResultUtil<StorageLocalStocksPo> selectById(Long id) {
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, getById(id));
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, getById(id));
     }
 
 
     @Override
-    public ResultUtils<Page<StorageLocalStocksListVo>> getList(PageDto pageDto, StorageCommodityKeyDto keyDto) {
+    public ResultUtil<Page<StorageLocalStocksListVo>> getList(PageDto pageDto, StorageCommodityKeyDto keyDto) {
 
         Page<StorageLocalStocksListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -109,7 +109,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
 
         List<StorageLocalStocksListVo> list = baseMapper.getList(page, keyDto);
         page.setRecords(list);
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
 
 
     @Override
-    public ResultUtils<Map<String, List<PullBatchOrderItemBo>>> storageLocalLock(List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception {
+    public ResultUtil<Map<String, List<PullBatchOrderItemBo>>> storageLocalLock(List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception {
 
         //根据商品id 分组 商品id -- 》 订单列表
         Map<String, List<PullBatchOrderItemBo>> commodityOrders = JoinUtils.listGrouping(pullBatchOrderItems, "commodityId");
@@ -245,7 +245,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
 
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityOrders);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityOrders);
     }
 
     @Override

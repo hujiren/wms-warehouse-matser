@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
@@ -77,7 +77,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     CommodityService commodityService;
 
     @Override
-    public ResultUtils<Map> add(StorageLocationAddDto storageLocationAddDto) {
+    public ResultUtil<Map> add(StorageLocationAddDto storageLocationAddDto) {
 
         String firstSn = storageLocationAddDto.getFirstSn();//起始编号
         String suffix = firstSn.substring(firstSn.length() - 3);//编号后缀
@@ -125,53 +125,53 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         resultMapVo.put("addCount", addCount);
         resultMapVo.put("failCount", failCount);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, resultMapVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, resultMapVo);
 
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(StorageLocalPo storageLocation) {
+    public ResultUtil<Boolean> updById(StorageLocalPo storageLocation) {
 
         Boolean result = this.exists(storageLocation.getId(), storageLocation.getStorageSn());
         if (!result) {
             Integer flag = baseMapper.updateById(storageLocation);
             if (flag > 0) {
-                return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
+                return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
             }
         }
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id) {
+    public ResultUtil<Boolean> delById(Long id) {
 
         //查找库位是否有商品
         Long storageCommodityId = storageCommodityService.judgeStorageLocationIsNull(id);
         //库位存在商品，不可以进行删除
         if (storageCommodityId != null) {
-            return ResultUtils.APPRESULT(StorageLocationServiceCode.STORAGE_EXIST_COMMODITY.code, StorageLocationServiceCode.STORAGE_EXIST_COMMODITY.msg, null);
+            return ResultUtil.APPRESULT(StorageLocationServiceCode.STORAGE_EXIST_COMMODITY.code, StorageLocationServiceCode.STORAGE_EXIST_COMMODITY.msg, null);
         }
 
         boolean flag = removeById(id);
         if (flag) {
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS, true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS, true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL, false);
     }
 
 
     @Override
-    public ResultUtils<StorageLocalInfoVo> getStorageLocalBySn(String storageLocalSn) {
+    public ResultUtil<StorageLocalInfoVo> getStorageLocalBySn(String storageLocalSn) {
         StorageLocalInfoVo storageLocationInfoVo = baseMapper.getStorageLocalBySn(storageLocalSn);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, storageLocationInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, storageLocationInfoVo);
     }
 
     @Override
-    public ResultUtils<Page<StorageLocalListVo>> getList(PageDto pageDto, StorageLocationKeyDto keyDto) {
+    public ResultUtil<Page<StorageLocalListVo>> getList(PageDto pageDto, StorageLocationKeyDto keyDto) {
 
         Page<StorageLocalListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -180,13 +180,13 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         List<StorageLocalListVo> list = baseMapper.getList(page, keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 
     @Override
     @Transactional
-    public ResultUtils<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto) {
+    public ResultUtil<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto) {
 
         List<StorageLocalPo> storageLocationPos = new ArrayList<>();
         List<Long> longs = StringUtil.stringToLongList(storageLocationBatchUpdDto.getIdList());
@@ -203,10 +203,10 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
 
         boolean flag = this.updateBatchById(storageLocationPos);
         if (flag) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
     }
 
 
@@ -224,7 +224,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
 
     //分配库位计算
     @Override
-    public ResultUtils<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , String storageLocalName)throws Exception {
+    public ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , String storageLocalName)throws Exception {
 
         List<StorageLocalInfoVo> results = new ArrayList<>();
 
@@ -323,7 +323,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
        }finally {
        }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , results);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , results);
     }
 
 
@@ -331,7 +331,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     //分配库位锁定
     @Override
     @Transactional
-    public ResultUtils<Boolean> changeStorageLocalStatus(String lockIds, String unLockIds) {
+    public ResultUtil<Boolean> changeStorageLocalStatus(String lockIds, String unLockIds) {
 
         Boolean result = baseMapper.changeStorageLocalStatus(unLockIds, WmsWarehouseAplConstants.UN_LOCK);
 
@@ -348,11 +348,11 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         }
 
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
     }
 
     @Override
-    public ResultUtils<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn) {
+    public ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn) {
 
         //查找商品体积
         BigDecimal commodityVolume = countCommodityVolume(commodityId);
@@ -368,7 +368,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         BigDecimal storageCount = storageLocalInfoVo.getVolume().divideAndRemainder(commodityVolume)[0];
         storageLocalInfoVo.setStockCount(storageCount.intValue());
         //分配一个库位
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , storageLocalInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , storageLocalInfoVo);
     }
 
 

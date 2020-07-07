@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.buyer.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.CommodityBrandKeyDto;
 import com.apl.wms.warehouse.service.CommodityBrandService;
 import com.apl.wms.warehouse.vo.CommodityBrandListVo;
@@ -36,7 +36,7 @@ public class CommodityBrandController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<CommodityBrandListVo>> getList(PageDto pageDto, @Validated CommodityBrandKeyDto keyDto) {
+    public ResultUtil<Page<CommodityBrandListVo>> getList(PageDto pageDto, @Validated CommodityBrandKeyDto keyDto) {
 
         return commodityBrandService.getList(pageDto , keyDto);
     }

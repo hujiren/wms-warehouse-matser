@@ -17,7 +17,7 @@ import com.apl.wms.warehouse.vo.GoodsBasketListVo;
 import com.apl.wms.warehouse.vo.GoodsBasketInfoVo;
 import com.apl.wms.warehouse.dto.GoodsBasketKeyDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,7 +40,7 @@ public class GoodsBasketController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加", notes ="BASKET_SN_EXIST -> basketSn已经存在")
-    public ResultUtils<Integer> add(GoodsBasketPo goodsBasketPo) {
+    public ResultUtil<Integer> add(GoodsBasketPo goodsBasketPo) {
         ApiParamValidate.validate(goodsBasketPo);
 
         return goodsBasketService.add(goodsBasketPo);
@@ -49,7 +49,7 @@ public class GoodsBasketController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新",  notes ="BASKET_SN_EXIST -> basketSn已经存在")
-    public ResultUtils<Boolean> updById(GoodsBasketPo goodsBasketPo) {
+    public ResultUtil<Boolean> updById(GoodsBasketPo goodsBasketPo) {
         ApiParamValidate.notEmpty("id", goodsBasketPo.getId());
         ApiParamValidate.validate(goodsBasketPo);
 
@@ -60,7 +60,7 @@ public class GoodsBasketController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return goodsBasketService.delById(id);
     }
@@ -69,7 +69,7 @@ public class GoodsBasketController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<GoodsBasketInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<GoodsBasketInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return goodsBasketService.selectById(id);
     }
@@ -77,7 +77,7 @@ public class GoodsBasketController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<GoodsBasketListVo>> getList(PageDto pageDto, @Validated GoodsBasketKeyDto keyDto) {
+    public ResultUtil<Page<GoodsBasketListVo>> getList(PageDto pageDto, @Validated GoodsBasketKeyDto keyDto) {
 
         return goodsBasketService.getList(pageDto , keyDto);
     }

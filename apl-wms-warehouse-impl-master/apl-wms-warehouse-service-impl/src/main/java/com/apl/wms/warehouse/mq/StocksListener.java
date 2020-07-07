@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.mq;
 
-import com.apl.lib.datasource.DataSourceContextHolder;
+import com.apl.datasource.DataSourceContextHolder;
+import com.apl.lib.config.MyBatisPlusConfig;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
@@ -60,9 +61,13 @@ public class StocksListener {
              //把临时token放入线程安全变量中, feign会用到
              CommonContextHolder.tokenContextHolder.set(token);
 
-             //多租户切换数据源
+             //多数据源切换
              DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
-            //加库存
+
+             // 多租户ID值
+             MyBatisPlusConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
+
+             //加库存
             stocksService.updateStocks(stockUpdBo);
             //手工ACK
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);

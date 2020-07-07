@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinUtils;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
@@ -63,47 +63,47 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
     JoinUtils joinUtils;
 
     @Override
-    public ResultUtils<Integer> add(CommodityNameLibPo commodityNameLib){
+    public ResultUtil<Integer> add(CommodityNameLibPo commodityNameLib){
 
 
         Integer flag = baseMapper.insert(commodityNameLib);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityNameLib.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityNameLib.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(CommodityNameLibPo commodityNameLib){
+    public ResultUtil<Boolean> updById(CommodityNameLibPo commodityNameLib){
 
         Integer flag = baseMapper.updateById(commodityNameLib);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(String id){
+    public ResultUtil<Boolean> delById(String id){
         id = StringUtil.checkIds(id);
         if(StringUtil.isEmpty(id)){
-            return ResultUtils.APPRESULT(CommodityNameLibServiceCode.ID_ILLEGAL.code, CommodityNameLibServiceCode.ID_ILLEGAL.msg , false);
+            return ResultUtil.APPRESULT(CommodityNameLibServiceCode.ID_ILLEGAL.code, CommodityNameLibServiceCode.ID_ILLEGAL.msg , false);
         }
         int flag = baseMapper.del(id);
         if(flag>0){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<CommodityNameLibInfoVo> selectById(Integer id){
+    public ResultUtil<CommodityNameLibInfoVo> selectById(Integer id){
 
         CommodityNameLibInfoVo commodityNameLibInfoVo = baseMapper.getById(id);
 
@@ -112,12 +112,12 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
         if(customerCacheBo!=null)
             commodityNameLibInfoVo.setCustomerName(customerCacheBo.getCustomerName());
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityNameLibInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityNameLibInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<CommodityNameLibListVo>> getList(PageDto pageDto, CommodityNameLibKeyDto keyDto)  throws Exception{
+    public ResultUtil<Page<CommodityNameLibListVo>> getList(PageDto pageDto, CommodityNameLibKeyDto keyDto)  throws Exception{
 
         Page<CommodityNameLibListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -134,24 +134,24 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
 
          page.setRecords(list);
 
-        return  ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return  ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updCategory(String id, Integer categoryId){
+    public ResultUtil<Boolean> updCategory(String id, Integer categoryId){
 
         id = StringUtil.checkIds(id);
         if(StringUtil.isEmpty(id)){
-            return ResultUtils.APPRESULT(CommodityNameLibServiceCode.ID_ILLEGAL.code, CommodityNameLibServiceCode.ID_ILLEGAL.msg , false);
+            return ResultUtil.APPRESULT(CommodityNameLibServiceCode.ID_ILLEGAL.code, CommodityNameLibServiceCode.ID_ILLEGAL.msg , false);
         }
 
         Integer flag = baseMapper.updCategory(id, categoryId);
         if(flag>0){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 

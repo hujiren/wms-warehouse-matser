@@ -19,7 +19,7 @@ import com.apl.wms.warehouse.vo.StoreListVo;
 import com.apl.wms.warehouse.vo.StoreInfoVo;
 import com.apl.wms.warehouse.dto.StoreKeyDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -43,7 +43,7 @@ public class StoreController {
     @ApiOperation(value =  "添加", notes ="STORE_CODE_EXIST -> 店铺代码已经存在\n"+
                                          "STORE_NAME_EXIST -> 店铺名称已经存在\n"+
                                          "STORE_NAME_EN_EXIST -> 店铺英文名称已经存在")
-    public ResultUtils<Integer> add(StorePo storePo) {
+    public ResultUtil<Integer> add(StorePo storePo) {
         storePo.setStoreCode(storePo.getStoreCode().trim().toUpperCase());
         storePo.setElectricCode(storePo.getElectricCode().trim().toUpperCase());
         ApiParamValidate.validate(storePo);
@@ -56,7 +56,7 @@ public class StoreController {
     @ApiOperation(value =  "更新",  notes ="STORE_CODE_EXIST -> 店铺代码已经存在\n"+
                                             "STORE_NAME_EXIST -> 店铺名称已经存在\n"+
                                             "STORE_NAME_EN_EXIST -> 店铺英文名称已经存在")
-    public ResultUtils<Boolean> updById(StorePo storePo) {
+    public ResultUtil<Boolean> updById(StorePo storePo) {
         storePo.setStoreCode(storePo.getStoreCode().trim().toUpperCase());
         storePo.setElectricCode(storePo.getElectricCode().trim().toUpperCase());
         ApiParamValidate.notEmpty("id", storePo.getId());
@@ -68,7 +68,7 @@ public class StoreController {
 
     @PostMapping(value = "/updConfig")
     @ApiOperation(value =  "保存API参数")
-    public ResultUtils<Boolean> updConfig(StoreApiPo storeApiPo) {
+    public ResultUtil<Boolean> updConfig(StoreApiPo storeApiPo) {
         ApiParamValidate.notEmpty("id", storeApiPo.getId());
         ApiParamValidate.validate(storeApiPo);
 
@@ -79,7 +79,7 @@ public class StoreController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return storeService.delById(id);
     }
@@ -88,7 +88,7 @@ public class StoreController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<StoreInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<StoreInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return storeService.selectById(id);
     }
@@ -97,7 +97,7 @@ public class StoreController {
     @PostMapping(value = "/get-apiconfig")
     @ApiOperation(value =  "获取API参数值" , notes = "获取API参数")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<StoreApiPo> getApiConfig(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<StoreApiPo> getApiConfig(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
 
         return storeService.getApiConfig(id, securityUser.getOuterOrgId());
@@ -106,7 +106,7 @@ public class StoreController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<StoreListVo>> getList(PageDto pageDto, @Validated StoreKeyDto keyDto) {
+    public ResultUtil<Page<StoreListVo>> getList(PageDto pageDto, @Validated StoreKeyDto keyDto) {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         keyDto.setCustomerId(securityUser.getOuterOrgId());

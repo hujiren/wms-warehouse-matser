@@ -1,8 +1,9 @@
 package com.apl.wms.warehouse.utils;
 
-import com.apl.lib.datasource.DataSourceContextHolder;
+
+import com.apl.lib.config.MyBatisPlusConfig;
 import com.apl.lib.join.JoinBase;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.apl.wms.warehouse.service.CacheService;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,7 +25,7 @@ public class JoinLocalCommodityCategory extends JoinBase<CommodityCategoryCacheV
         this.tabName = "commodityCategory";
         this.joinStyle = joinStyle;
 
-        this.innerOrgId = DataSourceContextHolder.getInnerOrgId();
+        this.innerOrgId = MyBatisPlusConfig.tenantIdContextHolder.get();
         this.cacheKeyNamePrefix = "JOIN_CACHE:"+this.tabName+"_"+this.innerOrgId.toString()+"_";
     }
 
@@ -32,7 +33,7 @@ public class JoinLocalCommodityCategory extends JoinBase<CommodityCategoryCacheV
     @Override
     public Boolean addCache(String keys, Long minKey, Long maxKey){
 
-        ResultUtils<Boolean> result = cacheService.addCommodityCategoryCache(keys, minKey, maxKey);
+        ResultUtil<Boolean> result = cacheService.addCommodityCategoryCache(keys, minKey, maxKey);
         if(result.getData())
            return true;
 

@@ -7,11 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication(scanBasePackages = {"com.apl.wms.warehouse", "com.apl.lib", "com.apl.lib.handler"}, exclude = {DataSourceAutoConfiguration.class})
-//@SpringBootApplication(scanBasePackages = {"com.apl.wms.warehouse", "com.apl.lib", "com.apl.lib.handler"})
+@SpringBootApplication(scanBasePackages = {"com.apl.wms.warehouse", "com.apl.datasource", "com.apl.lib", "com.apl.lib.handler"}, exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients(basePackages = {"com.apl.wms.warehouse.lib.feign","com.apl.sys.lib.feign"})
 @MapperScan("com.apl.wms.warehouse.mapper")
 @EnableDiscoveryClient
@@ -20,8 +18,7 @@ public class WmsWarehouseBusinessApplication {
 
     public static void main(String[] args) {
 
-        //com.apl.lib.datasource.DataSourceConfig
-        //com.apl.lib.datasource.DynamicDataSource
+        //com.apl.datasource.DataSourceConfig
 
         SpringApplication.run(WmsWarehouseBusinessApplication.class , args);
     }

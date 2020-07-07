@@ -5,7 +5,7 @@ import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.sys.lib.constants.AplConstants;
 import com.apl.wms.warehouse.mapper.CommodityBrandMapper;
@@ -57,7 +57,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
     RedisTemplate redisTemplate;
 
     @Override
-    public ResultUtils<Integer> add(String brandName , String brandNameEn){
+    public ResultUtil<Integer> add(String brandName , String brandNameEn){
 
         //检查添加是否重复
         checkBrand(null , brandName , brandNameEn);
@@ -72,15 +72,15 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
 
         Integer flag = baseMapper.insert(commodityBrand);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityBrand.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityBrand.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(Long brandId , String brandName , String brandNameEn){
+    public ResultUtil<Boolean> updById(Long brandId , String brandName , String brandNameEn){
 
         //判断 名称是否重复
         checkBrand(brandId , brandName , brandNameEn);
@@ -92,39 +92,39 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
 
         Integer flag = baseMapper.updateById(commodityBrand);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(String brandIdList){
+    public ResultUtil<Boolean> delById(String brandIdList){
 
 
         List<Long> brandIds = StringUtil.stringToLongList(brandIdList);
 
         Integer result = baseMapper.deleteBatchIds(brandIds);
         if(!result.equals(0)){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<CommodityBrandInfoVo> selectById(Long id){
+    public ResultUtil<CommodityBrandInfoVo> selectById(Long id){
 
         CommodityBrandInfoVo commodityBrandInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityBrandInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityBrandInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<CommodityBrandListVo>> getList(PageDto pageDto, CommodityBrandKeyDto keyDto){
+    public ResultUtil<Page<CommodityBrandListVo>> getList(PageDto pageDto, CommodityBrandKeyDto keyDto){
 
         Page<CommodityBrandListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -133,7 +133,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
         List<CommodityBrandListVo> list = baseMapper.getList(page , keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service;
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
@@ -28,42 +28,42 @@ public interface StocksService extends IService<StocksPo> {
          * @Author: CY
          * @Date: 2020/6/19 9:38
          */
-        ResultUtils<List<CheckOrderStockDetailsVo>> getCommodityStockMsg(Long whId , String commodityIds) throws Exception;
+        ResultUtil<List<CheckOrderStockDetailsVo>> getCommodityStockMsg(Long whId , String commodityIds) throws Exception;
 
         /**
          * @Desc: 添加一个StocksPo实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> add(StocksPo stocks);
+        ResultUtil<Boolean> add(StocksPo stocks);
 
         /**
          * @Desc: 根据id 查找一个StocksPo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> deleteById(Long id);
+        ResultUtil<Boolean> deleteById(Long id);
 
         /**
          * @Desc: 根据id 更新一个StocksPo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> updById(StocksPo stocks);
+        ResultUtil<Boolean> updById(StocksPo stocks);
 
         /**
          * @Desc: 根据id 查找一个 StocksPo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<StocksPo> selectById(Long id);
+        ResultUtil<StocksPo> selectById(Long id);
 
         /**
          * @Desc: 获取库存列表 ， 准备进行中转，运输到其他仓库
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Page<StocksListVo>>listStocks(Long whId , Long customerId , Integer isCorrespondence , String keyword , PageDto pageDto);
+        ResultUtil<Page<StocksListVo>>listStocks(Long whId , Long customerId , Integer isCorrespondence , String keyword , PageDto pageDto);
 
         /**
          * @Desc: 更新库存

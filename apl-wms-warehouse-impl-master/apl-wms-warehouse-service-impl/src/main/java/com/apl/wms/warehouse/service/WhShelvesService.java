@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.WhShelvesPo;
 import com.apl.wms.warehouse.vo.WhShelvesListVo;
@@ -23,7 +23,7 @@ public interface WhShelvesService extends IService<WhShelvesPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Integer> add(WhShelvesPo whShelves);
+        ResultUtil<Integer> add(WhShelvesPo whShelves);
 
 
         /**
@@ -31,7 +31,7 @@ public interface WhShelvesService extends IService<WhShelvesPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Boolean> updById(WhShelvesPo whShelves);
+        ResultUtil<Boolean> updById(WhShelvesPo whShelves);
 
 
         /**
@@ -39,7 +39,7 @@ public interface WhShelvesService extends IService<WhShelvesPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface WhShelvesService extends IService<WhShelvesPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<WhShelvesInfoVo> selectById(Long id);
+        ResultUtil<WhShelvesInfoVo> selectById(Long id);
 
 
         /**
@@ -55,6 +55,6 @@ public interface WhShelvesService extends IService<WhShelvesPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Page<WhShelvesListVo>>getList(PageDto pageDto, WhShelvesKeyDto keyDto);
+        ResultUtil<Page<WhShelvesListVo>>getList(PageDto pageDto, WhShelvesKeyDto keyDto);
 
 }

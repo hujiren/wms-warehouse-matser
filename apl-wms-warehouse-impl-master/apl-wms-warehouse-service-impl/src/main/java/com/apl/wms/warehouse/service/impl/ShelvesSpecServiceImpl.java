@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.exception.AplException;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.mapper.ShelvesSpecMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,56 +50,56 @@ public class ShelvesSpecServiceImpl extends ServiceImpl<ShelvesSpecMapper, Shelv
 
 
     @Override
-    public ResultUtils<Integer> add(ShelvesSpecPo shelvesSpec) {
+    public ResultUtil<Integer> add(ShelvesSpecPo shelvesSpec) {
 
         this.exists(0L, shelvesSpec.getSpecNo());
         System.out.println(shelvesSpec);
         Integer flag = baseMapper.insert(shelvesSpec);
         if (flag.equals(1)) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, shelvesSpec.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, shelvesSpec.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(ShelvesSpecPo shelvesSpec) {
+    public ResultUtil<Boolean> updById(ShelvesSpecPo shelvesSpec) {
 
         this.exists(shelvesSpec.getId(), shelvesSpec.getSpecNo());
 
         Integer flag = baseMapper.updateById(shelvesSpec);
         if (flag.equals(1)) {
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL, false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id) {
+    public ResultUtil<Boolean> delById(Long id) {
 
         boolean flag = removeById(id);
         if (flag) {
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS, true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS, true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL, false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL, false);
     }
 
 
     @Override
-    public ResultUtils<ShelvesSpecInfoVo> selectById(Long id) {
+    public ResultUtil<ShelvesSpecInfoVo> selectById(Long id) {
 
         ShelvesSpecInfoVo shelvesSpecInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, shelvesSpecInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, shelvesSpecInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<ShelvesSpecListVo>> getList(PageDto pageDto, ShelvesSpecKeyDto keyDto) {
+    public ResultUtil<Page<ShelvesSpecListVo>> getList(PageDto pageDto, ShelvesSpecKeyDto keyDto) {
 
         Page<ShelvesSpecListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -108,7 +108,7 @@ public class ShelvesSpecServiceImpl extends ServiceImpl<ShelvesSpecMapper, Shelv
         List<ShelvesSpecListVo> list = baseMapper.getList(page, keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 

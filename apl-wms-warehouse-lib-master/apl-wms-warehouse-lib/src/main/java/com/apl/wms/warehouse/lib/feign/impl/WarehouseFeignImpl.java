@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.lib.feign.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
@@ -20,73 +20,73 @@ import java.util.Map;
 public class WarehouseFeignImpl implements WarehouseFeign {
 
     @Override
-    public ResultUtils<Boolean> addWarehouseCache(@RequestParam("keys") String keys,
+    public ResultUtil<Boolean> addWarehouseCache(@RequestParam("keys") String keys,
                                                   @RequestParam("minKey") Long minKey,
                                                   @RequestParam("maxKey") Long maxKey) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> addCommodityCacheById( String keys,  Long minKey,  Long maxKey) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> addCommodityCacheById( String keys,  Long minKey,  Long maxKey) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<Boolean> addCommodityCacheBySku(String skus, Long customerId) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> addCommodityCacheBySku(String skus, Long customerId) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
     @Override
-    public ResultUtils<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
     @Override
-    public ResultUtils<Boolean> addStoreCache(String keys, Long minKey, Long maxKey) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> addStoreCache(String keys, Long minKey, Long maxKey) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
     @Override
-    public ResultUtils<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
-    }
-
-    @Override
-    public ResultUtils<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , Long whId , String storageLocal){
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<StorageLocalInfoVo> manualAllotLocal(Long commodityId , String storageLocalSn){
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(Long commodityId , Integer count , Long whId , String storageLocal){
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<Boolean> changeStorageLocalStatus(String lockIds , String unLockIds){
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<StorageLocalInfoVo> manualAllotLocal(Long commodityId , String storageLocalSn){
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<String> getStoreApiConfigStrVal(@RequestParam("id") Long id ){
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> changeStorageLocalStatus(String lockIds , String unLockIds){
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<Boolean> checkStockCount(PlatformOutOrderStockBo platformOutOrderStockBo) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<String> getStoreApiConfigStrVal(@RequestParam("id") Long id ){
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(List<PullBatchOrderItemBo> pullBatchOrderItems) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Boolean> checkStockCount(PlatformOutOrderStockBo platformOutOrderStockBo) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
     @Override
-    public ResultUtils getCommodityStockMsg(Long whId , String commodityIds) {
-        return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    public ResultUtil<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(List<PullBatchOrderItemBo> pullBatchOrderItems) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    }
+
+    @Override
+    public ResultUtil getCommodityStockMsg(Long whId , String commodityIds) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
 

@@ -18,7 +18,7 @@ import com.apl.wms.warehouse.vo.CommodityNameLibListVo;
 import com.apl.wms.warehouse.vo.CommodityNameLibInfoVo;
 import com.apl.wms.warehouse.dto.CommodityNameLibKeyDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -42,7 +42,7 @@ public class CommodityNameLibController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加", notes ="")
-    public ResultUtils<Integer> add(CommodityNameLibPo commodityNameLibPo) {
+    public ResultUtil<Integer> add(CommodityNameLibPo commodityNameLibPo) {
         ApiParamValidate.validate(commodityNameLibPo);
 
         return commodityNameLibService.add(commodityNameLibPo);
@@ -51,7 +51,7 @@ public class CommodityNameLibController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新",  notes ="")
-    public ResultUtils<Boolean> updById(CommodityNameLibPo commodityNameLibPo) {
+    public ResultUtil<Boolean> updById(CommodityNameLibPo commodityNameLibPo) {
         ApiParamValidate.notEmpty("id", commodityNameLibPo.getId());
         ApiParamValidate.validate(commodityNameLibPo);
 
@@ -64,7 +64,7 @@ public class CommodityNameLibController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id" , value = "id，用逗号隔开多个" , paramType = "query")
     })
-    public ResultUtils<Boolean> delById(@NotEmpty(message = "id不能为空") String id) {
+    public ResultUtil<Boolean> delById(@NotEmpty(message = "id不能为空") String id) {
 
         return commodityNameLibService.delById(id);
     }
@@ -73,7 +73,7 @@ public class CommodityNameLibController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<CommodityNameLibInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Integer id) {
+    public ResultUtil<CommodityNameLibInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Integer id) {
 
         return commodityNameLibService.selectById(id);
     }
@@ -81,7 +81,7 @@ public class CommodityNameLibController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<CommodityNameLibListVo>> getList(PageDto pageDto, @Validated CommodityNameLibKeyDto keyDto)  throws Exception{
+    public ResultUtil<Page<CommodityNameLibListVo>> getList(PageDto pageDto, @Validated CommodityNameLibKeyDto keyDto)  throws Exception{
 
         return commodityNameLibService.getList(pageDto , keyDto);
     }
@@ -92,7 +92,7 @@ public class CommodityNameLibController {
             @ApiImplicitParam(name = "id" , value = "id，用逗号隔开多个" , paramType = "query"),
             @ApiImplicitParam(name = "categoryId" , value = "品类id", paramType = "query")
     })
-    public ResultUtils<Boolean> updCategory(String id, Integer categoryId) {
+    public ResultUtil<Boolean> updCategory(String id, Integer categoryId) {
         ApiParamValidate.notEmpty("id", id);
         ApiParamValidate.notEmpty("categoryId", categoryId);
 

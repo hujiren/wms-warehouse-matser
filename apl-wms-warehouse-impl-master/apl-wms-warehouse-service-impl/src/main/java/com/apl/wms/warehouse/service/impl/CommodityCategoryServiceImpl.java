@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.mapper.CommodityCategoryMapper;
 import com.apl.wms.warehouse.vo.CommodityCategoryInfoVo;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +57,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
     RedisTemplate redisTemplate;
 
     @Override
-    public ResultUtils<Integer> add(Long parentId , String categoryName , String categoryEnName){
+    public ResultUtil<Integer> add(Long parentId , String categoryName , String categoryEnName){
 
         Integer numberOfPlies = 0;
 
@@ -70,13 +70,13 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
             //如果上级 分类不存在，则不可以进行添加
             if(findCommodity == null){
 
-                return ResultUtils.APPRESULT(CommodityCategoryServiceCode.PARENT_CATEGORY_IS_NOT_EXIST.code , CommodityCategoryServiceCode.PARENT_CATEGORY_IS_NOT_EXIST.msg , null);
+                return ResultUtil.APPRESULT(CommodityCategoryServiceCode.PARENT_CATEGORY_IS_NOT_EXIST.code , CommodityCategoryServiceCode.PARENT_CATEGORY_IS_NOT_EXIST.msg , null);
             }
 
             //如果层级数超过了5层，则不能进行添加
             if(findCommodity.getNumberOfPlies() == 5){
                 log.info("添加的分类 层级超出了限制");
-                return ResultUtils.APPRESULT(CommodityCategoryServiceCode.CATEGORY_IS_OVER_LIMIT.code , CommodityCategoryServiceCode.CATEGORY_IS_OVER_LIMIT.msg , null);
+                return ResultUtil.APPRESULT(CommodityCategoryServiceCode.CATEGORY_IS_OVER_LIMIT.code , CommodityCategoryServiceCode.CATEGORY_IS_OVER_LIMIT.msg , null);
 
             }
             numberOfPlies = findCommodity.getNumberOfPlies();
@@ -90,15 +90,15 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
 
         Integer flag = baseMapper.insert(commodityCategory);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityCategory.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodityCategory.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(Long categoryId , String categoryName , String categoryEnName){
+    public ResultUtil<Boolean> updById(Long categoryId , String categoryName , String categoryEnName){
 
         //判断是否重复添加
         checkCategory(categoryId , categoryName , categoryEnName);
@@ -110,41 +110,41 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
 
         Integer flag = baseMapper.updateById(commodityCategory);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
         
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         List<CommodityCategoryInfoVo> lists = baseMapper.getChildCategory(id);
 
         if(!CollectionUtils.isEmpty(lists)){
-            return ResultUtils.APPRESULT(CommodityCategoryServiceCode.EXIST_CHILD_CATEGORY.code , CommodityCategoryServiceCode.EXIST_CHILD_CATEGORY.msg , null);
+            return ResultUtil.APPRESULT(CommodityCategoryServiceCode.EXIST_CHILD_CATEGORY.code , CommodityCategoryServiceCode.EXIST_CHILD_CATEGORY.msg , null);
         }
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<CommodityCategoryInfoVo> selectById(Long id){
+    public ResultUtil<CommodityCategoryInfoVo> selectById(Long id){
 
         CommodityCategoryInfoVo commodityCategoryInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityCategoryInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityCategoryInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<CommodityCategoryListVo>> getList(PageDto pageDto, CommodityCategoryKeyDto keyDto){
+    public ResultUtil<Page<CommodityCategoryListVo>> getList(PageDto pageDto, CommodityCategoryKeyDto keyDto){
 
         Page<CommodityCategoryListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -153,7 +153,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
         List<CommodityCategoryListVo> list = baseMapper.getList(page , keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
     @Override

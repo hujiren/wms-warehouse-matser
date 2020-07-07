@@ -7,7 +7,7 @@ import com.apl.lib.join.JoinFieldInfo;
 import com.apl.lib.join.JoinUtils;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
@@ -98,7 +98,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
 
     @Override
-    public ResultUtils<Long> add(CommodityPo commodity){
+    public ResultUtil<Long> add(CommodityPo commodity){
 
         commodity.setReviewStatus(2);// 审核状态 1已审核  2未审核
         //判断商品是否已经添加
@@ -107,7 +107,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         CommodityCategoryPo categoryPo = commodityCategoryService.getById(commodity.getCategory1Id());
         //判断商品分类是否存在
         if(categoryPo == null){
-            return ResultUtils.APPRESULT(CommodityServiceCode.COMMODITY_CATEGORY_NOT_EXIST.code , CommodityServiceCode.COMMODITY_CATEGORY_NOT_EXIST.msg , null);
+            return ResultUtil.APPRESULT(CommodityServiceCode.COMMODITY_CATEGORY_NOT_EXIST.code , CommodityServiceCode.COMMODITY_CATEGORY_NOT_EXIST.msg , null);
         }
 
         //查找分类的父id
@@ -116,26 +116,26 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         setCategoryId(commodity , pId);
 
 
-        ResultUtils<Integer> result = outerFeign.existOuterOrg(commodity.getCustomerId());
+        ResultUtil<Integer> result = outerFeign.existOuterOrg(commodity.getCustomerId());
 
         if(result.code.equals(CommonStatusCode.SERVER_INVOKE_FAIL.code)){
             //服务调用失败
-            return ResultUtils.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL);
+            return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL);
         }
 
         if(result.getData() == null){
             //外部组织  客户 不存在
-            return ResultUtils.APPRESULT(CommodityServiceCode.CUSTOMER_IS_NOT_EXIST.code ,CommodityServiceCode.CUSTOMER_IS_NOT_EXIST.msg , null);
+            return ResultUtil.APPRESULT(CommodityServiceCode.CUSTOMER_IS_NOT_EXIST.code ,CommodityServiceCode.CUSTOMER_IS_NOT_EXIST.msg , null);
         }
 
         commodity.setUnitCode(commodity.getUnitCode().toUpperCase());
 
         Integer flag = baseMapper.insert(commodity);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodity.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , commodity.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
     /**
@@ -171,45 +171,45 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
 
     @Override
-    public ResultUtils<Boolean> updById(CommodityPo commodity){
+    public ResultUtil<Boolean> updById(CommodityPo commodity){
         if(baseMapper.existsOwm(commodity.getId(), commodity.getCustomerId()) == null){
             //检测此客户是否拥有此商品
-            return ResultUtils.APPRESULT(CommodityServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
+            return ResultUtil.APPRESULT(CommodityServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
         }
 
         this.exists(commodity.getId() , commodity.getSku(),  commodity.getCommodityName(),  commodity.getCommodityNameEn() );
 
         Integer flag = baseMapper.updateById(commodity);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Transactional
     @Override
-    public ResultUtils<Boolean> delById(Long id, Long customerId){
+    public ResultUtil<Boolean> delById(Long id, Long customerId){
 
         if(baseMapper.existsOwm(id, customerId) == null){
             //检测此客户是否拥有此商品
-            return ResultUtils.APPRESULT(CommodityServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
+            return ResultUtil.APPRESULT(CommodityServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
         }
         //删除图片
         commodityPicMapper.delByCommodityId(id);
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<CommodityInfoVo> selectById(Long id, Long customerId){
+    public ResultUtil<CommodityInfoVo> selectById(Long id, Long customerId){
 
         //将商品赋值给 info
         CommodityInfoVo commodityInfoVo = baseMapper.getById(id, customerId);
@@ -220,14 +220,14 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
                 commodityInfoVo.setCustomerName(customerCacheBo.getCustomerName());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, commodityInfoVo);
     }
 
 
     static JoinFieldInfo joinCommodityFieldInfo = null; //缓存联客户表反射字段
     static JoinFieldInfo joinCommodityCategoryFieldInfo = null; //缓存商品种类反射字段
     @Override
-    public ResultUtils<Page<CommodityListVo>> getList(PageDto pageDto, CommodityKeyDto keyDto)  throws Exception{
+    public ResultUtil<Page<CommodityListVo>> getList(PageDto pageDto, CommodityKeyDto keyDto)  throws Exception{
 
         Page<CommodityListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -264,7 +264,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 

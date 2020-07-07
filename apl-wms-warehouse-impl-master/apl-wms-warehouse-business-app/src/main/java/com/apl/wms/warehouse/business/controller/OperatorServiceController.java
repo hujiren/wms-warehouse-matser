@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.OperatorServiceKeyDto;
 import com.apl.wms.warehouse.po.OperatorServicePo;
@@ -41,7 +41,7 @@ public class OperatorServiceController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加", notes ="")
-    public ResultUtils<Integer> add(OperatorServicePo operatorServicePo) {
+    public ResultUtil<Integer> add(OperatorServicePo operatorServicePo) {
         ApiParamValidate.validate(operatorServicePo);
 
         return operatorServiceService.add(operatorServicePo);
@@ -50,7 +50,7 @@ public class OperatorServiceController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新",  notes ="")
-    public ResultUtils<Boolean> updById(OperatorServicePo operatorServicePo) {
+    public ResultUtil<Boolean> updById(OperatorServicePo operatorServicePo) {
         ApiParamValidate.notEmpty("id", operatorServicePo.getId());
         ApiParamValidate.validate(operatorServicePo);
 
@@ -61,7 +61,7 @@ public class OperatorServiceController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return operatorServiceService.delById(id);
     }
@@ -70,7 +70,7 @@ public class OperatorServiceController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<OperatorServiceInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<OperatorServiceInfoVo> selectById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于1") Long id) {
 
         return operatorServiceService.selectById(id);
     }
@@ -78,7 +78,7 @@ public class OperatorServiceController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<OperatorServiceListVo>> getList(PageDto pageDto, @Validated OperatorServiceKeyDto keyDto) {
+    public ResultUtil<Page<OperatorServiceListVo>> getList(PageDto pageDto, @Validated OperatorServiceKeyDto keyDto) {
 
         return operatorServiceService.getList(pageDto , keyDto);
     }

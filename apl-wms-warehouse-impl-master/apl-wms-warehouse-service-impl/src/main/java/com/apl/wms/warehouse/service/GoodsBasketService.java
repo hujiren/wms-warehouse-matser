@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.GoodsBasketPo;
 import com.apl.wms.warehouse.vo.GoodsBasketListVo;
@@ -23,7 +23,7 @@ public interface GoodsBasketService extends IService<GoodsBasketPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Integer> add(GoodsBasketPo goodsBasket);
+        ResultUtil<Integer> add(GoodsBasketPo goodsBasket);
 
 
         /**
@@ -31,7 +31,7 @@ public interface GoodsBasketService extends IService<GoodsBasketPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Boolean> updById(GoodsBasketPo goodsBasket);
+        ResultUtil<Boolean> updById(GoodsBasketPo goodsBasket);
 
 
         /**
@@ -39,7 +39,7 @@ public interface GoodsBasketService extends IService<GoodsBasketPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface GoodsBasketService extends IService<GoodsBasketPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<GoodsBasketInfoVo> selectById(Long id);
+        ResultUtil<GoodsBasketInfoVo> selectById(Long id);
 
 
         /**
@@ -55,6 +55,6 @@ public interface GoodsBasketService extends IService<GoodsBasketPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtils<Page<GoodsBasketListVo>>getList(PageDto pageDto, GoodsBasketKeyDto keyDto);
+        ResultUtil<Page<GoodsBasketListVo>>getList(PageDto pageDto, GoodsBasketKeyDto keyDto);
 
 }

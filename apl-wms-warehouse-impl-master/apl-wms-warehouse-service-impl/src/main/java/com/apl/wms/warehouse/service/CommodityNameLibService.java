@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.CommodityNameLibPo;
 import com.apl.wms.warehouse.vo.CommodityNameLibListVo;
@@ -23,7 +23,7 @@ public interface CommodityNameLibService extends IService<CommodityNameLibPo> {
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtils<Integer> add(CommodityNameLibPo commodityNameLib);
+        ResultUtil<Integer> add(CommodityNameLibPo commodityNameLib);
 
 
         /**
@@ -31,7 +31,7 @@ public interface CommodityNameLibService extends IService<CommodityNameLibPo> {
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtils<Boolean> updById(CommodityNameLibPo commodityNameLib);
+        ResultUtil<Boolean> updById(CommodityNameLibPo commodityNameLib);
 
 
         /**
@@ -39,7 +39,7 @@ public interface CommodityNameLibService extends IService<CommodityNameLibPo> {
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtils<Boolean> delById(String id);
+        ResultUtil<Boolean> delById(String id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface CommodityNameLibService extends IService<CommodityNameLibPo> {
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtils<CommodityNameLibInfoVo> selectById(Integer id);
+        ResultUtil<CommodityNameLibInfoVo> selectById(Integer id);
 
 
         /**
@@ -55,13 +55,13 @@ public interface CommodityNameLibService extends IService<CommodityNameLibPo> {
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtils<Page<CommodityNameLibListVo>>getList(PageDto pageDto, CommodityNameLibKeyDto keyDto)  throws Exception;
+        ResultUtil<Page<CommodityNameLibListVo>>getList(PageDto pageDto, CommodityNameLibKeyDto keyDto)  throws Exception;
 
         /**
          * @Desc: 根据id 更新一个CommodityNameLibPo 实体
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtils<Boolean> updCategory(String id, Integer categoryId);
+        ResultUtil<Boolean> updCategory(String id, Integer categoryId);
 
 }

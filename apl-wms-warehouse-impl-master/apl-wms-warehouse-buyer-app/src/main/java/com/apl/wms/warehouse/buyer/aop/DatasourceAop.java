@@ -1,9 +1,8 @@
 package com.apl.wms.warehouse.buyer.aop;
 
+import com.apl.datasource.DataSourceContextHolder;
+import com.apl.lib.config.MyBatisPlusConfig;
 import com.apl.lib.constants.CommonAplConstants;
-import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.datasource.DataSourceContextHolder;
-import com.apl.lib.exception.AplException;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
@@ -36,11 +35,16 @@ public class DatasourceAop {
         Object proceed = null;
         try {
             String token = CommonContextHolder.getHeader(CommonAplConstants.TOKEN_FLAG);
-            SecurityUser securityUser = CommonContextHolder.getSecurityUser(redisTemplate, token);
 
+            // 安全用户上下文
+            SecurityUser securityUser = CommonContextHolder.getSecurityUser(redisTemplate, token);
             CommonContextHolder.securityUserContextHolder.set(securityUser);
 
+            // 多数据源切换信息
             DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
+
+            // 多租户ID值
+            MyBatisPlusConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
 
             Object[] args = pjp.getArgs();
             proceed = pjp.proceed(args);

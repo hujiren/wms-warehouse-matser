@@ -1,9 +1,9 @@
 package com.apl.wms.warehouse.lib.cache;
 
+import com.apl.lib.config.MyBatisPlusConfig;
 import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.datasource.DataSourceContextHolder;
 import com.apl.lib.join.JoinBase;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,7 +29,7 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
         this.tabName = "commodity";
         this.joinStyle = joinStyle;
 
-        this.innerOrgId = DataSourceContextHolder.getInnerOrgId();
+        this.innerOrgId = MyBatisPlusConfig.tenantIdContextHolder.get();
         this.cacheKeyNamePrefix = "JOIN_CACHE:"+this.tabName+"_"+this.innerOrgId.toString()+"_";
     }
 
@@ -37,7 +37,7 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
     @Override
     public Boolean addCache(String keys, Long minKey, Long maxKey){
 
-        ResultUtils<Boolean> result = null;
+        ResultUtil<Boolean> result = null;
 
         if(keyType==1)
             result = warehouseFeign.addCommodityCacheById(keys, minKey, maxKey);

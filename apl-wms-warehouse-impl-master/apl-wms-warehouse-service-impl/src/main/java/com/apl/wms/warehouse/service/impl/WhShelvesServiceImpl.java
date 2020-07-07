@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;
@@ -49,56 +49,56 @@ public class WhShelvesServiceImpl extends ServiceImpl<WhShelvesMapper, WhShelves
 
 
     @Override
-    public ResultUtils<Integer> add(WhShelvesPo whShelves){
+    public ResultUtil<Integer> add(WhShelvesPo whShelves){
 
         this.exists(0L, whShelves.getShelvesNo() );
 
         Integer flag = baseMapper.insert(whShelves);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , whShelves.getId());
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , whShelves.getId());
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(WhShelvesPo whShelves){
+    public ResultUtil<Boolean> updById(WhShelvesPo whShelves){
 
         this.exists(whShelves.getId(), whShelves.getShelvesNo() );
 
         Integer flag = baseMapper.updateById(whShelves);
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<WhShelvesInfoVo> selectById(Long id){
+    public ResultUtil<WhShelvesInfoVo> selectById(Long id){
 
         WhShelvesInfoVo whShelvesInfoVo = baseMapper.getById(id);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, whShelvesInfoVo);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, whShelvesInfoVo);
     }
 
 
     @Override
-    public ResultUtils<Page<WhShelvesListVo>> getList(PageDto pageDto, WhShelvesKeyDto keyDto){
+    public ResultUtil<Page<WhShelvesListVo>> getList(PageDto pageDto, WhShelvesKeyDto keyDto){
 
         Page<WhShelvesListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
@@ -107,7 +107,7 @@ public class WhShelvesServiceImpl extends ServiceImpl<WhShelvesMapper, WhShelves
         List<WhShelvesListVo> list = baseMapper.getList(page , keyDto);
         page.setRecords(list);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, page);
     }
 
 

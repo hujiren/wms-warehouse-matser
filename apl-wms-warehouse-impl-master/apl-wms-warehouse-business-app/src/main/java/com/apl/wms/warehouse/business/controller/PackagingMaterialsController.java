@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
 import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
@@ -50,14 +50,14 @@ public class PackagingMaterialsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId",value = " 订单id",required = true  , paramType = "query")
     })
-    public ResultUtils<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
+    public ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
 
         return packagingMaterialsService.getCommodityPackMaterials(orderId);
     }
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Long> add(@Validated PackagingMaterialsPo packagingMaterialsPo) {
+    public ResultUtil<Long> add(@Validated PackagingMaterialsPo packagingMaterialsPo) {
 
         return packagingMaterialsService.add(packagingMaterialsPo);
     }
@@ -65,7 +65,7 @@ public class PackagingMaterialsController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated PackagingMaterialsPo packagingMaterialsPo) {
+    public ResultUtil<Boolean> updById(@Validated PackagingMaterialsPo packagingMaterialsPo) {
 
         ApiParamValidate.notEmpty("id", packagingMaterialsPo.getId());
 
@@ -76,7 +76,7 @@ public class PackagingMaterialsController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return packagingMaterialsService.delById(id);
     }
@@ -85,7 +85,7 @@ public class PackagingMaterialsController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return packagingMaterialsService.selectById(id);
     }
@@ -93,7 +93,7 @@ public class PackagingMaterialsController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<PackagingMaterialsListVo>> getList(PageDto pageDto, @Validated PackagingMaterialsKeyDto keyDto) throws Exception {
+    public ResultUtil<Page<PackagingMaterialsListVo>> getList(PageDto pageDto, @Validated PackagingMaterialsKeyDto keyDto) throws Exception {
 
         return packagingMaterialsService.getList(pageDto , keyDto);
     }

@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.CommodityCategoryPo;
 import com.apl.wms.warehouse.vo.CommodityCategoryInfoVo;
@@ -25,7 +25,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtils<Integer> add(Long parentId , String categoryName , String categoryEnName);
+        ResultUtil<Integer> add(Long parentId , String categoryName , String categoryEnName);
 
 
         /**
@@ -33,7 +33,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtils<Boolean> updById(Long id , String categoryName , String categoryEnName);
+        ResultUtil<Boolean> updById(Long id , String categoryName , String categoryEnName);
 
 
         /**
@@ -41,7 +41,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -49,7 +49,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtils<CommodityCategoryInfoVo> selectById(Long id);
+        ResultUtil<CommodityCategoryInfoVo> selectById(Long id);
 
 
         /**
@@ -57,7 +57,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtils<Page<CommodityCategoryListVo>>getList(PageDto pageDto, CommodityCategoryKeyDto keyDto);
+        ResultUtil<Page<CommodityCategoryListVo>>getList(PageDto pageDto, CommodityCategoryKeyDto keyDto);
 
 
         /**

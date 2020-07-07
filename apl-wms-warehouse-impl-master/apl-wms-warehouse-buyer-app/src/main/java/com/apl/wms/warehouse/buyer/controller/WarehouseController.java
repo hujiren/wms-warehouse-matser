@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.buyer.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.WarehouseKeyDto;
 import com.apl.wms.warehouse.po.WhDetailsPo;
 import com.apl.wms.warehouse.service.WarehouseService;
@@ -44,7 +44,7 @@ public class WarehouseController {
     @PostMapping(value = "/get")
     @ApiOperation(value = "获取基本信息", notes = "获取基本信息")
     @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "query")
-    public ResultUtils<WarehouseInfoVo> getById(@Min(value = 1, message = "id不能小于 1") Long id) {
+    public ResultUtil<WarehouseInfoVo> getById(@Min(value = 1, message = "id不能小于 1") Long id) {
 
         return warehouseService.selectById(id);
     }
@@ -53,7 +53,7 @@ public class WarehouseController {
     @PostMapping(value = "/get-details")
     @ApiOperation(value = "获取详细", notes = "获取详细")
     @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "long")
-    public ResultUtils<WhDetailsPo> getByWhId(@Min(value = 1, message = "id不能小于 1") Long id) {
+    public ResultUtil<WhDetailsPo> getByWhId(@Min(value = 1, message = "id不能小于 1") Long id) {
 
         return whDetailsService.selectById(id);
     }
@@ -61,7 +61,7 @@ public class WarehouseController {
 
     @PostMapping("/get-list")
     @ApiOperation(value = "分页查找", notes = "分页查找")
-    public ResultUtils<Page<WarehouseListVo>> getList(PageDto pageDto, @Validated WarehouseKeyDto keyDto) {
+    public ResultUtil<Page<WarehouseListVo>> getList(PageDto pageDto, @Validated WarehouseKeyDto keyDto) {
 
         return warehouseService.getList(pageDto, keyDto);
     }

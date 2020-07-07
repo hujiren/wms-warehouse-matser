@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.business.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.CommodityBrandKeyDto;
 import com.apl.wms.warehouse.service.CommodityBrandService;
 import com.apl.wms.warehouse.vo.CommodityBrandInfoVo;
@@ -45,7 +45,7 @@ public class CommodityBrandController {
             @ApiImplicitParam(name = "brandName" , value = "品牌名称" ,paramType = "query"),
             @ApiImplicitParam(name = "brandNameEn" , value = "品牌英文名称",paramType = "query")
     })
-    public ResultUtils<Integer> add(@NotEmpty(message = "brandName 不能为空")String brandName ,
+    public ResultUtil<Integer> add(@NotEmpty(message = "brandName 不能为空")String brandName ,
                                     @NotEmpty(message = "brandNameEn 不能为空") String brandNameEn) {
 
         return commodityBrandService.add(brandName ,brandNameEn);
@@ -59,7 +59,7 @@ public class CommodityBrandController {
             @ApiImplicitParam(name = "brandName" , value = "品牌名称",paramType = "query"),
             @ApiImplicitParam(name = "brandNameEn" , value = "品牌英文名称",paramType = "query")
     })
-    public ResultUtils<Boolean> updById(@NotNull(message = "brandId 不能为空") Long brandId ,
+    public ResultUtil<Boolean> updById(@NotNull(message = "brandId 不能为空") Long brandId ,
                                         @NotEmpty(message = "brandName 不能为空")String brandName ,
                                         @NotEmpty(message = "brandNameEn 不能为空") String brandNameEn) {
 
@@ -70,7 +70,7 @@ public class CommodityBrandController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除  如果品牌有多个，用逗号隔开")
     @ApiImplicitParam(name = "brandIdList",value = " id 列表",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "brandIdList 不能为空") String brandIdList) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "brandIdList 不能为空") String brandIdList) {
 
         return commodityBrandService.delById(brandIdList);
     }
@@ -79,7 +79,7 @@ public class CommodityBrandController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtils<CommodityBrandInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<CommodityBrandInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return commodityBrandService.selectById(id);
     }
@@ -87,7 +87,7 @@ public class CommodityBrandController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<CommodityBrandListVo>> getList(PageDto pageDto, @Validated CommodityBrandKeyDto keyDto) {
+    public ResultUtil<Page<CommodityBrandListVo>> getList(PageDto pageDto, @Validated CommodityBrandKeyDto keyDto) {
 
         return commodityBrandService.getList(pageDto , keyDto);
     }

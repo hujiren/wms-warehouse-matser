@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.WarehousePo;
 import com.apl.wms.warehouse.vo.WarehouseInfoVo;
@@ -26,35 +26,35 @@ public interface WarehouseService extends IService<WarehousePo> {
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> add(WarehousePo warehouse);
+        ResultUtil<Boolean> add(WarehousePo warehouse);
 
         /**
          * @Desc: 根据id 查找一个WarehousePo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> deleteById(Long id);
+        ResultUtil<Boolean> deleteById(Long id);
 
         /**
          * @Desc: 根据id 更新一个WarehousePo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Boolean> updById(WarehousePo warehouse);
+        ResultUtil<Boolean> updById(WarehousePo warehouse);
 
         /**
          * @Desc: 根据id 查找一个 WarehousePo 实体
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<WarehouseInfoVo> selectById(Long id);
+        ResultUtil<WarehouseInfoVo> selectById(Long id);
 
         /**
          * @Desc: 分页查找 WarehousePo 列表
          * @author CY
          * @since 2019-12-09
          */
-        ResultUtils<Page<WarehouseListVo>>getList(PageDto pageDto, WarehouseKeyDto keyDto);
+        ResultUtil<Page<WarehouseListVo>>getList(PageDto pageDto, WarehouseKeyDto keyDto);
 
         /**
            * @Description : 
@@ -63,6 +63,6 @@ public interface WarehouseService extends IService<WarehousePo> {
            * @Author : arran
            * @Date : 
         */
-        ResultUtils<List<WarehouseListVo>> getBind();
+        ResultUtil<List<WarehouseListVo>> getBind();
 
 }

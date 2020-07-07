@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.CommodityPicAddDto;
 import com.apl.wms.warehouse.dto.PicItemDto;
 import com.apl.wms.warehouse.mapper.CommodityPicMapper;
@@ -54,14 +54,14 @@ public class CommodityPicServiceImpl extends ServiceImpl<CommodityPicMapper, Com
 
 
     @Override
-    public ResultUtils<Integer> add(CommodityPicAddDto commodityPicAddDto){
+    public ResultUtil<Integer> add(CommodityPicAddDto commodityPicAddDto){
 
         Long communityId = commodityPicAddDto.getCommodityId();
 
-        //ResultUtils<CommodityInfoVo> resultUtils = commodityService.selectById(communityId);
+        //ResultUtil<CommodityInfoVo> ResultUtil = commodityService.selectById(communityId);
         //商品不存在
-        //if(resultUtils.getData() == null){
-        //    return ResultUtils.APPRESULT(CommodityPicServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityPicServiceCode.COMMODITY_IS_NOT_EXIST.msg , null);
+        //if(ResultUtil.getData() == null){
+        //    return ResultUtil.APPRESULT(CommodityPicServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityPicServiceCode.COMMODITY_IS_NOT_EXIST.msg , null);
         //}
 
         List<PicItemDto> picItemDtos = commodityPicAddDto.getPicItemDtos();
@@ -84,45 +84,45 @@ public class CommodityPicServiceImpl extends ServiceImpl<CommodityPicMapper, Com
             boolean flag = this.saveBatch(commodityPicPos);
 
             if(flag){
-                return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS);
+                return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS);
             }
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , null);
     }
 
 
     @Override
-    public ResultUtils<Boolean> updById(CommodityPicPo commodityPic){
+    public ResultUtil<Boolean> updById(CommodityPicPo commodityPic){
         commodityPic.setCommodityId(null);
         Integer flag = baseMapper.updateById(commodityPic);
 
         if(flag.equals(1)){
-            return ResultUtils.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<Boolean> delById(Long id){
+    public ResultUtil<Boolean> delById(Long id){
 
         boolean flag = removeById(id);
         if(flag){
-            return ResultUtils.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
+            return ResultUtil.APPRESULT(CommonStatusCode.DEL_SUCCESS , true);
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.DEL_FAIL , false);
+        return ResultUtil.APPRESULT(CommonStatusCode.DEL_FAIL , false);
     }
 
 
     @Override
-    public ResultUtils<List<CommodityPicListVo>> getList(Long commodityId){
+    public ResultUtil<List<CommodityPicListVo>> getList(Long commodityId){
 
         List<CommodityPicListVo> list = baseMapper.getList(commodityId);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS, list);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, list);
     }
 
 

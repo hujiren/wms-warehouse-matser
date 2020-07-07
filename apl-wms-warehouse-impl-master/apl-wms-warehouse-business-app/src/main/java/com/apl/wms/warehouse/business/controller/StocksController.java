@@ -3,7 +3,7 @@ package com.apl.wms.warehouse.business.controller;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.po.StocksPo;
@@ -41,14 +41,14 @@ public class StocksController {
 
 
     @PostMapping(value = "/commodity/get")
-    public ResultUtils<List<CheckOrderStockDetailsVo>> getCommodityStockMsg(Long whId , String commodityIds) throws Exception {
+    public ResultUtil<List<CheckOrderStockDetailsVo>> getCommodityStockMsg(Long whId , String commodityIds) throws Exception {
 
         return stocksService.getCommodityStockMsg(whId , commodityIds);
     }
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Boolean> add(@Validated StocksPo stocks) {
+    public ResultUtil<Boolean> add(@Validated StocksPo stocks) {
 
         return stocksService.add(stocks);
     }
@@ -56,7 +56,7 @@ public class StocksController {
 
     @PostMapping(value = "/incr")
     @ApiOperation(value =  "增加库存" , notes = "增加库存 ")
-    public ResultUtils<Boolean> incrStock(@Validated StocksPo stocks) {
+    public ResultUtil<Boolean> incrStock(@Validated StocksPo stocks) {
 
         return stocksService.add(stocks);
     }
@@ -66,7 +66,7 @@ public class StocksController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "long")
-    public ResultUtils<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return stocksService.deleteById(id);
     }
@@ -74,7 +74,7 @@ public class StocksController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated StocksPo stocksPo) {
+    public ResultUtil<Boolean> updById(@Validated StocksPo stocksPo) {
 
         return stocksService.updById(stocksPo);
     }
@@ -83,7 +83,7 @@ public class StocksController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtils<StocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<StocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
             return stocksService.selectById(id);
     }
@@ -96,7 +96,7 @@ public class StocksController {
             @ApiImplicitParam(name = "isCorrespondence",value = "是否带电",required = true  , paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键字" , paramType = "query")
     })
-    public ResultUtils<Page<StocksListVo>> listStocks(PageDto pageDto,
+    public ResultUtil<Page<StocksListVo>> listStocks(PageDto pageDto,
                                                       @NotNull(message = "whId不能为空") @Min(value = 1 , message = "whId不能小于1")Long whId ,
                                                       @NotNull(message = "customerId不能为空") @Min(value = 1 , message = "customerId不能小于1")Long customerId ,
                                                       Integer isCorrespondence ,
@@ -109,11 +109,11 @@ public class StocksController {
     @PostMapping("/check")
     @ApiOperation(value =  "校验库存数量是否足够" , notes = "校验库存数量是否足够")
     @ApiIgnore
-    public ResultUtils<Boolean> checkStockCount(@RequestBody PlatformOutOrderStockBo platformOutOrderStockBo) {
+    public ResultUtil<Boolean> checkStockCount(@RequestBody PlatformOutOrderStockBo platformOutOrderStockBo) {
 
         Boolean result = stocksService.checkStockCount(platformOutOrderStockBo);
 
-        return ResultUtils.APPRESULT(CommonStatusCode.GET_SUCCESS , result);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , result);
     }
 
 

@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.service;
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.CommodityKeyDto;
 import com.apl.wms.warehouse.po.CommodityPo;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
@@ -24,7 +24,7 @@ public interface CommodityService extends IService<CommodityPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Long> add(CommodityPo commodity);
+        ResultUtil<Long> add(CommodityPo commodity);
 
 
         /**
@@ -32,7 +32,7 @@ public interface CommodityService extends IService<CommodityPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Boolean> updById(CommodityPo commodity);
+        ResultUtil<Boolean> updById(CommodityPo commodity);
 
 
         /**
@@ -40,7 +40,7 @@ public interface CommodityService extends IService<CommodityPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Boolean> delById(Long id, Long customerId);
+        ResultUtil<Boolean> delById(Long id, Long customerId);
 
 
         /**
@@ -48,7 +48,7 @@ public interface CommodityService extends IService<CommodityPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<CommodityInfoVo> selectById(Long id, Long customerId);
+        ResultUtil<CommodityInfoVo> selectById(Long id, Long customerId);
 
 
         /**
@@ -56,7 +56,7 @@ public interface CommodityService extends IService<CommodityPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtils<Page<CommodityListVo>>getList(PageDto pageDto, CommodityKeyDto keyDto)  throws Exception;
+        ResultUtil<Page<CommodityListVo>>getList(PageDto pageDto, CommodityKeyDto keyDto)  throws Exception;
 
 
         /**

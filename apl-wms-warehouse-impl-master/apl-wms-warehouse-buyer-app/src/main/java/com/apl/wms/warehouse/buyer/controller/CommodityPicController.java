@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.buyer.controller;
 
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
 import com.apl.wms.warehouse.dto.CommodityPicAddDto;
 import com.apl.wms.warehouse.po.CommodityPicPo;
@@ -38,7 +38,7 @@ public class CommodityPicController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Integer> add(@RequestBody CommodityPicAddDto commodityPicAddDto) {
+    public ResultUtil<Integer> add(@RequestBody CommodityPicAddDto commodityPicAddDto) {
 
         return commodityPicService.add(commodityPicAddDto);
     }
@@ -46,7 +46,7 @@ public class CommodityPicController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated CommodityPicPo commodityPicPo) {
+    public ResultUtil<Boolean> updById(@Validated CommodityPicPo commodityPicPo) {
 
         ApiParamValidate.notEmpty("id", commodityPicPo.getId());
 
@@ -57,7 +57,7 @@ public class CommodityPicController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtils<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return commodityPicService.delById(id);
     }
@@ -65,7 +65,7 @@ public class CommodityPicController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "查找" , notes = "查找")
-    public ResultUtils<List<CommodityPicListVo>> getList(@NotNull(message = "commodityId不能为空") @Min(value = 1, message = "commodityId不能小于1") Long commodityId) {
+    public ResultUtil<List<CommodityPicListVo>> getList(@NotNull(message = "commodityId不能为空") @Min(value = 1, message = "commodityId不能小于1") Long commodityId) {
 
         return commodityPicService.getList(commodityId);
     }

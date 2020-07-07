@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.WhZonePo;
 import com.apl.wms.warehouse.vo.WhZoneListVo;
@@ -23,7 +23,7 @@ public interface WhZoneService extends IService<WhZonePo> {
          * @author apl
          * @since 2019-12-16
          */
-        ResultUtils<Integer> add(WhZonePo whZone);
+        ResultUtil<Integer> add(WhZonePo whZone);
 
 
         /**
@@ -31,7 +31,7 @@ public interface WhZoneService extends IService<WhZonePo> {
          * @author apl
          * @since 2019-12-16
          */
-        ResultUtils<Boolean> updById(WhZonePo whZone);
+        ResultUtil<Boolean> updById(WhZonePo whZone);
 
 
         /**
@@ -39,7 +39,7 @@ public interface WhZoneService extends IService<WhZonePo> {
          * @author apl
          * @since 2019-12-16
          */
-        ResultUtils<Boolean> delById(Integer id);
+        ResultUtil<Boolean> delById(Integer id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface WhZoneService extends IService<WhZonePo> {
          * @author apl
          * @since 2019-12-16
          */
-        ResultUtils<WhZoneInfoVo> getById(Integer id);
+        ResultUtil<WhZoneInfoVo> getById(Integer id);
 
 
         /**
@@ -55,6 +55,6 @@ public interface WhZoneService extends IService<WhZonePo> {
          * @author apl
          * @since 2019-12-16
          */
-        ResultUtils<Page<WhZoneListVo>>getList(PageDto pageDto, WhZoneKeyDto keyDto);
+        ResultUtil<Page<WhZoneListVo>>getList(PageDto pageDto, WhZoneKeyDto keyDto);
 
 }

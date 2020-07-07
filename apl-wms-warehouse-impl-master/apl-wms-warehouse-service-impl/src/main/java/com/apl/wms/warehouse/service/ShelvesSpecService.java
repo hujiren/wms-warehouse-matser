@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 
 import com.apl.wms.warehouse.po.ShelvesSpecPo;
 import com.apl.wms.warehouse.vo.ShelvesSpecListVo;
@@ -23,7 +23,7 @@ public interface ShelvesSpecService extends IService<ShelvesSpecPo> {
          * @author cy
          * @since 2019-12-19
          */
-        ResultUtils<Integer> add(ShelvesSpecPo shelvesSpec);
+        ResultUtil<Integer> add(ShelvesSpecPo shelvesSpec);
 
 
         /**
@@ -31,7 +31,7 @@ public interface ShelvesSpecService extends IService<ShelvesSpecPo> {
          * @author cy
          * @since 2019-12-19
          */
-        ResultUtils<Boolean> updById(ShelvesSpecPo shelvesSpec);
+        ResultUtil<Boolean> updById(ShelvesSpecPo shelvesSpec);
 
 
         /**
@@ -39,7 +39,7 @@ public interface ShelvesSpecService extends IService<ShelvesSpecPo> {
          * @author cy
          * @since 2019-12-19
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface ShelvesSpecService extends IService<ShelvesSpecPo> {
          * @author cy
          * @since 2019-12-19
          */
-        ResultUtils<ShelvesSpecInfoVo> selectById(Long id);
+        ResultUtil<ShelvesSpecInfoVo> selectById(Long id);
 
 
         /**
@@ -55,6 +55,6 @@ public interface ShelvesSpecService extends IService<ShelvesSpecPo> {
          * @author cy
          * @since 2019-12-19
          */
-        ResultUtils<Page<ShelvesSpecListVo>>getList(PageDto pageDto, ShelvesSpecKeyDto keyDto);
+        ResultUtil<Page<ShelvesSpecListVo>>getList(PageDto pageDto, ShelvesSpecKeyDto keyDto);
 
 }

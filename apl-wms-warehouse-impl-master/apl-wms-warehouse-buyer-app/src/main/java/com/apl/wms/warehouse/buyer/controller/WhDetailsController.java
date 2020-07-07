@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.buyer.controller;
 
 
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.WhDetailsKeyDto;
 import com.apl.wms.warehouse.po.WhDetailsPo;
 import com.apl.wms.warehouse.service.WhDetailsService;
@@ -38,7 +38,7 @@ public class WhDetailsController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value =  "添加" , notes = "添加 ")
-    public ResultUtils<Boolean> add(@Validated WhDetailsPo whDetails) {
+    public ResultUtil<Boolean> add(@Validated WhDetailsPo whDetails) {
 
         return whDetailsService.add(whDetails);
     }
@@ -48,7 +48,7 @@ public class WhDetailsController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "long")
-    public ResultUtils<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return whDetailsService.deleteById(id);
     }
@@ -56,7 +56,7 @@ public class WhDetailsController {
 
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
-    public ResultUtils<Boolean> updById(@Validated WhDetailsPo whDetailsPo) {
+    public ResultUtil<Boolean> updById(@Validated WhDetailsPo whDetailsPo) {
 
         return whDetailsService.updByWhId(whDetailsPo);
     }
@@ -65,14 +65,14 @@ public class WhDetailsController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtils<WhDetailsPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<WhDetailsPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
 
             return whDetailsService.selectById(id);
     }
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtils<Page<WhDetailsListVo>> getList(PageDto pageDto, @Validated WhDetailsKeyDto keyDto) {
+    public ResultUtil<Page<WhDetailsListVo>> getList(PageDto pageDto, @Validated WhDetailsKeyDto keyDto) {
 
 
         return whDetailsService.getList(pageDto , keyDto);

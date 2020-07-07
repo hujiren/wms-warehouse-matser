@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service;
 
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.CommodityPicAddDto;
 import com.apl.wms.warehouse.po.CommodityPicPo;
 import com.apl.wms.warehouse.vo.CommodityPicListVo;
@@ -23,7 +23,7 @@ public interface CommodityPicService extends IService<CommodityPicPo> {
          * @author cy
          * @since 2019-12-12
          */
-        ResultUtils<Integer> add(CommodityPicAddDto commodityPicAddDto);
+        ResultUtil<Integer> add(CommodityPicAddDto commodityPicAddDto);
 
 
         /**
@@ -31,7 +31,7 @@ public interface CommodityPicService extends IService<CommodityPicPo> {
          * @author cy
          * @since 2019-12-12
          */
-        ResultUtils<Boolean> updById(CommodityPicPo commodityPic);
+        ResultUtil<Boolean> updById(CommodityPicPo commodityPic);
 
 
         /**
@@ -39,7 +39,7 @@ public interface CommodityPicService extends IService<CommodityPicPo> {
          * @author cy
          * @since 2019-12-12
          */
-        ResultUtils<Boolean> delById(Long id);
+        ResultUtil<Boolean> delById(Long id);
 
 
         /**
@@ -47,7 +47,7 @@ public interface CommodityPicService extends IService<CommodityPicPo> {
          * @author cy
          * @since 2019-12-12
          */
-        ResultUtils<List<CommodityPicListVo>>getList(Long commodityId);
+        ResultUtil<List<CommodityPicListVo>>getList(Long commodityId);
 
         /**
          * @Desc: 根据商品id 查找商品图片列表 进行排序
