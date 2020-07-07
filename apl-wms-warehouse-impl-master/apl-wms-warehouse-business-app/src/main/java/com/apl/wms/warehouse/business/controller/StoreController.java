@@ -42,9 +42,6 @@ public class StoreController {
     @Autowired
     public StoreService storeService;
 
-    @Autowired
-    RedisTemplate redisTemplate;
-
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
@@ -64,5 +61,18 @@ public class StoreController {
     }
 
 
+    @GetMapping("/seata2-commit")
+    @ApiOperation(value =  "seata2-commit")
+    public Integer seata2Commit() {
+
+        return storeService.seata2Commit();
+    }
+
+    @GetMapping("/seata2-rollback")
+    @ApiOperation(value =  "seata2-rollback")
+    public Integer seata2Rollback() {
+
+        return storeService.seata2Rollback();
+    }
 
 }

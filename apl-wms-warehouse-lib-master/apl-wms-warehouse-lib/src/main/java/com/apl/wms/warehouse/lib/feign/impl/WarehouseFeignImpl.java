@@ -90,14 +90,4 @@ public class WarehouseFeignImpl implements WarehouseFeign {
     }
 
 
-    @Override
-    public Integer seata2Commit() {
-        return 0;
-    }
-
-    @Override
-    public Integer seata2Rollback() {
-        return 0;
-    }
-
 }
