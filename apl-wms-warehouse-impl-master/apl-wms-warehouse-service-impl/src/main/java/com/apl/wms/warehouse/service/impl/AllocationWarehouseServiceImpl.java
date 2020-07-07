@@ -3,7 +3,7 @@ package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinKeyValues;
 import com.apl.lib.join.JoinUtils;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
@@ -53,11 +53,11 @@ public class AllocationWarehouseServiceImpl extends ServiceImpl<CommodityBrandMa
      */
     @Override
     @Transactional
-    public ResultUtils<Boolean> AllocationStockByOrders(String orderIds) throws Exception  {
+    public ResultUtil<Boolean> AllocationStockByOrders(String orderIds) throws Exception  {
 
-        ResultUtils<List<AllocationWarehouseOutOrderBo>> ordersByAllocationWarehouse = outStorageOrderOperatorFeign.getOrdersByAllocationWarehouse(orderIds);
+        ResultUtil<List<AllocationWarehouseOutOrderBo>> ordersByAllocationWarehouse = outStorageOrderOperatorFeign.getOrdersByAllocationWarehouse(orderIds);
         if (!ordersByAllocationWarehouse.getCode().equals(CommonStatusCode.GET_SUCCESS)) {
-            return ResultUtils.APPRESULT(ordersByAllocationWarehouse.getCode(), ordersByAllocationWarehouse.getMsg(), false);
+            return ResultUtil.APPRESULT(ordersByAllocationWarehouse.getCode(), ordersByAllocationWarehouse.getMsg(), false);
         }
 
         //从远程调用接口获取到订单信息和商品信息对象的列表集合
@@ -88,7 +88,7 @@ public class AllocationWarehouseServiceImpl extends ServiceImpl<CommodityBrandMa
             }
         }
 
-        return ResultUtils.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
+        return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
     }
 
     //检查总库存
@@ -237,9 +237,9 @@ public class AllocationWarehouseServiceImpl extends ServiceImpl<CommodityBrandMa
 
     //跨项目更新拣货明细
     private  Integer insertPullAllocationItem(Long outOrderId, List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos){
-        ResultUtils<Integer> integerResultUtils = outStorageOrderOperatorFeign.insertAllocationItem(outOrderId, compareStorageLocalStocksBos);
+        ResultUtil<Integer> integerResultUtil = outStorageOrderOperatorFeign.insertAllocationItem(outOrderId, compareStorageLocalStocksBos);
 
-        return  integerResultUtils.getData();
+        return  integerResultUtil.getData();
     }
 }
 

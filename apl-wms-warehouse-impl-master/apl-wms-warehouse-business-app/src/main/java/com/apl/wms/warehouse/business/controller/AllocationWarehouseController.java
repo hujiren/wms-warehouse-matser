@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.business.controller;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.service.AllocationWarehouseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,7 +33,7 @@ public class AllocationWarehouseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderIds" , value = "订单ids",paramType = "query")
     })
-    public ResultUtils<Boolean> AllocationStockByOrders(@NotNull(message = "ids不能为空") String orderIds) throws Exception {
+    public ResultUtil<Boolean> AllocationStockByOrders(@NotNull(message = "ids不能为空") String orderIds) throws Exception {
          return allocationWarehouseService.AllocationStockByOrders(orderIds);
     }
 }

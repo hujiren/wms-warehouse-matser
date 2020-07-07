@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service;
-import com.apl.lib.utils.ResultUtils;
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.po.CommodityBrandPo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AllocationWarehouseService extends IService<CommodityBrandPo> {
 
-    ResultUtils<Boolean> AllocationStockByOrders(String orderIds) throws Exception ;
+    ResultUtil<Boolean> AllocationStockByOrders(String orderIds) throws Exception ;
 }
