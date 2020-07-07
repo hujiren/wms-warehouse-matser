@@ -451,10 +451,6 @@ qapl-wms-warehouse-lib-master/apl-wms-warehouse-lib/src/main/java/com/apl/wms/wa
 tapl-wms-warehouse-lib-master/apl-wms-warehouse-lib/src/main/java/com/apl/wms/warehouse/lib/pojo/vo/OrderCountVo.java,4/8/482ac8ccb23199e6eb7944493140496367ceea44
 ›
 kapl-wms-warehouse-pojo-master/apl-wms-warehouse-pojo/src/main/java/com/apl/wms/warehouse/bo/StockUpdBo.java,0/2/02a8825860b6a212fe8028db975eb8a3a2a3ed90
-³
-‚apl-wms-warehouse-lib-master/apl-wms-warehouse-lib/src/main/java/com/apl/wms/warehouse/lib/feign/OutstorageOrderBusinessFeign.java,d/3/d38baa96e9d195fbad1425d3b1b4b03bacc770b9
-¼
-‹apl-wms-warehouse-lib-master/apl-wms-warehouse-lib/src/main/java/com/apl/wms/warehouse/lib/feign/impl/OutstorageOrderBusinessFeignImpl.java,4/4/44c8f2f053065a41cd1ea5950042efc355692d14
 ¢
 rapl-wms-warehouse-lib-master/apl-wms-warehouse-lib/src/main/java/com/apl/wms/warehouse/lib/cache/StoreCacheBo.java,c/2/c206ef22cf0ed6f365aed3af05520f3f422bfcaf
 ±
@@ -488,3 +484,11 @@ I
 dev-file/sh/up-apl-wms.sh,5/e/5ecbb60f62591aebc551108c44d809276e75e3d3
 G
 dev-file/sh/up-basic.sh,1/f/1f78d5603e0cd95f354e556e57e2489776f146ef
+´
+ƒapl-wms-warehouse-lib-master/apl-wms-warehouse-lib/src/main/java/com/apl/wms/warehouse/lib/pojo/bo/CompareStorageLocalStocksBo.java,b/6/b616343cad9513942c28e14789fc9398d8209440
+È
+—apl-wms-warehouse-impl-master/apl-wms-warehouse-business-app/src/main/java/com/apl/wms/warehouse/business/controller/AllocationWarehouseController.java,f/4/f4ba8abbe01e9cea8b6afee34364d9cd5bf02ed9
+¹
+ˆapl-wms-warehouse-impl-master/apl-wms-warehouse-service-impl/src/main/java/com/apl/wms/warehouse/service/AllocationWarehouseService.java,e/5/e528159ea939f52c842df415649466d1613dba33
+Â
+‘apl-wms-warehouse-impl-master/apl-wms-warehouse-service-impl/src/main/java/com/apl/wms/warehouse/service/impl/AllocationWarehouseServiceImpl.java,d/9/d9e93de29ba21cc8327390803e3058884b869787
