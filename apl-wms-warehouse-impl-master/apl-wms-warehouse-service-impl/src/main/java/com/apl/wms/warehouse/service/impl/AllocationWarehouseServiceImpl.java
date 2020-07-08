@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinKeyValues;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
@@ -66,7 +66,7 @@ public class AllocationWarehouseServiceImpl extends ServiceImpl<CommodityBrandMa
         for (AllocationWarehouseOutOrderBo outOrderBo : ordersList) {
 
             //遍历, 取出所有商品信息列表集合, 按商品id排序
-            JoinKeyValues commodityIdJoinKeyValues = JoinUtils.getKeys(
+            JoinKeyValues commodityIdJoinKeyValues = JoinUtil.getKeys(
                     outOrderBo.getAllocationWarehouseOrderCommodityBoList(),
                     "commodityId",
                     Long.class);
@@ -166,7 +166,7 @@ public class AllocationWarehouseServiceImpl extends ServiceImpl<CommodityBrandMa
         List<AllocationWarehouseOrderCommodityBo> commodityBoList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
 
         //根据商品Id进行分组    每个商品Id对应一个或多个库位库存对象
-        LinkedHashMap<String, List<StorageLocalStocksPo>> stocksMaps =  JoinUtils.listGrouping(stocksPos, "commodityId");
+        LinkedHashMap<String, List<StorageLocalStocksPo>> stocksMaps =  JoinUtil.listGrouping(stocksPos, "commodityId");
 
         // 循环多个商品
         List<CompareStorageLocalStocksBo> compareAllCommodityStocksList = new ArrayList<>();

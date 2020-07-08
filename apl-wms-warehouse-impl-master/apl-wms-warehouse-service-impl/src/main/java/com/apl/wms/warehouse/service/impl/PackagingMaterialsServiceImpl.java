@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinFieldInfo;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
@@ -88,7 +88,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
     InnerFeign innerFeign;
 
     @Autowired
-    JoinUtils joinUtils;
+    JoinUtil JoinUtil;
 
     @Value("${apl.report.commodityReportPath}")
     private String commodityReportPath;
@@ -103,7 +103,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         if(orderCountVo != null){
             List<OrderCountVo.OrderItem> orderItems = orderCountVo.getOrderItems();
 
-            Map<String, List<OrderCountVo.OrderItem>> commodityOrderCount = JoinUtils.listGrouping(orderItems, "commodityId");
+            Map<String, List<OrderCountVo.OrderItem>> commodityOrderCount = JoinUtil.listGrouping(orderItems, "commodityId");
 
             for (Map.Entry<String, List<OrderCountVo.OrderItem>> orderCountEntry : commodityOrderCount.entrySet()) {
                 Integer commodityCount = 0;
@@ -208,7 +208,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
 
         joinTabs.add(joinCustomer);
 
-        JoinUtils.join(list, joinTabs);
+        JoinUtil.join(list, joinTabs);
 
         page.setRecords(list);
 
@@ -237,7 +237,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         }
         joinTabs.add(joinCustomer);
 
-        JoinUtils.join(list, joinTabs);
+        JoinUtil.join(list, joinTabs);
 
         String sysPath = System.getProperty("user.dir").replace("\\","/");
         System.out.println(sysPath + "/" + commodityReportPath);

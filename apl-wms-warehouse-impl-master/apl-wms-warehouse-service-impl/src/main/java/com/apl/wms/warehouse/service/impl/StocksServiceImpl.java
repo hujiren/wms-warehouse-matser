@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.LockTool;
 import com.apl.lib.utils.ResultUtil;
@@ -85,7 +85,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         List<StorageLocalStock> storageLocalStocks =  storageLocalStocksService.getCommodityStorageLocalStockList(whId , commodityIdList);
 
         //获取商品列表 对应的库位库存列表
-        Map<String, List<StorageLocalStock >> commodityStorageLocalStocks = JoinUtils.listGrouping(storageLocalStocks, "commodityId");
+        Map<String, List<StorageLocalStock >> commodityStorageLocalStocks = JoinUtil.listGrouping(storageLocalStocks, "commodityId");
 
         for (CheckOrderStockDetailsVo checkOrderStockDetailsVo : checkOrderStockDetailsVos) {
             //组装商品对应的库位列表
