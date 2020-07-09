@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.LockTool;
 import com.apl.lib.utils.ResultUtil;
@@ -12,7 +12,7 @@ import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
-import com.apl.wms.warehouse.mapper.StocksMapper;
+import com.apl.wms.warehouse.dao.StocksMapper;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.apl.wms.warehouse.po.StocksPo;
@@ -85,7 +85,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         List<StorageLocalStock> storageLocalStocks =  storageLocalStocksService.getCommodityStorageLocalStockList(whId , commodityIdList);
 
         //获取商品列表 对应的库位库存列表
-        Map<String, List<StorageLocalStock >> commodityStorageLocalStocks = JoinUtils.listGrouping(storageLocalStocks, "commodityId");
+        Map<String, List<StorageLocalStock >> commodityStorageLocalStocks = JoinUtil.listGrouping(storageLocalStocks, "commodityId");
 
         for (CheckOrderStockDetailsVo checkOrderStockDetailsVo : checkOrderStockDetailsVos) {
             //组装商品对应的库位列表
@@ -156,7 +156,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         List<StocksPo> stocksUpdList = new ArrayList<>();
         Long whId = platformOutOrderStockBo.getWhId();
         try {
-
+                //getCommodityStock
             for (PlatformOutOrderStockBo.PlatformOutOrderStock platformOutOrderStock : platformOutOrderStockBo.getPlatformOutOrderStocks()) {
                 StocksPo commodityStock = baseMapper.getCommodityStock(whId, platformOutOrderStock.getCommodityId());
                 commodityStock.setFreezeStockCount(commodityStock.getFreezeStockCount() + platformOutOrderStock.getChangeCount());

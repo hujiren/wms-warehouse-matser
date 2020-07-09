@@ -23,7 +23,7 @@
 
 
 推送代码到git库
-  git push    -u origin   master
+  git push -u origin master
 
 
 

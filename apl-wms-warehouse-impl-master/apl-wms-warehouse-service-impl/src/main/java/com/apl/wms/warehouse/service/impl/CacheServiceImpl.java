@@ -8,7 +8,7 @@ import com.apl.lib.utils.StringUtil;
 
 import com.apl.wms.warehouse.lib.cache.*;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
-import com.apl.wms.warehouse.mapper.CacheMapper;
+import com.apl.wms.warehouse.dao.CacheMapper;
 import com.apl.wms.warehouse.service.CacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

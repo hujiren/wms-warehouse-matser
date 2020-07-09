@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
@@ -10,7 +10,7 @@ import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
 import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.wms.warehouse.dto.CommodityNameLibKeyDto;
-import com.apl.wms.warehouse.mapper.CommodityNameLibMapper;
+import com.apl.wms.warehouse.dao.CommodityNameLibMapper;
 import com.apl.wms.warehouse.po.CommodityNameLibPo;
 import com.apl.wms.warehouse.service.CommodityNameLibService;
 import com.apl.wms.warehouse.vo.CommodityNameLibInfoVo;
@@ -60,7 +60,7 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
     InnerFeign innerFeign;
 
     @Autowired
-    JoinUtils joinUtils;
+    JoinUtil JoinUtil;
 
     @Override
     public ResultUtil<Integer> add(CommodityNameLibPo commodityNameLib){
@@ -130,7 +130,7 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
         joinCustomer.addField("customerId",  Long.class, "customerName",  String.class);
         joinTabs.add(joinCustomer);
 
-        JoinUtils.join(list, joinTabs);
+        JoinUtil.join(list, joinTabs);
 
          page.setRecords(list);
 

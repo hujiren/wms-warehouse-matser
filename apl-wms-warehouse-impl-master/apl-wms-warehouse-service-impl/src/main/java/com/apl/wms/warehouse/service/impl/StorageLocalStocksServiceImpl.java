@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
@@ -10,7 +10,7 @@ import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
-import com.apl.wms.warehouse.mapper.StorageLocalStocksMapper;
+import com.apl.wms.warehouse.dao.StorageLocalStocksMapper;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
 import com.apl.wms.warehouse.po.CommodityPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
@@ -192,7 +192,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
     public ResultUtil<Map<String, List<PullBatchOrderItemBo>>> storageLocalLock(List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception {
 
         //根据商品id 分组 商品id -- 》 订单列表
-        Map<String, List<PullBatchOrderItemBo>> commodityOrders = JoinUtils.listGrouping(pullBatchOrderItems, "commodityId");
+        Map<String, List<PullBatchOrderItemBo>> commodityOrders = JoinUtil.listGrouping(pullBatchOrderItems, "commodityId");
 
         for (Map.Entry<String, List<PullBatchOrderItemBo>> entry : commodityOrders.entrySet()) {
             //查找商品对应的 库存列表
@@ -253,7 +253,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
 
         Map<Long , Integer> commodityCount = new HashMap<>();
 
-        Map<String, List<PlatformOutOrderStockBo.PlatformOutOrderStock>> commodityStock = JoinUtils.listGrouping(platformOutOrderStocks, "commodityId");
+        Map<String, List<PlatformOutOrderStockBo.PlatformOutOrderStock>> commodityStock = JoinUtil.listGrouping(platformOutOrderStocks, "commodityId");
 
         for (Map.Entry<String, List<PlatformOutOrderStockBo.PlatformOutOrderStock>> commodityStockEntry : commodityStock.entrySet()) {
 
@@ -300,7 +300,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
         tempBos.add(tempBo3);
         tempBos.add(tempBo4);
 
-        LinkedHashMap<String, List<TempBo>> commodityId = JoinUtils.listGrouping(tempBos, "commodityId");
+        LinkedHashMap<String, List<TempBo>> commodityId = JoinUtil.listGrouping(tempBos, "commodityId");
 
         Map<Integer , Integer> totalCount = new HashMap<>();
         for (Map.Entry<String, List<TempBo>> countEntry : commodityId.entrySet()) {

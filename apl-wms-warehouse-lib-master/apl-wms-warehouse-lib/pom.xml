@@ -8,6 +8,13 @@
 
     <dependencies>
 
+        <!-- 动态数据源 -->
+        <dependency>
+            <groupId>com.apl</groupId>
+            <artifactId>apl-datasource</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -26,6 +33,7 @@
             <version>5.2.6.RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
 
     </dependencies>
 

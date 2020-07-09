@@ -10,7 +10,7 @@ import com.apl.lib.utils.StringUtil;
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
 import com.apl.wms.warehouse.lib.pojo.bo.StorageLocationBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
-import com.apl.wms.warehouse.mapper.StorageLocalMapper;
+import com.apl.wms.warehouse.dao.StorageLocalMapper;
 import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
 import com.apl.wms.warehouse.dto.StorageLocationKeyDto;
@@ -237,7 +237,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         //BigDecimal orderVolume = singleCommodityVolume.multiply(new BigDecimal(count));
 
        try{
-           //todo 获取未满 的库位 库位信息
+           //获取未满 的库位 库位信息
            List<StorageLocalInfoVo> storageLocals = baseMapper.getUnFullStorageLocal(commodityId);
 
            //使用 未满 的 库位进行分配库位

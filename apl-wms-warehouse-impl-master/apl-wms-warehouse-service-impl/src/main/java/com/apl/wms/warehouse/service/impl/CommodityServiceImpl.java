@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinFieldInfo;
-import com.apl.lib.join.JoinUtils;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
@@ -13,8 +13,8 @@ import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
 import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.sys.lib.feign.OuterFeign;
-import com.apl.wms.warehouse.mapper.CommodityMapper;
-import com.apl.wms.warehouse.mapper.CommodityPicMapper;
+import com.apl.wms.warehouse.dao.CommodityMapper;
+import com.apl.wms.warehouse.dao.CommodityPicMapper;
 import com.apl.wms.warehouse.service.CacheService;
 import com.apl.wms.warehouse.service.CommodityCategoryService;
 import com.apl.wms.warehouse.service.CommodityService;
@@ -260,7 +260,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         joinTabs.add(joinLocalCommodityCategory);
 
-        JoinUtils.join(list, joinTabs);
+        JoinUtil.join(list, joinTabs);
 
         page.setRecords(list);
 
@@ -289,7 +289,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         joinTabs.add(joinCustomer);
 
-        JoinUtils.join(list, joinTabs);
+        JoinUtil.join(list, joinTabs);
 
         String sysPath = System.getProperty("user.dir").replace("\\","/");
         System.out.println(sysPath + "/" + commodityReportPath);
