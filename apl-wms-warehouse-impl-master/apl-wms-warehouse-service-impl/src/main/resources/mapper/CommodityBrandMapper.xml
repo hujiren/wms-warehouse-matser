@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apl.wms.warehouse.mapper.CommodityBrandMapper">
+<mapper namespace="com.apl.wms.warehouse.dao.CommodityBrandMapper">
 
 
     <!-- 查找详情 2019-12-09-->
@@ -51,13 +51,15 @@
         </if>
     </select>
 
-    <!-- 对比总库存 -->
-    <select id="queryTotalStock" resultType="com.apl.wms.warehouse.po.StocksPo">
+    <!-- 通过 commodity_id 查询总库存 -->
+    <select id="queryTotalStock" resultType="com.apl.wms.warehouse.bo.StocksBo">
         select
             concat(wh_id, '_', commodity_id) as commodityKey,
             wh_id,
             commodity_id,
-            available_stock_count
+            available_stock_count,
+            freeze_stock_count,
+            all_stock_count
         from
             stocks
         where
@@ -65,9 +67,8 @@
             <if test="whId > 0">
                 and  wh_id = #{whId}
             </if>
-            and commodity_id in #{ids}
-            and commdity_id between #{minId} and #{maxId}
-            order by commodity_id
+            and commodity_id in (#{ids})
+            and commodity_id between #{minId} and #{maxId}
 
     </select>
 
@@ -87,6 +88,7 @@
             and commdity_id between #{minId} and #{maxId}
             order by commodity_id
     </select>
+
 
     <!-- 更新总库存 -->
     <update id="updateStock" parameterType="java.util.List">

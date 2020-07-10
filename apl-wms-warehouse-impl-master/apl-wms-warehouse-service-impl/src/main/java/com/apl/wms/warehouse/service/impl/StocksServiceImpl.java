@@ -12,7 +12,7 @@ import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
-import com.apl.wms.warehouse.mapper.StocksMapper;
+import com.apl.wms.warehouse.dao.StocksMapper;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.apl.wms.warehouse.po.StocksPo;
@@ -156,7 +156,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         List<StocksPo> stocksUpdList = new ArrayList<>();
         Long whId = platformOutOrderStockBo.getWhId();
         try {
-
+                //getCommodityStock
             for (PlatformOutOrderStockBo.PlatformOutOrderStock platformOutOrderStock : platformOutOrderStockBo.getPlatformOutOrderStocks()) {
                 StocksPo commodityStock = baseMapper.getCommodityStock(whId, platformOutOrderStock.getCommodityId());
                 commodityStock.setFreezeStockCount(commodityStock.getFreezeStockCount() + platformOutOrderStock.getChangeCount());
