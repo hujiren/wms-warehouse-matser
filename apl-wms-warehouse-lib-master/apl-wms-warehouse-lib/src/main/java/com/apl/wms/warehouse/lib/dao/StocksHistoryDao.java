@@ -37,6 +37,7 @@ public class StocksHistoryDao {
                 "wms_stocks_history",
                 redisTemplate);
         DBUtil.DBInfo dbInfo = dbUtil.connect(druidDataSource);
+        dbInfo.setTenantValue(securityUser.getInnerOrgId());
 
         dbInfo.dbUtil = dbUtil;
 
