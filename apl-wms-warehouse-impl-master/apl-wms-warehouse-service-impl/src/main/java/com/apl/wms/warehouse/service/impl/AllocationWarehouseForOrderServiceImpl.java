@@ -5,16 +5,17 @@ import com.apl.lib.join.JoinKeyValues;
 import com.apl.lib.join.JoinUtil;
 import com.apl.lib.utils.DBUtil;
 import com.apl.lib.utils.ResultUtil;
+import com.apl.lib.utils.SnowflakeIdWorker;
 import com.apl.lib.utils.StringUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.bo.StocksBo;
-import com.apl.wms.warehouse.lib.dao.StocksHistoryDao;
+import com.apl.wms.warehouse.dao.AllocationWarehouseForOrderMapper;
+import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
+import com.apl.wms.warehouse.lib.pojo.bo.OutOrderAlloStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
-import com.apl.wms.warehouse.dao.CommodityBrandMapper;
-import com.apl.wms.warehouse.po.CommodityBrandPo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.service.AllocationWarehouseForOrderService;
@@ -24,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -36,11 +39,12 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<CommodityBrandMapper, CommodityBrandPo> implements AllocationWarehouseForOrderService {
+public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<AllocationWarehouseForOrderMapper, StocksPo> implements AllocationWarehouseForOrderService {
 
     //状态code枚举
     enum AllocationWarehouseServiceCode {
          INSERT_PULL_FAIL("INSERT_PULL_FAIL" ,"插入分配库存对象失败"),
+         UNDER_STOCK("UNDER_STOCK", "库存不足")
         ;
 
         private String code;
@@ -69,7 +73,7 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
     RedisTemplate redisTemplate;
 
     @Autowired
-    StocksHistoryDao stocksHistoryDao;
+    StocksHistoryFeign stocksHistoryFeign;
 
 
     /**
@@ -136,7 +140,7 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
     public ResultUtil<Boolean> allocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo)  {
 
         //  1.通过切换数据源保存库存记录
-        DBUtil.DBInfo dbinfo = stocksHistoryDao.createDBinfo();
+        DBUtil.DBInfo dbinfo = stocksHistoryFeign.createDBinfo();
 
         try {
             // 2.遍历, 取出所有商品信息列表集合, 按商品id排序
@@ -166,15 +170,21 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
 
                 //切换数据源,保存库存历史记录列表
                 dbinfo.dbUtil.beginTrans(dbinfo);
-                stocksHistoryDao.saveStocksHistoryPos(dbinfo, stocksHistoryPos);
+                stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPos);
                 dbinfo.dbUtil.commit(dbinfo);
 
                 insertPullAllocationItem(outOrderBo.getOrderId(), compareStorageLocalStocksBos);
+            }else{
+
+                //库存不足, 恢复订单拣货状态为1(未分配库存)
+                insertPullAllocationItem(outOrderBo.getOrderId(), null);
+
+                return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.UNDER_STOCK.code, AllocationWarehouseServiceCode.UNDER_STOCK.msg, false);
             }
         }
         catch (Exception e){
             dbinfo.dbUtil.rollback(dbinfo);
-            log.info("allocationStockByOrder, {0},  \r\n outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId());
+            log.error(MessageFormat.format("allocationStockByOrder: {0},  outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId()));
             throw new AplException(CommonStatusCode.SAVE_FAIL.code, CommonStatusCode.SAVE_FAIL.msg);
         }
 
@@ -195,7 +205,6 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
         //获取商品信息对象??
         List<AllocationWarehouseOrderCommodityBo> commodityBoList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
 
-
         Long whId = outOrderBo.getWhId();
 
         //查询该订单中多个商品的总库存
@@ -203,6 +212,11 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
                 commodityIdJoinKeyValues.getSbKeys().toString(),
                 commodityIdJoinKeyValues.getMinKey(),
                 commodityIdJoinKeyValues.getMaxKey());
+
+        if(null==stocksPos || stocksPos.size()==0){
+            // 没有库存返回空
+            return null;
+        }
 
         if(whId==0) {//如果仓库id等于0, 表示未指定仓库
             for (Map.Entry<String, StocksBo> entry : stocksPos.entrySet()) {
@@ -225,27 +239,28 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
             //获取key(wh_id + commodity_id)对应的总库存对象
             StocksBo stocksBo = stocksPos.get(key);
             if(stocksBo == null){
-                //此商品可用库存为空
+                //其中一个商品, 可用库存为空
                 return null;
             }
             Integer orderQty = orderCommodityBo.getOrderQty();
             if(stocksBo.getAvailableStockCount() < orderQty){
-                //此商品库存不足
+                //其中一个商品, 可用库存不足
                 return null;
             }
 
             // 构建要更新的总库存对象
             Integer newAvailableStockCount = stocksBo.getAvailableStockCount() - orderQty;//新的可用库存
-            Integer newFreezeStockCount = stocksBo.getFreezeStockCount() + orderQty;//新的冻结库存
+            //Integer newFreezeStockCount = stocksBo.getFreezeStockCount() + orderQty;//新的冻结库存
             StocksPo newStocksPo = new StocksPo();
             newStocksPo.setId(stocksBo.getId());
             newStocksPo.setWhId(whId);
-            newStocksPo.setAllStockCount(newAvailableStockCount);
-            newStocksPo.setFreezeStockCount(newFreezeStockCount);
+            newStocksPo.setAvailableStockCount(newAvailableStockCount);
+            //newStocksPo.setFreezeStockCount(newFreezeStockCount);
             newStocksPos.add(newStocksPo);
 
             //构建总库存记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
+            //shp.setId(SnowflakeIdWorker.generateId());
             shp.setOrderType(2);
             shp.setOrderId(orderCommodityBo.getOrderId());
             shp.setInQty(0);
@@ -271,7 +286,7 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
                                                                        List<StocksHistoryPo> stocksHistoryPos) throws Exception {
 
         //通过商品id查询出所有对应的库位id和可用库存
-        List<StorageLocalStocksPo> stocksPos = baseMapper.queryStorageLocalStock(outOrderBo.getWhId(),
+        List<StorageLocalStocksPo> storageStocksPos = baseMapper.queryStorageLocalStock(outOrderBo.getWhId(),
                 commodityIdJoinKeyValues.getSbKeys().toString(),
                 commodityIdJoinKeyValues.getMinKey(),
                 commodityIdJoinKeyValues.getMaxKey());
@@ -280,13 +295,13 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
         List<AllocationWarehouseOrderCommodityBo> commodityBoList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
 
         //根据商品Id进行分组    每个商品Id对应一个或多个库位库存对象
-        LinkedHashMap<String, List<StorageLocalStocksPo>> stocksMaps =  JoinUtil.listGrouping(stocksPos, "commodityId");
+        LinkedHashMap<String, List<StorageLocalStocksPo>> storageStocksMaps =  JoinUtil.listGrouping(storageStocksPos, "commodityId");
 
         // 循环多个商品
         List<CompareStorageLocalStocksBo> compareAllCommodityStocksList = new ArrayList<>();
         for (AllocationWarehouseOrderCommodityBo orderCommodityBo : commodityBoList) {
             // 找到单个商品的所有对应的库位库存对象                                每次遍历商品信息集合都获取一个商品id
-            List<StorageLocalStocksPo> storageStocksList = stocksMaps.get(orderCommodityBo.getCommodityId().toString());
+            List<StorageLocalStocksPo> storageStocksList = storageStocksMaps.get(orderCommodityBo.getCommodityId().toString());
 
             //传入单个商品和其对应的一个或多个库位库存对象进行剩余库存的比较
             List<CompareStorageLocalStocksBo> commodityStocksList = checkStorageStockByCommodity(outOrderBo.getOrderSn(), outOrderBo.getWhId(), orderCommodityBo, storageStocksList, stocksHistoryPos);
@@ -310,7 +325,7 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
 
             // 构建分配信息  availableCount  getFreezeStockCount
             Integer newAvailableCount =  storageLocalStocksPo.getAvailableCount() - compareQty;//新的可用库存
-            Integer newFreezeCount = storageLocalStocksPo.getFreezeCount() + compareQty;//新的冻结库存
+            //Integer newFreezeCount = storageLocalStocksPo.getFreezeCount() + compareQty;//新的冻结库存
 
             CompareStorageLocalStocksBo compareStocksBo = new CompareStorageLocalStocksBo();
             compareStocksList.add(compareStocksBo);
@@ -318,15 +333,16 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
             compareStocksBo.setCommodityId(orderCommodityBo.getCommodityId());
             compareStocksBo.setStorageLocalId(storageLocalStocksPo.getStorageLocalId());
             compareStocksBo.setAvailableCount(newAvailableCount); //新的可用库位库存
-            compareStocksBo.setFreezeCount(newFreezeCount);//新的冻结库位库存
+            //compareStocksBo.setFreezeCount(newFreezeCount);//新的冻结库位库存
 
             //构建库位库存记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
+            //shp.setId(SnowflakeIdWorker.generateId());
+            shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setOutQty(orderCommodityBo.getOrderQty());
             shp.setOperatorTime(LocalDateTime.now());
             shp.setOrderSn(orderSn);
-            shp.setOrderType(2);
             shp.setWhId(whId);
             shp.setInQty(0);
             shp.setOrderId(orderCommodityBo.getOrderId());
@@ -369,9 +385,20 @@ public class AllocationWarehouseForOrderForOrderServiceImpl extends ServiceImpl<
     private  Integer insertPullAllocationItem(Long outOrderId, List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos){
 
         //生成一个唯一的事务id , 用来校验远程调用是否成功
-        String tranId = "tranId:" + StringUtil.generateUuid();
-        ResultUtil<Integer> result = outStorageOrderOperatorFeign.insertAllocationItem(tranId, outOrderId, compareStorageLocalStocksBos);
-
+        //String tranId = "tranId:" + StringUtil.generateUuid();
+        String tranId ="tranId:1234546789";
+        ResultUtil<Integer> result =null;
+        try {
+            //result = outStorageOrderOperatorFeign.insertAllocationItem(tranId, outOrderId, compareStorageLocalStocksBos);
+            OutOrderAlloStocksBo alloStocksBo = new OutOrderAlloStocksBo();
+            alloStocksBo.setTranId(tranId);
+            alloStocksBo.setOutOrderId(outOrderId);
+            //alloStocksBo.setAlloStocksBos(compareStorageLocalStocksBos);
+            result = outStorageOrderOperatorFeign.insertAllocationItem2(alloStocksBo);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
         if(!redisTemplate.hasKey(tranId)){
             //如果远程调用失败, redis中key(事务id)将为空
             throw new AplException(AllocationWarehouseServiceCode.INSERT_PULL_FAIL.code, AllocationWarehouseServiceCode.INSERT_PULL_FAIL.msg);

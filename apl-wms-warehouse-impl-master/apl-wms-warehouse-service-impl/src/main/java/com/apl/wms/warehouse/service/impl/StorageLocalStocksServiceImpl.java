@@ -180,9 +180,9 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
             } else {//已满
                 storageLocalPo.setStorageStatus(WmsWarehouseAplConstants.STORAGE_FULL_STATUS);
             }
+
             //更新库位状态
             storageLocalService.updateById(storageLocalPo);
-
         }
 
     }
