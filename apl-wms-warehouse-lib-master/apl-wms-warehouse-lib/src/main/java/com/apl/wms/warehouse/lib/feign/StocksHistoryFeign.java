@@ -1,11 +1,14 @@
-package com.apl.wms.warehouse.lib.dao;
+package com.apl.wms.warehouse.lib.feign;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.apl.datasource.DataSourceConfig;
 import com.apl.datasource.DynamicDataSource;
+import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.DBUtil;
+import com.apl.lib.utils.ResultUtil;
+import com.apl.lib.utils.SnowflakeIdWorker;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,7 +21,7 @@ import java.util.List;
  * @date 2020/7/9 - 10:11
  */
 @Component
-public class StocksHistoryDao {
+public class StocksHistoryFeign {
 
     @Autowired
     DBUtil dbUtil;
@@ -38,6 +41,7 @@ public class StocksHistoryDao {
                 redisTemplate);
         DBUtil.DBInfo dbInfo = dbUtil.connect(druidDataSource);
         dbInfo.setTenantValue(securityUser.getInnerOrgId());
+        DBUtil.DBInfo.tenantIdName = "inner_org_id";
 
         dbInfo.dbUtil = dbUtil;
 
@@ -45,9 +49,10 @@ public class StocksHistoryDao {
     }
 
     //批量保存库存记录
-    public int saveStocksHistoryPos(DBUtil.DBInfo dbInfo, List<StocksHistoryPo> stocksHistoryPos) throws Exception
+    public ResultUtil<Integer> saveStocksHistoryPos(DBUtil.DBInfo dbInfo, List<StocksHistoryPo> stocksHistoryPos) throws Exception
     {
-        if(null==insertSql){
+        //if(null==insertSql)
+        {
             // 首次调用生成插入SQL语句
             insertSql = dbUtil.creteInsertSql(dbInfo, stocksHistoryPos.get(0), "stocks_history");
         }
@@ -56,7 +61,7 @@ public class StocksHistoryDao {
             dbUtil.insert(dbInfo, insertSql, stocksHistoryPo);
         }
 
-        return stocksHistoryPos.size();
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
     }
 
 

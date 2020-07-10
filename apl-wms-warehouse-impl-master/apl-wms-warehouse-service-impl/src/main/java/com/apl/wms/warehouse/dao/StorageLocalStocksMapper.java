@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.dao;
 
+import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
@@ -64,4 +65,8 @@ public interface StorageLocalStocksMapper extends BaseMapper<StorageLocalStocksP
     List<StorageLocalStocksPo> getStorageLocalByCommodityId(@Param("commodityId") Long commodityId);
 
 
+    /**
+     * 更新库位库存
+     */
+    Integer updateStorageLocalStock(@Param("storage") List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos);
 }

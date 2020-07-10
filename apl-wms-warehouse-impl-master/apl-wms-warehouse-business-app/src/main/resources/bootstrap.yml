@@ -6,4 +6,8 @@ spring:
     include:
       common, apl-wms-warehouse-business-app
 
+feign:
+  httpclient:
+    enabled: true
+
 

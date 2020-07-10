@@ -47,26 +47,6 @@ public interface CommodityBrandMapper extends BaseMapper<CommodityBrandPo> {
     List<CommodityBrandInfoVo> exist(@Param("id")Long id , @Param("brandName")String brandName, @Param("brandNameEn")String brandNameEn);
 
 
-    @MapKey("commodityKey")
-    Map<String, StocksBo> queryTotalStock(@Param("whId") Long whId, @Param("ids") String ids, @Param("minId") Long minId, @Param("maxId") Long maxId);
-
-
-    List<StorageLocalStocksPo> queryStorageLocalStock(@Param("whId") Long whId, @Param("ids") String ids, @Param("minId") Long minId, @Param("maxId") Long maxId);
-
-    /**
-     * 更新总库存
-     * @param newStocksPos
-     * @return
-     */
-    Integer updateStock(@Param("stock") List<StocksPo> newStocksPos);
-
-
-
-
-    /**
-     * 更新库位库存
-     */
-    Integer updateStorageLocalStock(@Param("storage") List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos);
 
 
 }

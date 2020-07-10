@@ -19,13 +19,13 @@ import lombok.experimental.Accessors;
  * @author cy
  * @since 2020-07-08
  */
-@Data
+//@Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="StocksHistory对象", description="库存记录")
-public class StocksHistoryPo extends Model<StocksHistoryPo> {
+public class StocksHistoryPo implements Serializable { //extends Model<StocksHistoryPo>
 
-private static final long serialVersionUID=1L;
+    //private static final long serialVersionUID=1L;
 
     @TableId(value = "id", type = IdType.INPUT)
     private Long id;
@@ -61,9 +61,97 @@ private static final long serialVersionUID=1L;
     private LocalDateTime operatorTime;
 
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
+    //@Override
+    //protected Serializable pkVal() {
+     //   return this.id;
+    //}
+
+
+    public Long getId() {
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getOrderSn() {
+        return orderSn;
+    }
+
+    public void setOrderSn(String orderSn) {
+        this.orderSn = orderSn;
+    }
+
+    public Long getWhId() {
+        return whId;
+    }
+
+    public void setWhId(Long whId) {
+        this.whId = whId;
+    }
+
+    public Long getStorageLocalId() {
+        return storageLocalId;
+    }
+
+    public void setStorageLocalId(Long storageLocalId) {
+        this.storageLocalId = storageLocalId;
+    }
+
+    public Long getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
+    }
+
+    public Integer getInQty() {
+        return inQty;
+    }
+
+    public void setInQty(Integer inQty) {
+        this.inQty = inQty;
+    }
+
+    public Integer getOutQty() {
+        return outQty;
+    }
+
+    public void setOutQty(Integer outQty) {
+        this.outQty = outQty;
+    }
+
+    public Integer getStocksQty() {
+        return stocksQty;
+    }
+
+    public void setStocksQty(Integer stocksQty) {
+        this.stocksQty = stocksQty;
+    }
+
+    public LocalDateTime getOperatorTime() {
+        return operatorTime;
+    }
+
+    public void setOperatorTime(LocalDateTime operatorTime) {
+        this.operatorTime = operatorTime;
+    }
 }

@@ -85,7 +85,7 @@ public class StorageLocalStocksController {
 
     @PostMapping("/storage/lock")
     @ApiOperation(value =  "锁定库位库存数据" , notes = "锁定库位库存数据，给每个订单商品分配不同的库位")
-    @ApiIgnore
+    //@ApiIgnore
     public ResultUtil<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(@RequestBody List<PullBatchOrderItemBo> pullBatchOrderItems) throws Exception {
 
         return storageCommodityService.storageLocalLock(pullBatchOrderItems);

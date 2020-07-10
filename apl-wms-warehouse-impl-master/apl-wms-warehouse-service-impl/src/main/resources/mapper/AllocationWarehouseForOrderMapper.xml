@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apl.wms.warehouse.dao.AllocationWarehouseForOrderMapper">
+
+
+    <!-- 通过 commodity_id 查询总库存 -->
+    <select id="queryTotalStock" resultType="com.apl.wms.warehouse.bo.StocksBo">
+        select
+        concat(wh_id, '_', commodity_id) as commodityKey,
+        id,
+        wh_id,
+        commodity_id,
+        available_stock_count,
+        freeze_stock_count,
+        all_stock_count
+        from
+        stocks
+        where
+        1=1
+        <if test="whId > 0">
+            and  wh_id = #{whId}
+        </if>
+        and commodity_id in (${ids})
+        and commodity_id between #{minId} and #{maxId}
+
+    </select>
+
+
+    <!-- 对比库位库存 -->
+    <select id="queryStorageLocalStock" resultType="com.apl.wms.warehouse.po.StorageLocalStocksPo">
+        select
+            sls.id,
+            sls.commodity_id,
+            sls.storage_local_id,
+            sls.available_count
+        from
+            storage_local_stocks sls
+            left join storage_local sl on sls.storage_local_id = sl.id
+            left join wh_shelves ws on sl.shelves_id = ws.id
+            left join wh_zone wz on ws.wh_zone_id = wz.id  and wz.wh_id = #{whId}
+        where
+            sls.commodity_id in (${ids})
+            and sls.commodity_id between #{minId} and #{maxId}
+    </select>
+
+
+    <!-- 更新总库存 -->
+    <update id="updateStock" parameterType="java.util.List">
+        <foreach collection="stocksPos"  close="" open="" index="" item="row" separator=";">
+            update stocks set
+            available_stock_count = ${row.availableStockCount}
+            where id = ${row.id}
+        </foreach>
+    </update>
+
+
+    <update id="updateStorageLocalStock" parameterType="java.util.List" >
+        <foreach collection="storageLocalStocksBos" close="" open="" index="" item="row" separator=";">
+            update storage_local_stocks set
+            available_count = #{row.availableCount}
+            where id = ${row.id}
+        </foreach>
+    </update>
+
+</mapper>

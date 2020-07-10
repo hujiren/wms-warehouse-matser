@@ -100,4 +100,7 @@ public interface StocksService extends IService<StocksPo> {
         void pullBatchSubmitStockReduce(PlatformOutOrderStockBo platformOutOrderStockBo) throws Exception;
 
 
+
+
+
 }

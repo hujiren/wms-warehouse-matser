@@ -58,4 +58,7 @@ public interface StocksMapper extends BaseMapper<StocksPo> {
     Boolean addStock(@Param("stockUpdBo") StockUpdBo stockUpdBo);
 
 
+
+
+
 }

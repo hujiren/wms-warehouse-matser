@@ -2,6 +2,9 @@ package com.apl.wms.warehouse.lib.pojo.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 /**
  * @author hjr start
@@ -16,11 +20,12 @@ import javax.validation.constraints.Min;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Setter
-@Getter
-public class CompareStorageLocalStocksBo {
+@TableName("stocks")
+@ApiModel(value="分配库存StocksPo对象", description="分配库存StocksPo对象")
+public class CompareStorageLocalStocksBo implements Serializable {
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
+    //@JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "storageLocalId" , value = "库位id" , required = true)
