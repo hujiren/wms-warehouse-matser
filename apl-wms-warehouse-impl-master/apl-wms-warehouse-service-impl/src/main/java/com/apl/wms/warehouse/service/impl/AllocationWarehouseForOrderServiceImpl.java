@@ -5,6 +5,7 @@ import com.apl.lib.join.JoinKeyValues;
 import com.apl.lib.join.JoinUtil;
 import com.apl.lib.utils.DBUtil;
 import com.apl.lib.utils.ResultUtil;
+import com.apl.lib.utils.StringUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
@@ -169,29 +170,40 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
                 List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos = checkStorageStockByOrder(outOrderBo, commodityIdJoinKeyValues, stocksHistoryPos);
 
                 // 更新库位库存
-                storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBos);
+                Integer updateStorageLocalStockResult = storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBos);
 
                 //更新总库存
-                stocksService.updateTotalStock(newStocksPos);
+                Integer updateTotalStockResult = stocksService.updateTotalStock(newStocksPos);
 
-                //切换数据源,保存库存历史记录列表
-                dbinfo.dbUtil.beginTrans(dbinfo);
-                stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPos);
+
+                //如果更新总库存和更新库位库存执行成功则保存此次出库记录, 并更改状态为已分配仓库
+                if(updateStorageLocalStockResult > 0 && updateTotalStockResult > 0) {
+                    //切换数据源,开启事务
+                    dbinfo.dbUtil.beginTrans(dbinfo);
+                    //保存库存历史记录列表
+                    stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPos);
+
+                    AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 3, compareStorageLocalStocksBos);
+                }
+
+                // 库存历史记录事务提交
                 dbinfo.dbUtil.commit(dbinfo);
-
-                AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 3 ,compareStorageLocalStocksBos);
             }else{
 
                 //库存不足, 恢复订单拣货状态为1(未分配库存)
-                AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 1 ,null);
+                List<CompareStorageLocalStocksBo> listEmpty = new ArrayList<>();
+                AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 1 ,listEmpty);
 
                 return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.UNDER_STOCK.code, AllocationWarehouseServiceCode.UNDER_STOCK.msg, false);
             }
         }
         catch (Exception e){
-            AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 0 ,null);
+            log.error(MessageFormat.format("{0},  outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId()));
+
             dbinfo.dbUtil.rollback(dbinfo);
-            log.error(MessageFormat.format("allocationStockByOrder: {0},  outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId()));
+            List<CompareStorageLocalStocksBo> listEmpty = new ArrayList<>();
+            AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 0, listEmpty);
+
             throw new AplException(CommonStatusCode.SAVE_FAIL.code, CommonStatusCode.SAVE_FAIL.msg);
         }
 
@@ -305,7 +317,6 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
                 commodityIdJoinKeyValues.getMaxKey());
 
 
-
         //根据商品Id进行分组    每个商品Id对应一个或多个库位库存对象
         LinkedHashMap<String, List<StorageLocalStocksPo>> storageStocksMaps =  JoinUtil.listGrouping(storageStocksPos, "commodityId");
 
@@ -385,14 +396,9 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
     private  Integer AllocaOutOrderStockCallBack(Long outOrderId, Integer pullStatus, List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos){
 
         //生成一个唯一的事务id , 用来校验远程调用是否成功
-        String tranId ="tranId:1234546789";
-        ResultUtil<Integer> result =null;
-        try {
-            result = outStorageOrderOperatorFeign.AllocOutOrderStockCallBack(tranId, outOrderId, pullStatus,compareStorageLocalStocksBos);
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
+        String tranId ="tranId:"+ StringUtil.generateUuid();
+        ResultUtil<Integer> result = outStorageOrderOperatorFeign.AllocOutOrderStockCallBack(tranId, outOrderId, pullStatus,compareStorageLocalStocksBos);
+
         if(!redisTemplate.hasKey(tranId)){
             //如果远程调用失败, redis中key(事务id)将为空
             throw new AplException(AllocationWarehouseServiceCode.INSERT_PULL_FAIL.code, AllocationWarehouseServiceCode.INSERT_PULL_FAIL.msg);
