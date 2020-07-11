@@ -58,7 +58,10 @@ public interface StocksMapper extends BaseMapper<StocksPo> {
     Boolean addStock(@Param("stockUpdBo") StockUpdBo stockUpdBo);
 
 
-
-
-
+    /**
+     * 更新总库存
+     * @param newStocksPos
+     * @return
+     */
+    Integer updateTotalStock(@Param("stocksPos") List<StocksPo> newStocksPos);
 }

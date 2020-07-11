@@ -25,7 +25,6 @@ import java.io.Serializable;
 public class CompareStorageLocalStocksBo implements Serializable {
 
     @TableId(value = "id", type = IdType.INPUT)
-    //@JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "storageLocalId" , value = "库位id" , required = true)

@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -275,4 +274,14 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
     }
 
 
+    /**
+     * 更新总库存
+     * @param newStocksPos
+     * @return
+     */
+    @Override
+    public Integer updateTotalStock(List<StocksPo> newStocksPos) {
+        Integer integer = baseMapper.updateTotalStock(newStocksPos);
+        return  integer;
+    }
 }

@@ -3,6 +3,7 @@
 <mapper namespace="com.apl.wms.warehouse.dao.StorageLocalStocksMapper">
 
 
+
     <!-- 查找详情 2019-12-09-->
     <select id="getCommodityStorageLocalStockList" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock">
         SELECT
@@ -91,4 +92,14 @@
         and available_count > 0
     </select>
 
+
+
+    <!--更新库位库存-->
+    <update id="updateStorageLocalStock" parameterType="java.util.List" >
+        <foreach collection="storageLocalStocksBos" close="" open="" index="" item="row" separator=";">
+            update storage_local_stocks set
+            available_count = #{row.availableCount}
+            where id = ${row.id}
+        </foreach>
+    </update>
 </mapper>

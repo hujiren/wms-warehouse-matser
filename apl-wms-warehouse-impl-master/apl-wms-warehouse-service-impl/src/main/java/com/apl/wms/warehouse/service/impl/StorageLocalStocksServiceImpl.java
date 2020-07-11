@@ -7,6 +7,7 @@ import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
+import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
@@ -25,7 +26,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -328,4 +328,14 @@ public class TempBo{
 
 }
 
+    /**
+     * 更新库位库存
+     * @param compareStorageLocalStocksBos
+     * @return
+     */
+    @Override
+    public Integer updateStorageLocalStock(List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos) {
+        Integer integer = baseMapper.updateStorageLocalStock(compareStorageLocalStocksBos);
+        return integer;
+    }
 }

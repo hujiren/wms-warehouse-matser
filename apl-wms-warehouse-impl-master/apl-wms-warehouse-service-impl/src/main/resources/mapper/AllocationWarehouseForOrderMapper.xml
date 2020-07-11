@@ -43,23 +43,4 @@
             and sls.commodity_id between #{minId} and #{maxId}
     </select>
 
-
-    <!-- 更新总库存 -->
-    <update id="updateStock" parameterType="java.util.List">
-        <foreach collection="stocksPos"  close="" open="" index="" item="row" separator=";">
-            update stocks set
-            available_stock_count = ${row.availableStockCount}
-            where id = ${row.id}
-        </foreach>
-    </update>
-
-
-    <update id="updateStorageLocalStock" parameterType="java.util.List" >
-        <foreach collection="storageLocalStocksBos" close="" open="" index="" item="row" separator=";">
-            update storage_local_stocks set
-            available_count = #{row.availableCount}
-            where id = ${row.id}
-        </foreach>
-    </update>
-
 </mapper>

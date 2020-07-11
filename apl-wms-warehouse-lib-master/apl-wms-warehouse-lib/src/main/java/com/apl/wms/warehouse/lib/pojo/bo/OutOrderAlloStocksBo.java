@@ -25,5 +25,5 @@ public class OutOrderAlloStocksBo implements Serializable {
 
     private String tranId;
 
-    //private List<CompareStorageLocalStocksBo> alloStocksBos;
+    private List<CompareStorageLocalStocksBo> alloStocksBos;
 }

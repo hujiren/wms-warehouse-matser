@@ -5,8 +5,6 @@ import com.apl.lib.join.JoinKeyValues;
 import com.apl.lib.join.JoinUtil;
 import com.apl.lib.utils.DBUtil;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.lib.utils.SnowflakeIdWorker;
-import com.apl.lib.utils.StringUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
@@ -14,18 +12,18 @@ import com.apl.wms.warehouse.bo.StocksBo;
 import com.apl.wms.warehouse.dao.AllocationWarehouseForOrderMapper;
 import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
-import com.apl.wms.warehouse.lib.pojo.bo.OutOrderAlloStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.service.AllocationWarehouseForOrderService;
+import com.apl.wms.warehouse.service.StocksService;
+import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,6 +53,12 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
             this.msg = msg;
         }
     }
+
+    @Autowired
+    private StocksService stocksService;
+
+    @Autowired
+    private StorageLocalStocksService storageLocalStocksService;
 
     @Autowired
     private OutStorageOrderOperatorFeign outStorageOrderOperatorFeign;
@@ -91,7 +95,7 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
         ResultUtil<AllocationWarehouseOutOrderBo> outOrderBoResult =
                 outStorageOrderOperatorFeign.getOrderByAllocationWarehouseManual(outOrderId);
 
-        //如果没有返回相应的数据, 则返回相应的状态信息
+        //如果没有拿到相应的数据, 则返回相应的状态信息
         if (!outOrderBoResult.getCode().equals(CommonStatusCode.GET_SUCCESS.code)) {
             log.info("allocationStockByOrder query order fail!! outOrderId:" + outOrderId.toString());
             return ResultUtil.APPRESULT(outOrderBoResult.getCode(), outOrderBoResult.getMsg(), false);
@@ -133,7 +137,7 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
      * @param outOrderBo
      * @//
      *      1.通过切换数据源保存库存记录
-     *      2.遍历, 取出所有商品信息列表集合, 按商品id排序
+     *      2.遍历, 取出所有商品信息列表对象, 按商品id排序
      *      3.调用对比总库存方法, 将循环对比总库存
      *      4.如果总库存充足, 则进行对比库位库存
      */
@@ -163,26 +167,27 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
                 List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos = checkStorageStockByOrder(outOrderBo, commodityIdJoinKeyValues, stocksHistoryPos);
 
                 // 更新库位库存
-                updStorageLocalStock(compareStorageLocalStocksBos);
+                storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBos);
 
                 //更新总库存
-                updTotalLocalStockSql(newStocksPos);
+                stocksService.updateTotalStock(newStocksPos);
 
                 //切换数据源,保存库存历史记录列表
                 dbinfo.dbUtil.beginTrans(dbinfo);
                 stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPos);
                 dbinfo.dbUtil.commit(dbinfo);
 
-                insertPullAllocationItem(outOrderBo.getOrderId(), compareStorageLocalStocksBos);
+                AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 3 ,compareStorageLocalStocksBos);
             }else{
 
                 //库存不足, 恢复订单拣货状态为1(未分配库存)
-                insertPullAllocationItem(outOrderBo.getOrderId(), null);
+                AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 1 ,null);
 
                 return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.UNDER_STOCK.code, AllocationWarehouseServiceCode.UNDER_STOCK.msg, false);
             }
         }
         catch (Exception e){
+            AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 0 ,null);
             dbinfo.dbUtil.rollback(dbinfo);
             log.error(MessageFormat.format("allocationStockByOrder: {0},  outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId()));
             throw new AplException(CommonStatusCode.SAVE_FAIL.code, CommonStatusCode.SAVE_FAIL.msg);
@@ -368,33 +373,15 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
         return compareStocksList;
     }
 
-    //更新总库存
-    private Integer updTotalLocalStockSql(List<StocksPo> newStocksPos){
-        Integer integer = baseMapper.updateStock(newStocksPos);
-        return  integer;
-    }
-
-    //更新库位库存
-    private Integer updStorageLocalStock(List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos){
-        Integer integer = baseMapper.updateStorageLocalStock(compareStorageLocalStocksBos);
-
-        return integer;
-    }
 
     //跨项目更新拣货明细
-    private  Integer insertPullAllocationItem(Long outOrderId, List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos){
+    private  Integer AllocaOutOrderStockCallBack(Long outOrderId, Integer pickStatus, List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos){
 
         //生成一个唯一的事务id , 用来校验远程调用是否成功
-        //String tranId = "tranId:" + StringUtil.generateUuid();
         String tranId ="tranId:1234546789";
         ResultUtil<Integer> result =null;
         try {
-            //result = outStorageOrderOperatorFeign.insertAllocationItem(tranId, outOrderId, compareStorageLocalStocksBos);
-            OutOrderAlloStocksBo alloStocksBo = new OutOrderAlloStocksBo();
-            alloStocksBo.setTranId(tranId);
-            alloStocksBo.setOutOrderId(outOrderId);
-            //alloStocksBo.setAlloStocksBos(compareStorageLocalStocksBos);
-            result = outStorageOrderOperatorFeign.insertAllocationItem2(alloStocksBo);
+            result = outStorageOrderOperatorFeign.AllocOutOrderStockCallBack(tranId, outOrderId, pickStatus,compareStorageLocalStocksBos);
         }
         catch (Exception e){
             log.error(e.getMessage());

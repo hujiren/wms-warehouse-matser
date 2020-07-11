@@ -81,4 +81,13 @@
             )
     </insert>
 
+
+    <!-- 更新总库存 -->
+    <update id="updateTotalStock" parameterType="java.util.List">
+        <foreach collection="stocksPos"  close="" open="" index="" item="row" separator=";">
+            update stocks set
+            available_stock_count = ${row.availableStockCount}
+            where id = ${row.id}
+        </foreach>
+    </update>
 </mapper>
