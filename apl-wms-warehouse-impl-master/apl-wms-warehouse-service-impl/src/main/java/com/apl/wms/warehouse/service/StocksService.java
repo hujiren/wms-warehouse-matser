@@ -100,7 +100,8 @@ public interface StocksService extends IService<StocksPo> {
         void pullBatchSubmitStockReduce(PlatformOutOrderStockBo platformOutOrderStockBo) throws Exception;
 
 
-
+        //更新总库存
+         Integer updateTotalStock(List<StocksPo> newStocksPos);
 
 
 }

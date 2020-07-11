@@ -2,6 +2,7 @@ package com.apl.wms.warehouse.service;
 
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
+import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
@@ -11,7 +12,6 @@ import com.apl.wms.warehouse.vo.StorageLocalStocksListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.apl.lib.pojo.dto.PageDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import java.util.List;
 import java.util.Map;
 
@@ -104,5 +104,12 @@ public interface StorageLocalStocksService extends IService<StorageLocalStocksPo
      */
     Map<Long , Integer> storageLocalStocksReduce(List<PlatformOutOrderStockBo.PlatformOutOrderStock> platformOutOrderStocks) throws Exception;
 
+
+    /**
+     * 更新库位库存
+     * @param compareStorageLocalStocksBos
+     * @return
+     */
+    Integer updateStorageLocalStock(List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos);
 
 }

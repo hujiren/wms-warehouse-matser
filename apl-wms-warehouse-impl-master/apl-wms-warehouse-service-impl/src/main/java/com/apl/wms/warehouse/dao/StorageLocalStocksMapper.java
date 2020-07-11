@@ -65,8 +65,10 @@ public interface StorageLocalStocksMapper extends BaseMapper<StorageLocalStocksP
     List<StorageLocalStocksPo> getStorageLocalByCommodityId(@Param("commodityId") Long commodityId);
 
 
+
     /**
-     * 更新库位库存
+     * 更新分配库位库存
      */
-    Integer updateStorageLocalStock(@Param("storage") List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos);
+    Integer updateStorageLocalStock(@Param("storageLocalStocksBos") List<CompareStorageLocalStocksBo> storageLocalStocksBos);
+
 }
