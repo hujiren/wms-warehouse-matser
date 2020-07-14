@@ -175,7 +175,6 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
                 //更新总库存
                 Integer updateTotalStockResult = stocksService.updateTotalStock(newStocksPos);
 
-
                 //如果更新总库存和更新库位库存执行成功则保存此次出库记录, 并更改状态为已分配仓库
                 if(updateStorageLocalStockResult > 0 && updateTotalStockResult > 0) {
                     //切换数据源,开启事务
@@ -209,6 +208,8 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
 
         return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS, true);
     }
+
+
 
 
     /**
@@ -370,6 +371,7 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
             shp.setInQty(0);
             shp.setOrderId(orderCommodityBo.getOrderId());
             shp.setStorageLocalId(storageLocalStocksPo.getStorageLocalId());
+
 
             if (storageLocalStocksPo.getAvailableCount() >= compareQty) {
                 //如果本库位可用库存足够分配
