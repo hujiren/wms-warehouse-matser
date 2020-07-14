@@ -36,4 +36,5 @@ public class AllocationWarehouseForOrderController {
     public ResultUtil<Boolean> allocationManual(@NotNull(message = "outOrderId不能为空") Long outOrderId) throws Exception {
          return allocationWarehouseForOrderService.allocationManual(outOrderId);
     }
+
 }

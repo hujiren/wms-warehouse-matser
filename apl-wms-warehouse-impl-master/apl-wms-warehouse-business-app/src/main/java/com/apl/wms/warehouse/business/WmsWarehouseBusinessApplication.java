@@ -18,7 +18,7 @@ public class WmsWarehouseBusinessApplication {
 
     public static void main(String[] args) {
 
-        //com.apl.datasource.DataSourceConfig
+//        com.apl.datasource.DataSourceConfig
 
         SpringApplication.run(WmsWarehouseBusinessApplication.class , args);
     }

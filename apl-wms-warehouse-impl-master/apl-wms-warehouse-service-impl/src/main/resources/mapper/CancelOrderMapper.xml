@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apl.wms.warehouse.dao.CancelOrderMapper">
+
+
+    <update id="updateOrderStatusById">
+        update out_order set order_status = #{orderStatus} where id = #{orderId};
+    </update>
+
+
+    <select id="queryTotalStock" resultType="java.util.Map">
+        select
+            concat(wh_id, '_', commodity_id) as commodityKey,
+            id,
+            wh_id,
+            commodity_id,
+            available_stock_count,
+            freeze_stock_count,
+            all_stock_count
+            from stocks
+        where
+            1=1
+        <if test="whId > 0">
+        and  wh_id = #{whId}
+        </if>
+        and commodity_id in (${ids})
+        and commodity_id between #{minKey} and #{maxKey}
+    </select>
+
+
+    <select id="queryStorageLocalStock" resultType="com.apl.wms.warehouse.po.StorageLocalStocksPo">
+
+        select
+            sls.id,
+            sls.commodity_id,
+            sls.storage_local_id,
+            sls.available_count
+        from
+            storage_local_stocks sls
+         where
+            sls.commodity_id in (${ids})
+            and sls.commodity_id between #{minId} and #{maxId}
+    </select>
+</mapper>
