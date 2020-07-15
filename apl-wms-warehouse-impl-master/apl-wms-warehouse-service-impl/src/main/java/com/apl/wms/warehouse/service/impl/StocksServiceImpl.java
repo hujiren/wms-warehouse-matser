@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.LockTool;
+import com.apl.lib.utils.RedisLock;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutstorageOrderBusinessFeign;
@@ -172,7 +172,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         }
         finally {
             String lockKey = "lock-stocks-" + platformOutOrderStockBo.getCustomerId();
-            LockTool.unlock(redisTemplate , lockKey);
+            RedisLock.unlock(redisTemplate , lockKey);
         }
 
 

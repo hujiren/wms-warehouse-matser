@@ -55,7 +55,7 @@ public class JasperHelper {
 			}
 
 
-			test(PullStatusType.ALREADY_ALLOCATION);
+			test(PullStatusType.ALREADY_ALLOCATION_PICKING_MEMBER);
 	}
 
 	private static void test(PullStatusType alreadyAllocation) {

@@ -406,6 +406,8 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
             throw new AplException(AllocationWarehouseServiceCode.INSERT_PULL_FAIL.code, AllocationWarehouseServiceCode.INSERT_PULL_FAIL.msg);
         }
 
+        
+
         redisTemplate.delete(tranId);
         return  result.getData();
     }

@@ -1,8 +1,8 @@
 package com.apl.wms.warehouse.lib.feign;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.apl.datasource.DataSourceConfig;
-import com.apl.datasource.DynamicDataSource;
+import com.apl.db.datasource.DataSourceConfig;
+import com.apl.db.datasource.DynamicDataSource;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;

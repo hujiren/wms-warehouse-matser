@@ -1,10 +1,10 @@
 package com.apl.wms.warehouse.lib.cache;
 
-import com.apl.lib.config.MyBatisPlusConfig;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
+import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 import org.springframework.data.redis.core.RedisTemplate;
 
