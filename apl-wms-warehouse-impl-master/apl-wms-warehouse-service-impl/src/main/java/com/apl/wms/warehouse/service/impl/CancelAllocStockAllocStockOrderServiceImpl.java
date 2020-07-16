@@ -11,13 +11,13 @@ import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.bo.StocksBo;
-import com.apl.wms.warehouse.dao.CancelOrderMapper;
+import com.apl.wms.warehouse.dao.CancelAllocStockOrderMapper;
 import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
-import com.apl.wms.warehouse.service.CancelOrderService;
+import com.apl.wms.warehouse.service.CancelAllocStockOrderService;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,7 +27,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -41,11 +40,11 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, StocksPo> implements CancelOrderService {
+public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<CancelAllocStockOrderMapper, StocksPo> implements CancelAllocStockOrderService {
 
 
     //状态code枚举
-    enum AllocationWarehouseServiceCode {
+    enum CancelAllocationWarehouseServiceCode {
 
         YOUR_ORDER_IS_ALLOCATING("YOUR_ORDER_IS_ALLOCATING", "您的订单正在分配, 此时无法取消, 请稍后再试"),
         YOUR_ORDER_CAN_NOT_CANCEL("YOUR_ORDER_CAN_NOT_CANCEL", "您的订单已经分配拣货员, 已无法取消"),
@@ -57,7 +56,7 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
         private String code;
         private String msg;
 
-        AllocationWarehouseServiceCode(String code, String msg) {
+        CancelAllocationWarehouseServiceCode(String code, String msg) {
             this.code = code;
             this.msg = msg;
         }
@@ -79,41 +78,79 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
     StocksHistoryFeign stocksHistoryFeign;
 
 
+    /**
+     * 手动取消分配
+     * @param outOrderId
+     * @return
+     */
+    @Override
+    @Transactional
+    public ResultUtil<Boolean> cancelAllocationManual(Long outOrderId) throws Exception {
+
+        //  1.通过feign远程调用获取包含商品信息集合在内的订单信息对象返回集
+        ResultUtil<AllocationWarehouseOutOrderBo> outOrderBoResult =
+                outStorageOrderOperatorFeign.getOrderForCancelAllocationWarehouseManual(outOrderId);
+
+        //如果没有拿到相应的数据, 则返回相应的状态信息
+        if (!outOrderBoResult.getCode().equals(CommonStatusCode.GET_SUCCESS.code)) {
+
+            log.info("method cancelAllocationManual in class CancelAllocStockAllocStockOrderServiceImpl query order fail!! outOrderId:"
+                    + outOrderId.toString());
+            return ResultUtil.APPRESULT(outOrderBoResult.getCode(), outOrderBoResult.getMsg(), false);
+
+        }
+
+        // 2.从返回集中将订单信息对象提取出来
+        AllocationWarehouseOutOrderBo outOrderBo = outOrderBoResult.getData();
+
+        ResultUtil<Boolean> ResultBoolean = cancelAllocationStockByOrder(outOrderBo);
+
+        return ResultBoolean;
+    }
+
+
+    /**
+     * 队列取消分配
+     * @param outOrderBo
+     * @return
+     */
+    @Override
+    @Transactional
+    public Boolean cancelAllocationByQueue(AllocationWarehouseOutOrderBo outOrderBo) throws Exception {
+
+        // 1.为从消息队列中取到的对象分配库存, 总库存, 库位库存, 返回值结果为false或true
+        ResultUtil<Boolean> result = cancelAllocationStockByOrder(outOrderBo);
+        Boolean data = result.getData();
+        return data;
+    }
+
+
 
     /**
      * 取消分配
      */
-    @Override
-    @Transactional
-    public ResultUtil<Boolean> cancelAllocation(List<AllocationWarehouseOutOrderBo> outOrderListBo) throws Exception {
+
+    public ResultUtil<Boolean> cancelAllocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo) throws Exception {
+
         //  1.通过切换数据源保存库存记录
         DBUtil.DBInfo dbinfo = stocksHistoryFeign.createDBinfo();
-        Long whId = outOrderListBo.get(0).getWhId();
+        Long whId = outOrderBo.getWhId();
 
         try {
-
-            for (AllocationWarehouseOutOrderBo orderBo : outOrderListBo) {
-
-                ResultUtil<Boolean> resultUtil = this.checkOrderStatus(orderBo);
-
-                if(resultUtil.getData() == false){
-                    return resultUtil;
-                }
-
                 JoinKeyValues commodityIdJoinKeyValues = JoinUtil.getKeys(
-                        orderBo.getAllocationWarehouseOrderCommodityBoList(),
+                        outOrderBo.getAllocationWarehouseOrderCommodityBoList(),
                         "commodityId",
                         Long.class);
 
 
-                //库存历史记录集合
+                //创建库存历史记录集合
                 List<StocksHistoryPo> stocksHistoryPoList = new ArrayList<>();
 
                 //取消分配总库存
-                List<StocksPo> newStocksPos = this.CancelTotalStock(commodityIdJoinKeyValues, orderBo, whId, stocksHistoryPoList);
+                List<StocksPo> newStocksPos = this.CancelTotalStock(commodityIdJoinKeyValues, outOrderBo, whId, stocksHistoryPoList);
 
                 //取消分配库位库存
-                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, orderBo, stocksHistoryPoList);
+                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, stocksHistoryPoList);
 
                 //切换数据源,开启事务
                 dbinfo.dbUtil.beginTrans(dbinfo);
@@ -127,16 +164,12 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
                 //保存库存历史记录列表
                 stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPoList);
 
-                //更新订单状态为"6", 取消状态
-                baseMapper.updateOrderStatusById(6, orderBo.getOrderId());
-
                 //删除拣货明细
-                deleteOrderAllocationItem(orderBo.getOrderId());
+                deleteOrderAllocationItem(outOrderBo.getOrderId());
 
                 // 库存历史记录事务提交
                 dbinfo.dbUtil.commit(dbinfo);
 
-            }
 
         } catch (Exception e) {
 
@@ -146,48 +179,6 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
         }
 
         return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, CommonStatusCode.SYSTEM_SUCCESS);
-    }
-
-
-
-    /**
-     * 检查订单状态
-     * @param outOrderList
-     * @return
-     * @throws Exception
-     */
-    public ResultUtil<Boolean> checkOrderStatus(AllocationWarehouseOutOrderBo outOrderList) throws Exception {
-
-        //如果订单状态是"1"创建中和"2"创建异常, 或者是订单状态为"3"已提交, 并且拣货状态为"1"未分配库存, 直接修改订单状态为"6"取消
-        if(outOrderList.getOrderStatus() < 3 || (outOrderList.getOrderStatus() == 3 && outOrderList.getPullStatus() == 1)){
-
-            Integer integer = baseMapper.updateOrderStatusById(outOrderList.getOrderStatus(),outOrderList.getOrderId());
-            if(integer == 0){
-                return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.ORDER_STATUS_UPDATE_FAILED.code,
-                        AllocationWarehouseServiceCode.ORDER_STATUS_UPDATE_FAILED.msg, false);
-            }
-
-        }
-
-        //如果订单状态为"3"已提交状态, 并且拣货状态也为"3"分配库存完成, 则调用取消分配方法, 退回已扣减的库存
-        if(outOrderList.getOrderStatus() == 3 && outOrderList.getPullStatus() == 3){
-            return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.START_CANCELING_ORDERS.code,
-                    AllocationWarehouseServiceCode.START_CANCELING_ORDERS.msg, true);
-        }
-
-        //如果订单状态为"3"已提交状态, 并且拣货状态为"2", 则需要等待该订单分配库存完成, 再取消
-        if(outOrderList.getOrderStatus() == 3 && outOrderList.getPullStatus() ==2){
-            return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.YOUR_ORDER_IS_ALLOCATING.code,
-                    AllocationWarehouseServiceCode.YOUR_ORDER_IS_ALLOCATING.msg, false);
-
-        }else{
-
-            //剩余其他情况, 都取消失败
-            return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.YOUR_ORDER_CAN_NOT_CANCEL.code,
-                    AllocationWarehouseServiceCode.YOUR_ORDER_CAN_NOT_CANCEL.msg, false);
-
-        }
-
     }
 
 
@@ -242,8 +233,8 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
 
             }else{
 
-                throw new AplException(AllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.code,
-                        AllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.msg);
+                throw new AplException(CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.code,
+                        CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.msg);
             }
 
 
@@ -281,7 +272,7 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
                                         AllocationWarehouseOutOrderBo outOrderBo,
                                         List<StocksHistoryPo> stocksHistoryPoList) throws Exception {
 
-        //同一订单商品列表
+        //统一订单商品列表
         List<AllocationWarehouseOrderCommodityBo> commodityList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
 
         //根据商品id查询库位库存对象集合
@@ -394,8 +385,8 @@ public class CancelOrderServiceImpl extends ServiceImpl<CancelOrderMapper, Stock
         if (!redisTemplate.hasKey(tranId)) {
 
             //如果远程调用失败, redis中key(事务id)将为空
-            throw new AplException(AllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.code,
-                    AllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.msg, null);
+            throw new AplException(CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.code,
+                    CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.msg, null);
 
         }
 

@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.apl</groupId>
             <artifactId>apl-web-dependency-parent</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -27,7 +27,7 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!-- 动态数据源 -->
+        <!--  -->
         <dependency>
             <groupId>com.apl</groupId>
             <artifactId>apl-db</artifactId>

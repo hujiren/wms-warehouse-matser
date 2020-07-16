@@ -10,13 +10,13 @@ import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.bo.StocksBo;
-import com.apl.wms.warehouse.dao.AllocationWarehouseForOrderMapper;
+import com.apl.wms.warehouse.dao.AllocationStockOrderMapper;
 import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
-import com.apl.wms.warehouse.service.AllocationWarehouseForOrderService;
+import com.apl.wms.warehouse.service.AllocationStockOrderService;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,7 +38,7 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<AllocationWarehouseForOrderMapper, StocksPo> implements AllocationWarehouseForOrderService {
+public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStockOrderMapper, StocksPo> implements AllocationStockOrderService {
 
     //状态code枚举
     enum AllocationWarehouseServiceCode {
@@ -98,7 +98,7 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
 
         //如果没有拿到相应的数据, 则返回相应的状态信息
         if (!outOrderBoResult.getCode().equals(CommonStatusCode.GET_SUCCESS.code)) {
-            log.info("allocationStockByOrder query order fail!! outOrderId:" + outOrderId.toString());
+            log.info("method allocationManual in class AllocationStockOrderServiceImpl query order fail!! outOrderId:" + outOrderId.toString());
             return ResultUtil.APPRESULT(outOrderBoResult.getCode(), outOrderBoResult.getMsg(), false);
         }
 
@@ -148,7 +148,7 @@ public class AllocationWarehouseForOrderServiceImpl extends ServiceImpl<Allocati
         DBUtil.DBInfo dbinfo = stocksHistoryFeign.createDBinfo();
 
         try {
-            // 2.遍历, 取出所有商品信息列表集合, 按商品id排序
+
             JoinKeyValues commodityIdJoinKeyValues = JoinUtil.getKeys(
                     outOrderBo.getAllocationWarehouseOrderCommodityBoList(),
                     "commodityId",

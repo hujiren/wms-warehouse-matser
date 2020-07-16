@@ -98,7 +98,7 @@ public interface WarehouseFeign {
 
 
     /**
-     * @Desc: 添加店铺 缓存
+     * @Desc: 添加库位 缓存
      * @Author: CY
      * @Date: 2020/1/13 18:32
      */
