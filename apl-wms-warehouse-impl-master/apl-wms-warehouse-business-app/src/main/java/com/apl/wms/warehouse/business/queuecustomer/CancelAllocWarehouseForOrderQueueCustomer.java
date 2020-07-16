@@ -1,12 +1,13 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
 import com.apl.db.datasource.DataSourceContextHolder;
+import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
-import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.service.AllocationStockOrderService;
+import com.apl.wms.warehouse.service.CancelAllocStockOrderService;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -22,16 +23,16 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class AllocationWarehouseForOrderQueueCustomer {
+public class CancelAllocWarehouseForOrderQueueCustomer {
 
     @Autowired
-    AllocationStockOrderService allocationStockOrderService;
+    CancelAllocStockOrderService cancelAllocStockOrderService;
 
     @Autowired
     RedisTemplate redisTemplate;
 
     @RabbitHandler
-    @RabbitListener(queues = "allocationWarehouseForOrderQueue")
+    @RabbitListener(queues = "cancelAllocWarehouseForOrderQueue")
     public void onMessage(Message message, Channel channel)  throws Exception{
 
         try {
@@ -53,7 +54,7 @@ public class AllocationWarehouseForOrderQueueCustomer {
             MyBatisPlusConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
 
             //订单来源  1自动同步平台订单
-            allocationStockOrderService.allocationByQueue(outOrderBo);
+            cancelAllocStockOrderService.cancelAllocationByQueue(outOrderBo);
 
             //删除临时token
             redisTemplate.delete(token);

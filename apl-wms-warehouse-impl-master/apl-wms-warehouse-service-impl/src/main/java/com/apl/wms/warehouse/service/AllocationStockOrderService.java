@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author hjr start
  * @date 2020/7/6 - 15:14
  */
-public interface AllocationWarehouseForOrderService extends IService<StocksPo> {
+public interface AllocationStockOrderService extends IService<StocksPo> {
 
     // 手动分配仓库
     ResultUtil<Boolean> allocationManual(Long outOrderId);

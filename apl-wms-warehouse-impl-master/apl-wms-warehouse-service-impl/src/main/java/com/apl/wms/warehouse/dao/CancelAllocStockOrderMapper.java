@@ -14,7 +14,7 @@ import java.util.Map;
  * @author hjr start
  * @date 2020/7/13 - 22:34
  */
-public interface CancelOrderMapper extends BaseMapper<StocksPo> {
+public interface CancelAllocStockOrderMapper extends BaseMapper<StocksPo> {
 
     Integer updateOrderStatusById(@Param("orderStatus") Integer orderStatus, @Param("orderId") Long orderId);
 
