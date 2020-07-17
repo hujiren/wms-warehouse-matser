@@ -113,7 +113,7 @@ public interface WarehouseFeign {
      * @Author: CY
      * @Date: 2020/1/3 9:43
      */
-    @PostMapping("/storage_local/allocation-storage")
+    @PostMapping("/storage-local/allocation-storage")
     ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(
             @RequestParam("commodityId") Long commodityId ,
             @RequestParam("count") Integer count ,
@@ -125,7 +125,7 @@ public interface WarehouseFeign {
      * @Author: CY
      * @Date: 2020/1/3 9:43
      */
-    @PostMapping("/storage_local/manual_allocation")
+    @PostMapping("/storage-local/manual_allocation")
     ResultUtil<StorageLocalInfoVo> manualAllotLocal(@RequestParam("commodityId")Long commodityId ,
                                                      @RequestParam("storageLocalSn") String storageLocalSn);
 
@@ -134,7 +134,7 @@ public interface WarehouseFeign {
      *  @Param ：
      *  @Return ：
      *  Created by arran on 2020/3/12 */
-    @PostMapping("/storage_local/change-status")
+    @PostMapping("/storage-local/change-status")
     ResultUtil<Boolean> changeStorageLocalStatus(@RequestParam("lockIds") String lockIds , @RequestParam("unLockIds") String unLockIds);
 
     /**
