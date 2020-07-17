@@ -81,7 +81,14 @@ private static final long serialVersionUID=1L;
     @NotNull(message = "货架id不能为空")
     private Long shelvesId;
 
+    @ApiModelProperty(value = "商品ID", hidden = true)
+    private Long commodityId;
 
+    @ApiModelProperty(value = "可用库存", hidden = true)
+    private Integer availableCount;
+
+    @ApiModelProperty(value = "可以存放最大的商品数量", hidden = true)
+    private Integer thresholdCount;
 
     @Override
     protected Serializable pkVal() {
