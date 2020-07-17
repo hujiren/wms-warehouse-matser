@@ -8,7 +8,7 @@
     </update>
 
 
-    <select id="queryTotalStock" resultType="java.util.Map">
+    <select id="queryTotalStock" resultType="com.apl.wms.warehouse.bo.StocksBo">
         select
             concat(wh_id, '_', commodity_id) as commodityKey,
             id,
@@ -17,28 +17,34 @@
             available_stock_count,
             freeze_stock_count,
             all_stock_count
-            from stocks
+        from
+            stocks
         where
             1=1
         <if test="whId > 0">
         and  wh_id = #{whId}
         </if>
         and commodity_id in (${ids})
+        <if test="maxKey > 0 and minKey > 0">
         and commodity_id between #{minKey} and #{maxKey}
+        </if>
     </select>
 
 
     <select id="queryStorageLocalStock" resultType="com.apl.wms.warehouse.po.StorageLocalStocksPo">
 
         select
-            sls.id,
-            sls.commodity_id,
-            sls.storage_local_id,
-            sls.available_count
+            id,
+            commodity_id,
+            storage_local_id,
+            available_count,
+            freeze_count
         from
-            storage_local_stocks sls
+            storage_local_stocks
          where
-            sls.commodity_id in (${ids})
-            and sls.commodity_id between #{minId} and #{maxId}
+            commodity_id in (${ids})
+            <if test="maxKey > 0 and minKey > 0">
+            and commodity_id between #{minKey} and #{maxKey}
+            </if>
     </select>
 </mapper>

@@ -21,7 +21,9 @@
             and  wh_id = #{whId}
         </if>
         and commodity_id in (${ids})
-        and commodity_id between #{minId} and #{maxId}
+        <if test="maxId > 0 and minId > 0">
+            and commodity_id between #{minId} and #{maxId}
+        </if>
 
     </select>
 
@@ -32,7 +34,8 @@
             sls.id,
             sls.commodity_id,
             sls.storage_local_id,
-            sls.available_count
+            sls.available_count,
+            sls.freeze_count
         from
             storage_local_stocks sls
             left join storage_local sl on sls.storage_local_id = sl.id
