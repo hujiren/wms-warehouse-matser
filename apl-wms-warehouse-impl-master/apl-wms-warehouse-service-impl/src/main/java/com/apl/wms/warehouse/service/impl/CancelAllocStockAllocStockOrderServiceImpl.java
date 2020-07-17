@@ -46,12 +46,10 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     //状态code枚举
     enum CancelAllocationWarehouseServiceCode {
 
-        YOUR_ORDER_IS_ALLOCATING("YOUR_ORDER_IS_ALLOCATING", "您的订单正在分配, 此时无法取消, 请稍后再试"),
-        YOUR_ORDER_CAN_NOT_CANCEL("YOUR_ORDER_CAN_NOT_CANCEL", "您的订单已经分配拣货员, 已无法取消"),
-        THERE_IS_NOT_ENOUGH_FREE_SPACE("THERE_IS_NOT_ENOUGH_FREE_SPACE","当前库存可用空间不足"),
-        ORDER_STATUS_UPDATE_FAILED("ORDER_STATUS_UPDATE_FAILED", "订单状态更新失败"),
+        THERE_IS_NOT_ENOUGH_FREE_SPACE("THERE_IS_NOT_ENOUGH_FREE_SPACE", "当前库存可用空间不足"),
         REDIS_DOES_NOT_HAS_KEY("REDIS_GET_KEY_FAILED", "远程调用redis key 不存在"),
-        START_CANCELING_ORDERS("START_CANCELING_ORDERS", "订单状态无异常,开始取消订单");
+        CANCEL_ALLOCATION_STOCK_SUCCESS("CANCEL_ALLOCATION_STOCK_SUCCESS", "取消分配成功 ");
+        ;
 
         private String code;
         private String msg;
@@ -80,6 +78,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
     /**
      * 手动取消分配
+     *
      * @param outOrderId
      * @return
      */
@@ -92,7 +91,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
                 outStorageOrderOperatorFeign.getOrderForCancelAllocationWarehouseManual(outOrderId);
 
         //如果没有拿到相应的数据, 则返回相应的状态信息
-        if (!outOrderBoResult.getCode().equals(CommonStatusCode.GET_SUCCESS.code)) {
+        if (!outOrderBoResult.getCode().equals("GET_SUCCESS")) {
 
             log.info("method cancelAllocationManual in class CancelAllocStockAllocStockOrderServiceImpl query order fail!! outOrderId:"
                     + outOrderId.toString());
@@ -111,6 +110,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
     /**
      * 队列取消分配
+     *
      * @param outOrderBo
      * @return
      */
@@ -125,50 +125,49 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     }
 
 
-
     /**
      * 取消分配
      */
-
-    public ResultUtil<Boolean> cancelAllocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo) throws Exception {
+    public ResultUtil<Boolean> cancelAllocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo) {
 
         //  1.通过切换数据源保存库存记录
         DBUtil.DBInfo dbinfo = stocksHistoryFeign.createDBinfo();
         Long whId = outOrderBo.getWhId();
 
         try {
-                JoinKeyValues commodityIdJoinKeyValues = JoinUtil.getKeys(
-                        outOrderBo.getAllocationWarehouseOrderCommodityBoList(),
-                        "commodityId",
-                        Long.class);
+            JoinKeyValues commodityIdJoinKeyValues = JoinUtil.getKeys(
+                    outOrderBo.getAllocationWarehouseOrderCommodityBoList(),
+                    "commodityId",
+                    Long.class);
 
 
-                //创建库存历史记录集合
-                List<StocksHistoryPo> stocksHistoryPoList = new ArrayList<>();
+            //创建库存历史记录集合
+            List<StocksHistoryPo> stocksHistoryPoList = new ArrayList<>();
 
-                //取消分配总库存
-                List<StocksPo> newStocksPos = this.CancelTotalStock(commodityIdJoinKeyValues, outOrderBo, whId, stocksHistoryPoList);
+            //取消分配总库存
+            List<StocksPo> newStocksPos = this.CancelTotalStock(commodityIdJoinKeyValues, outOrderBo, whId, stocksHistoryPoList);
 
-                //取消分配库位库存
-                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, stocksHistoryPoList);
+            //取消分配库位库存
+            List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, stocksHistoryPoList);
 
-                //切换数据源,开启事务
-                dbinfo.dbUtil.beginTrans(dbinfo);
+            //切换数据源,开启事务
+            dbinfo.dbUtil.beginTrans(dbinfo);
 
-                //更新库位库存
-                storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
+            //更新总库存
+            Integer integer1 = stocksService.updateTotalStock(newStocksPos);
 
-                //更新总库存
-                stocksService.updateTotalStock(newStocksPos);
+            //更新库位库存
+            Integer integer = storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
 
-                //保存库存历史记录列表
-                stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPoList);
+            //删除拣货明细
+            Integer integer2 = deleteOrderAllocationItem(outOrderBo.getOrderId());
 
-                //删除拣货明细
-                deleteOrderAllocationItem(outOrderBo.getOrderId());
+            //保存库存历史记录列表
+            ResultUtil<Integer> integerResultUtil = stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPoList);
 
-                // 库存历史记录事务提交
-                dbinfo.dbUtil.commit(dbinfo);
+
+            // 库存历史记录事务提交
+            dbinfo.dbUtil.commit(dbinfo);
 
 
         } catch (Exception e) {
@@ -178,13 +177,14 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
         }
 
-        return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, CommonStatusCode.SYSTEM_SUCCESS);
+        return ResultUtil.APPRESULT(CancelAllocationWarehouseServiceCode.CANCEL_ALLOCATION_STOCK_SUCCESS.code,
+                CancelAllocationWarehouseServiceCode.CANCEL_ALLOCATION_STOCK_SUCCESS.msg, true);
     }
-
 
 
     /**
      * 取消分配总库存
+     *
      * @param joinKeyValues
      * @param outOrderBo
      * @param whId
@@ -204,23 +204,22 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
                 joinKeyValues.getMinKey(),
                 joinKeyValues.getMaxKey());
 
-
-        //库位库存更新对象集合
+        //库存更新对象集合
         List<StocksPo> stocksPoList = new ArrayList<>();
 
         String key = null;
 
         for (AllocationWarehouseOrderCommodityBo commodityBo : commodityBoList) {
 
-            key = whId + "_" + commodityBo.getCommodityId();
+            key = whId.toString() + "_" + commodityBo.getCommodityId().toString();
             StocksBo stocksBo = null;
-            //构建库位库存更新对象
+            //构建总库存更新对象
             StocksPo stocksPo = new StocksPo();
 
-                //总库存对象
-                stocksBo = StocksBoMap.get(key);
+            //总库存对象
+            stocksBo = StocksBoMap.get(key);
 
-                //如果冻结库存容量大于即将退回库存的数量
+            //如果冻结库存容量大于即将退回库存的数量
             if (stocksBo.getFreezeStockCount() > commodityBo.getOrderQty()) {
 
                 stocksPo.setAvailableStockCount(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
@@ -231,7 +230,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
                 stocksPoList.add(stocksPo);
 
-            }else{
+            } else {
 
                 throw new AplException(CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.code,
                         CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.msg);
@@ -244,7 +243,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setOrderId(commodityBo.getOrderId());
             shp.setInQty(0);
             shp.setOutQty(-commodityBo.getOrderQty());
-            shp.setWhId(whId);
+            shp.setWhId(0L);
             shp.setStorageLocalId(0L);
             shp.setStocksQty(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
             shp.setOrderSn(outOrderBo.getOrderSn());
@@ -259,9 +258,9 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     }
 
 
-
     /**
      * 取消分配库位库存
+     *
      * @param joinKeyValues
      * @param outOrderBo
      * @param stocksHistoryPoList
@@ -269,14 +268,14 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
      * @throws Exception
      */
     public List<CompareStorageLocalStocksBo> cancelStorageLocalStock(JoinKeyValues joinKeyValues,
-                                        AllocationWarehouseOutOrderBo outOrderBo,
-                                        List<StocksHistoryPo> stocksHistoryPoList) throws Exception {
+                                                                     AllocationWarehouseOutOrderBo outOrderBo,
+                                                                     List<StocksHistoryPo> stocksHistoryPoList) throws Exception {
 
         //统一订单商品列表
         List<AllocationWarehouseOrderCommodityBo> commodityList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
 
         //根据商品id查询库位库存对象集合
-        List<StorageLocalStocksPo> storageStocksPos = baseMapper.queryStorageLocalStock(joinKeyValues.getSbKeys(), joinKeyValues.getMinKey(), joinKeyValues.getMaxKey());
+        List<StorageLocalStocksPo> storageStocksPos = baseMapper.queryStorageLocalStock(joinKeyValues.getSbKeys().toString(), joinKeyValues.getMinKey(), joinKeyValues.getMaxKey());
 
         //将库位库存集合根据商品id进行分组
         LinkedHashMap<String, List<StorageLocalStocksPo>> storageLocalStockMap = JoinUtil.listGrouping(storageStocksPos, "commodityId");
@@ -289,7 +288,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //通过商品id得到对应的库位库存对象集合
             List<StorageLocalStocksPo> storageLocalStockList = storageLocalStockMap.get(commodityBo.getCommodityId().toString());
 
-                    this.buildFallbackData(outOrderBo.getOrderSn(), outOrderBo.getWhId(),
+            this.buildFallbackData(outOrderBo.getOrderSn(), outOrderBo.getWhId(),
                     commodityBo,
                     storageLocalStockList,
                     stocksHistoryPoList,
@@ -300,9 +299,9 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     }
 
 
-
     /**
      * 构建库位库存对象及库位出库记录对象
+     *
      * @param orderSn
      * @param whId
      * @param orderCommodityBo
@@ -312,10 +311,10 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
      * @return
      */
     private List<CompareStorageLocalStocksBo> buildFallbackData(String orderSn, Long whId,
-                                                                           AllocationWarehouseOrderCommodityBo orderCommodityBo,
-                                                                           List<StorageLocalStocksPo> storageLocalStockList,
-                                                                           List<StocksHistoryPo> stocksHistoryPos,
-                                                                           List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos) {
+                                                                AllocationWarehouseOrderCommodityBo orderCommodityBo,
+                                                                List<StorageLocalStocksPo> storageLocalStockList,
+                                                                List<StocksHistoryPo> stocksHistoryPos,
+                                                                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos) {
         //单个商品的出库数量
         Integer compareQty = orderCommodityBo.getOrderQty();
 
@@ -326,25 +325,25 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //构建库位库存记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
 
-                //如果当前库位放得下回退的商品
-                if(stocksPo.getFreezeCount() >= compareQty){
+            //如果当前库位放得下回退的商品
+            if (stocksPo.getFreezeCount() >= compareQty) {
 
-                    compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + compareQty);
-                    compareStorageLocalStocksBo.setFreezeCount(stocksPo.getFreezeCount() - compareQty);
-                    compareStorageLocalStocksBo.setAllocationQty(compareQty);
-                    shp.setOutQty(-compareQty);
+                compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + compareQty);
+                compareStorageLocalStocksBo.setFreezeCount(stocksPo.getFreezeCount() - compareQty);
+                compareStorageLocalStocksBo.setAllocationQty(compareQty);
+                shp.setOutQty(-compareQty);
 
 
-                }else{
+            } else {
 
-                    //放不下则有多少放多少, 剩下的放下一个库位
-                    compareQty -= stocksPo.getFreezeCount();
-                    compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + stocksPo.getFreezeCount());
-                    compareStorageLocalStocksBo.setAllocationQty(stocksPo.getFreezeCount());
-                    shp.setOutQty(-stocksPo.getFreezeCount());
-                    compareStorageLocalStocksBo.setFreezeCount(0);
+                //放不下则有多少放多少, 剩下的放下一个库位
+                compareQty -= stocksPo.getFreezeCount();
+                compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + stocksPo.getFreezeCount());
+                compareStorageLocalStocksBo.setAllocationQty(stocksPo.getFreezeCount());
+                shp.setOutQty(-stocksPo.getFreezeCount());
+                compareStorageLocalStocksBo.setFreezeCount(0);
 
-                }
+            }
 
             compareStorageLocalStocksBo.setCommodityId(orderCommodityBo.getCommodityId());
             compareStorageLocalStocksBo.setId(stocksPo.getId());
@@ -361,7 +360,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setInQty(0);
             shp.setOrderId(orderCommodityBo.getOrderId());
             shp.setStorageLocalId(stocksPo.getStorageLocalId());
-
+            shp.setStocksQty(compareStorageLocalStocksBo.getAvailableCount());
             stocksHistoryPos.add(shp);
 
         }
@@ -372,6 +371,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
     /**
      * 跨项目删除拣货明细
+     *
      * @param outOrderId
      * @return
      */
@@ -380,7 +380,8 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
         //生成一个唯一的事务id , 用来校验远程调用是否成功
         String tranId = "tranId:" + StringUtil.generateUuid();
 
-        ResultUtil<Integer> result = outStorageOrderOperatorFeign.deleteOrderAllocationItem(outOrderId);
+        ResultUtil<Integer> result = outStorageOrderOperatorFeign.deleteOrderAllocationItem(outOrderId, tranId);
+
 
         if (!redisTemplate.hasKey(tranId)) {
 

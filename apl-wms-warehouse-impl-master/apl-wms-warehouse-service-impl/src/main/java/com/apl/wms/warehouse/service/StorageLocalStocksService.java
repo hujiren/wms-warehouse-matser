@@ -12,6 +12,8 @@ import com.apl.wms.warehouse.vo.StorageLocalStocksListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.apl.lib.pojo.dto.PageDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -107,9 +109,9 @@ public interface StorageLocalStocksService extends IService<StorageLocalStocksPo
 
     /**
      * 更新库位库存
-     * @param compareStorageLocalStocksBos
+     * @param
      * @return
      */
-    Integer updateStorageLocalStock(List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos);
+    Integer updateStorageLocalStock(@Param("storageLocalStocksBos") List<CompareStorageLocalStocksBo> storageLocalStocksBos);
 
 }

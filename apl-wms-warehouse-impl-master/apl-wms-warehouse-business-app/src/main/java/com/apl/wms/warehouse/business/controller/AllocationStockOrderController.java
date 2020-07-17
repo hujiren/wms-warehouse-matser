@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
  * @date 2020/7/6 - 15:11
  */
 @RestController
-@Api(value = "分配仓库", tags = "分配仓库")
+@Api(value = "分配仓库", tags = "分配仓库", hidden = true)
 @Slf4j
 @RequestMapping("/allocation-stock-for-order")
 @Validated

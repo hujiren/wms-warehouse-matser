@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.dao;
 
 import com.apl.wms.warehouse.bo.StocksBo;
+import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -21,12 +22,16 @@ public interface CancelAllocStockOrderMapper extends BaseMapper<StocksPo> {
     @MapKey("commodityKey")
     Map<String, StocksBo> queryTotalStock(@Param("whId") Long whId, @Param("ids") String ids, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey);
 
+
     /**
      * 根据商品Id查询库位库存
-     * @param sbKeys
+     * @param
      * @param minKey
      * @param maxKey
      * @return
      */
-    List<StorageLocalStocksPo> queryStorageLocalStock(StringBuilder sbKeys, Long minKey, Long maxKey);
+    List<StorageLocalStocksPo> queryStorageLocalStock(@Param("ids") String ids, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey);
+
+
+
 }
