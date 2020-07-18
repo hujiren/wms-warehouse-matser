@@ -93,10 +93,10 @@
             wh_operator
         WHERE
         <if test="minKey>0 and minKey==maxKey">
-            member_id = #{keys}
+            member_id = ${keys}
         </if>
         <if test="minKey!=maxKey">
-            member_id BETWEEN #{minKey} AND #{maxKey} AND member_id in(#{keys})
+            member_id BETWEEN ${minKey} AND ${maxKey} AND member_id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2

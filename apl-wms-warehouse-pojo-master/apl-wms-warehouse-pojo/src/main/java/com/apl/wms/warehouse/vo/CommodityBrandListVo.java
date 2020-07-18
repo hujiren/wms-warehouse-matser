@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,6 +23,7 @@ private static final long serialVersionUID=1L;
 
 
     // 商品品牌id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
 

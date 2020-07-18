@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
@@ -30,6 +32,7 @@ public class WhShelvesPo extends Model<WhShelvesPo> {
 
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "shelvesNo" , value = "货架编号" , required = true)
@@ -39,11 +42,13 @@ public class WhShelvesPo extends Model<WhShelvesPo> {
     @ApiModelProperty(name = "shelvesSpecId" , value = "货架规格id" , required = true)
     @NotNull(message = "货架规格id不能为空")
     @Min(value = 0 , message = "货架规格id不合法")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long shelvesSpecId;
 
     @ApiModelProperty(name = "whZoneId" , value = "仓库区域id" , required = true)
     @NotNull(message = "仓库区域id不能为空")
     @Min(value = 0 , message = "仓库区域id不合法")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long whZoneId;
 
     @ApiModelProperty(name = "remark" , value = "备注" , required = true)

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
@@ -30,6 +32,7 @@ import org.hibernate.validator.constraints.Range;
 public class StorePo extends Model<StorePo> {
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "storeCode" , value = "编码code" , required = true)
@@ -47,6 +50,7 @@ public class StorePo extends Model<StorePo> {
     @ApiModelProperty(name = "customerId" , value = "客户id" , hidden = true)
     //@NotNull(message = "客户id不能为空")
     //@Min(value = 0 , message = "客户id不合法")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
 
     @ApiModelProperty(name = "electricCode" , value = "电商平台代码" , required = true)

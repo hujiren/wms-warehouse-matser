@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class CommodityCategoryPo extends Model<CommodityCategoryPo> {
 private static final long serialVersionUID=1L;
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "categoryName" , value = "商品分类名称" , required = true)
@@ -42,6 +44,7 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "parentId" , value = "商品分类的父级id" , required = true)
     @Min(value = 0 , message = "商品分类的父级id不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parentId;
 
     @ApiModelProperty(name = "numberOfPlies" , value = "菜单层级数" , required = true)

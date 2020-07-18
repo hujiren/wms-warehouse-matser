@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
@@ -30,11 +32,13 @@ public class WhOperatorPo extends Model<WhOperatorPo> {
 
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "memberId" , value = "操作员id" , required = true)
     @NotNull(message = "操作员id不能为空")
     @Min(value = 0 , message = "操作员id不合法")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long memberId;
 
     @ApiModelProperty(name = "memberName" , value = "操作员姓名" , required = true)

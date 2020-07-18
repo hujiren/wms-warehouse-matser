@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,6 +22,7 @@ public class CommodityCategoryInfoVo implements Serializable {
 private static final long serialVersionUID=1L;
 
     // 商品种类id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     // 商品分类名称
@@ -30,6 +32,7 @@ private static final long serialVersionUID=1L;
     private String categoryNameEn;
 
     // 商品分类的父级id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parentId;
 
     // 菜单层级数

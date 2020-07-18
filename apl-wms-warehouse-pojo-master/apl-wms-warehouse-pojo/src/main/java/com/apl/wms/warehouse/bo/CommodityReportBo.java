@@ -1,11 +1,13 @@
 package com.apl.wms.warehouse.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
 public class CommodityReportBo {
 
     //客户id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
     //客户名称
     private String customerName;

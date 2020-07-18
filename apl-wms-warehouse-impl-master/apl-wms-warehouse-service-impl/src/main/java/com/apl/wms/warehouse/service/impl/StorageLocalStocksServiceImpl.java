@@ -225,7 +225,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
                         if(residueCount >= 0){
                             storageCount.setCount(orderItemBo.getOrderQty());
                             changeStocksInfo.setAvailableCount(residueCount);
-                            changeStocksInfo.setFreezeCount(changeStocksInfo.getFreezeCount() + orderItemBo.getOrderQty());
+                            //changeStocksInfo.setFreezeCount(changeStocksInfo.getFreezeCount() + orderItemBo.getOrderQty());
                             baseMapper.updateById(changeStocksInfo);
                             break ;
                         }else{
@@ -233,7 +233,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
                             storageCount.setCount(changeStocksInfo.getAvailableCount());
                             changeStocksInfo.setAvailableCount(0);
                             orderItemBo.setOrderQty(orderItemBo.getOrderQty() - changeStocksInfo.getAvailableCount());
-                            changeStocksInfo.setFreezeCount(changeStocksInfo.getFreezeCount() + changeStocksInfo.getAvailableCount());
+                            //changeStocksInfo.setFreezeCount(changeStocksInfo.getFreezeCount() + changeStocksInfo.getAvailableCount());
                             baseMapper.updateById(changeStocksInfo);
 
                         }
@@ -262,7 +262,7 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
 
             for (PlatformOutOrderStockBo.PlatformOutOrderStock platformOutOrderStock : commodityStockEntry.getValue()) {
                 StorageLocalStocksPo storageLocalStocks = getStorageLocalStocks(platformOutOrderStock.getStorageLocalId(), platformOutOrderStock.getCommodityId());
-                storageLocalStocks.setFreezeCount(storageLocalStocks.getFreezeCount() - platformOutOrderStock.getChangeCount());
+                //storageLocalStocks.setFreezeCount(storageLocalStocks.getFreezeCount() - platformOutOrderStock.getChangeCount());
                 storageLocalStocks.setRealityCount(storageLocalStocks.getRealityCount() - platformOutOrderStock.getChangeCount());
                 updateById(storageLocalStocks);
                 totalCount = totalCount + platformOutOrderStock.getChangeCount();

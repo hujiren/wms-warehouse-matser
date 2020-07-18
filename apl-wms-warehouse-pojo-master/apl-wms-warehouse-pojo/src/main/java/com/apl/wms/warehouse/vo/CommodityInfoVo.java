@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,6 +24,7 @@ private static final long serialVersionUID=1L;
 
 
     // 商品id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     // sku
@@ -32,6 +34,7 @@ private static final long serialVersionUID=1L;
     private String sourceArea;
 
     // 客户id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
 
     //客户名称
@@ -44,6 +47,7 @@ private static final long serialVersionUID=1L;
     private String commodityNameEn;
 
     // 品类一id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long category1Id;
 
     //分类名称
@@ -53,6 +57,7 @@ private static final long serialVersionUID=1L;
     private String categoryNameEn;
 
     // 品牌id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long brandId;
 
     //品牌中文名称

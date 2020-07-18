@@ -19,8 +19,8 @@ import javax.validation.constraints.NotNull;
  * @date 2020/7/6 - 15:11
  */
 @RestController
-@Api(value = "分配仓库", tags = "分配仓库", hidden = true)
 @Slf4j
+@Api(value = "仓库分配", tags = "仓库分配")
 @RequestMapping("/allocation-stock-for-order")
 @Validated
 public class AllocationStockOrderController {
@@ -42,7 +42,7 @@ public class AllocationStockOrderController {
 
 
     @PostMapping(value = "/cancel-allocation")
-    @ApiOperation(value =  "取消订单分配库位" , notes = "取消订单分配库位")
+    @ApiOperation(value =  "取消订单分配库位" , notes = "取消订单分配库位", hidden = true)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outOrderId" , value = "订单id",paramType = "query")
     })

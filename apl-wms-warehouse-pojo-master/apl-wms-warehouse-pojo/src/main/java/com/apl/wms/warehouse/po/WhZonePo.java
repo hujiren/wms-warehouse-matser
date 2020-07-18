@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -34,11 +35,13 @@ public class WhZonePo extends Model<WhZonePo> {
 
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "whId", value = "仓库id", required = true)
     @NotNull(message = "仓库id不能为空")
     @Min(value = 1, message = "仓库id不合法")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long whId;
 
     @ApiModelProperty(name = "zoneCode", value = "分区编号code", required = true)

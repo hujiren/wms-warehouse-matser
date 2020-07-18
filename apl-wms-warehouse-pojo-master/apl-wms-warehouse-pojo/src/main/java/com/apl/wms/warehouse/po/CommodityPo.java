@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class CommodityPo extends Model<CommodityPo> {
 private static final long serialVersionUID=1L;
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "sku" , value = "sku" , required = true)
@@ -52,30 +54,37 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "customerId" , value = "客户id" , required = true)
     @Min(value = 0 , message = "客户id不能小于1")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
 
     @ApiModelProperty(name = "category1Id" , value = "品类一id" , required = true)
     @Min(value = 0 , message = "品类一id不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long category1Id;
 
     @ApiModelProperty(name = "category2Id" , value = "品类二id" ,hidden = true)
     @Min(value = 0 , message = "品类二id不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long category2Id;
 
     @ApiModelProperty(name = "category3Id" , value = "品类三d" , hidden = true)
     @Min(value = 0 , message = "品类三d不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long category3Id;
 
     @ApiModelProperty(name = "category4Id" , value = "品类四id" , hidden = true)
     @Min(value = 0 , message = "品类四id不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long category4Id;
 
     @ApiModelProperty(name = "category5Id" , value = "品类五id" , hidden = true)
     @Min(value = 0 , message = "品类五id不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long category5Id;
 
     @ApiModelProperty(name = "brandId" , value = "品牌id" , required = true)
     @Min(value = 0 , message = "品牌id不能小于0")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long brandId;
 
     @ApiModelProperty(name = "saleStatus" , value = "销售状态 1:上架  2下架" , required = true)

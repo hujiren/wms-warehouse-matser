@@ -30,6 +30,7 @@
 
     <!-- 对比库位库存 -->
     <select id="queryStorageLocalStock" resultType="com.apl.wms.warehouse.po.StorageLocalStocksPo">
+
         select
             sl.id as storage_local_id,
             sl.commodity_id,
@@ -37,13 +38,15 @@
         from
             storage_local sl
             left join wh_shelves ws on sl.shelves_id = ws.id
-            left join wh_zone wz on ws.wh_zone_id = wz.id  and wz.wh_id = #{whId}
+            left join wh_zone wz on ws.wh_zone_id = wz.id and wz.wh_id = ${whId}
         where
-            sl.commodity_id in (${ids})
-            and sl.commodity_id between #{minId} and #{maxId}
+            wz.wh_id = ${whId}
+            and sl.commodity_id in (${ids})
+            and sl.commodity_id between ${minId} and ${maxId}
+    </select>
 
-        <!--
-        select
+    <!--
+    select
             sls.id,
             sls.commodity_id,
             sls.storage_local_id,
@@ -57,7 +60,6 @@
         where
             sls.commodity_id in (${ids})
             and sls.commodity_id between #{minId} and #{maxId}
-        -->
-    </select>
+    -->
 
 </mapper>

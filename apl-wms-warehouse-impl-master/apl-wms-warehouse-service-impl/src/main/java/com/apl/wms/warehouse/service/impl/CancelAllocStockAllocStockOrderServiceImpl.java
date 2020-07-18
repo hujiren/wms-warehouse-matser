@@ -326,24 +326,11 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             StocksHistoryPo shp = new StocksHistoryPo();
 
             //如果当前库位放得下回退的商品
-            if (stocksPo.getFreezeCount() >= compareQty) {
 
-                compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + compareQty);
-                compareStorageLocalStocksBo.setFreezeCount(stocksPo.getFreezeCount() - compareQty);
-                compareStorageLocalStocksBo.setAllocationQty(compareQty);
-                shp.setOutQty(-compareQty);
+            compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + compareQty);
+            //compareStorageLocalStocksBo.setFreezeCount(stocksPo.getFreezeCount() - compareQty);
+            compareStorageLocalStocksBo.setAllocationQty(compareQty);
 
-
-            } else {
-
-                //放不下则有多少放多少, 剩下的放下一个库位
-                compareQty -= stocksPo.getFreezeCount();
-                compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + stocksPo.getFreezeCount());
-                compareStorageLocalStocksBo.setAllocationQty(stocksPo.getFreezeCount());
-                shp.setOutQty(-stocksPo.getFreezeCount());
-                compareStorageLocalStocksBo.setFreezeCount(0);
-
-            }
 
             compareStorageLocalStocksBo.setCommodityId(orderCommodityBo.getCommodityId());
             compareStorageLocalStocksBo.setId(stocksPo.getId());
@@ -351,7 +338,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
             compareStorageLocalStocksBos.add(compareStorageLocalStocksBo);
 
-
+            shp.setOutQty(-compareQty);
             shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setOperatorTime(LocalDateTime.now());

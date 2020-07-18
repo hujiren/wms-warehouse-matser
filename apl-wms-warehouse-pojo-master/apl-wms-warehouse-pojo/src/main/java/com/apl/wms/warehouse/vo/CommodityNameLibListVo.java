@@ -1,6 +1,8 @@
 package com.apl.wms.warehouse.vo;
 
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,6 +21,7 @@ public class CommodityNameLibListVo implements Serializable {
 
 private static final long serialVersionUID=1L;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     // 品名
@@ -31,6 +34,7 @@ private static final long serialVersionUID=1L;
     private String sku;
 
     // 客户id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
 
     //客户名

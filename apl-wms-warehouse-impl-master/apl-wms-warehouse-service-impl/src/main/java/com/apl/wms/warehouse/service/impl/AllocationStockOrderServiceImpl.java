@@ -319,6 +319,12 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 commodityIdJoinKeyValues.getMinKey(),
                 commodityIdJoinKeyValues.getMaxKey());
 
+        if(null == storageStocksPos || storageStocksPos.size() == 0){
+
+            throw new AplException(CommonStatusCode.GET_FAIL.code, CommonStatusCode.GET_FAIL.msg);
+
+        }
+
 
         //根据商品Id进行分组    每个商品Id对应一个或多个库位库存对象
         LinkedHashMap<String, List<StorageLocalStocksPo>> storageStocksMaps =  JoinUtil.listGrouping(storageStocksPos, "commodityId");

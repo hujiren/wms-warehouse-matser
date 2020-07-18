@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class PackagingMaterialsPo extends Model<PackagingMaterialsPo> {
 
     @TableId(value = "id", type = IdType.INPUT)
     @ApiModelProperty(name = "id" , hidden = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "sku" , value = "sku" , required = true)
@@ -39,6 +41,7 @@ public class PackagingMaterialsPo extends Model<PackagingMaterialsPo> {
 
     @ApiModelProperty(name = "commodityId" , value = "commodityId 商品id" , required = true)
     @NotNull(message = "commodityId 不能为空")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long commodityId;
 
     @ApiModelProperty(name = "commodityName" , value = "商品名称" , required = true)

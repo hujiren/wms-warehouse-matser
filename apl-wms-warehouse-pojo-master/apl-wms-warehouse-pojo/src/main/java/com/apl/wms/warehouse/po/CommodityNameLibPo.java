@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
@@ -31,6 +33,7 @@ public class CommodityNameLibPo extends Model<CommodityNameLibPo> {
 
 
     @TableId(value = "id", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "commodityName" , value = "品名" , required = true)
@@ -47,6 +50,7 @@ public class CommodityNameLibPo extends Model<CommodityNameLibPo> {
     @ApiModelProperty(name = "customerId" , value = "客户" , required = true)
     @NotNull(message = "客户不能为空")
     @Min(value = 0 , message = "客户id不合法")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
 
     @ApiModelProperty(name = "categoryId" , value = "品类id" , required = true)
