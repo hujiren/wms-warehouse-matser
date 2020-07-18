@@ -14,7 +14,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -95,7 +94,7 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "platformPrice" , value = "平台价格" , required = true)
     @Min(value = 0 , message = "平台价格不能小于0")
-    private BigDecimal platformPrice;
+    private Double platformPrice;
 
     @ApiModelProperty(name = "platformCurrency" , value = "平台币制" , required = true)
     @NotEmpty(message = "平台币制不能为空")
@@ -103,19 +102,19 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "sizeLength" , value = "长" , required = true)
     @Min(value = 0 , message = "长不能小于0")
-    private BigDecimal sizeLength;
+    private Double sizeLength;
 
     @ApiModelProperty(name = "sizeWidth" , value = "宽" , required = true)
     @Min(value = 0 , message = "宽不能小于0")
-    private BigDecimal sizeWidth;
+    private Double sizeWidth;
 
     @ApiModelProperty(name = "sizeHeight" , value = "高" , required = true)
     @Min(value = 0 , message = "高不能小于0")
-    private BigDecimal sizeHeight;
+    private Double sizeHeight;
 
     @ApiModelProperty(name = "weight" , value = "重量" , required = true)
     @Min(value = 0 , message = "重量不能小于0")
-    private BigDecimal weight;
+    private Double weight;
 
     @ApiModelProperty(name = "netUrl" , value = "商品url链接" , required = true)
     @NotEmpty(message = "商品url链接不能为空")
@@ -123,7 +122,7 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "declarePrice" , value = "申报价格" , required = true)
     @Min(value = 0 , message = "申报价格不能小于0")
-    private BigDecimal declarePrice;
+    private Double declarePrice;
 
     @ApiModelProperty(name = "declareCurrency" , value = "申报币制" , required = true)
     @NotEmpty(message = "申报币制不能为空")
