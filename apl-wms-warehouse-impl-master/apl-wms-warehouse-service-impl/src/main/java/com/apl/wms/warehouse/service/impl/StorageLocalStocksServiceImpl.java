@@ -167,7 +167,8 @@ public class StorageLocalStocksServiceImpl extends ServiceImpl<StorageLocalStock
             StorageLocalPo storageLocalPo = storageLocalService.getById(stockUpdBo.getStorageLocalId());
 
             //商品体积
-            BigDecimal commodityVolume = commodityPo.getSizeWidth().multiply(commodityPo.getSizeWidth()).multiply(commodityPo.getSizeHeight());
+            //BigDecimal commodityVolume = commodityPo.getSizeWidth().multiply(commodityPo.getSizeWidth()).multiply(commodityPo.getSizeHeight());
+            BigDecimal commodityVolume = new BigDecimal(0);
 
             BigDecimal storeVolume = commodityVolume.multiply(new BigDecimal(residue));
 

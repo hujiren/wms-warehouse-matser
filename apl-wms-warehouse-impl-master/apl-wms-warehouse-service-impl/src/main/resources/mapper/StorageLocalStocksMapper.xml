@@ -7,6 +7,23 @@
     <!-- 查找详情 2019-12-09-->
     <select id="getCommodityStorageLocalStockList" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock">
         SELECT
+            sl.id as storage_local_id,
+            sl.commodity_id,
+            sls.reality_count,
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName
+        FROM storage_local sl
+            LEFT JOIN wh_shelves ws ON sl.shelves_id = ws.id
+            LEFT JOIN wh_zone wz ON ws.wh_zone_id = wz.id and wz.wh_id = #{whId}
+            LEFT JOIN warehouse wh ON wz.wh_id = wh.id
+        WHERE
+            wh.id = #{whId}
+            and commodity_id in
+            <foreach collection="commodityIds" item="commodityId" open="(" separator="," close=")">
+                #{commodityId}
+            </foreach>
+
+            <!--
+            SELECT
             sls.commodity_id,
             sls.storage_local_id,
             sls.reality_count,
@@ -20,19 +37,20 @@
             <foreach collection="commodityIds" item="commodityId" open="and commodity_id in (" separator="," close=")">
                 #{commodityId}
             </foreach>
+            -->
     </select>
 
     <!-- 查找详情 2019-12-09-->
     <select id="getById" resultType="com.apl.wms.warehouse.po.StorageLocalStocksPo">
         SELECT
-        id,
-        storage_local_id,
-        commodity_id,
-        available_count,
-        freeze_count,
-        reality_count
+            id,
+            storage_local_id,
+            commodity_id,
+            available_count,
+            freeze_count,
+            reality_count
         FROM
-        storage_local_stocks
+            storage_local_stocks
         where
             id = #{id}
     </select>
@@ -40,14 +58,14 @@
     <!-- 查找列表 2019-12-09-->
     <select id="getList" resultType="com.apl.wms.warehouse.vo.StorageLocalStocksListVo">
         SELECT
-        id, 
-        storage_local_id,
-        commodity_id, 
-        available_count,
-        freeze_count,
-        reality_count
+            id,
+            storage_local_id,
+            commodity_id,
+            available_count,
+            freeze_count,
+            reality_count
         FROM
-        storage_local_stocks
+            storage_local_stocks
         where
         1 = 1
     </select>
@@ -97,10 +115,15 @@
     <!--更新库位库存-->
     <update id="updateStorageLocalStock" parameterType="java.util.List" >
         <foreach collection="storageLocalStocksBos" close="" open="" index="" item="row" separator=";">
+            update storage_local set
+            available_count = #{row.availableCount}
+            where id = ${row.storageLocalId}
+        </foreach>
+        <!--<foreach collection="storageLocalStocksBos" close="" open="" index="" item="row" separator=";">
             update storage_local_stocks set
             available_count = #{row.availableCount},
             freeze_count = #{row.freezeCount}
             where id = ${row.id}
-        </foreach>
+        </foreach>-->
     </update>
 </mapper>

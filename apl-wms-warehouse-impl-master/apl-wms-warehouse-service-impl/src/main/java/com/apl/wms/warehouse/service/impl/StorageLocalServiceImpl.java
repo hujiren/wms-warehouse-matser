@@ -228,100 +228,6 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
 
         List<StorageLocalInfoVo> results = new ArrayList<>();
 
-        //每件商品 的体积
-        BigDecimal commodityVolume = countCommodityVolume(commodityId);
-
-        //剩余商品数量
-        Integer residueCount = count;
-        //订单总体积  体积 * 数量，
-        //BigDecimal orderVolume = singleCommodityVolume.multiply(new BigDecimal(count));
-
-       try{
-           //获取未满 的库位 库位信息
-           List<StorageLocalInfoVo> storageLocals = baseMapper.getUnFullStorageLocal(commodityId);
-
-           //使用 未满 的 库位进行分配库位
-               //循环 减 订单体积 ， 直到小于 零
-               for (StorageLocalInfoVo storageLocalBo : storageLocals) {
-
-                   //将库位存到返回值
-                   results.add(storageLocalBo);
-
-                   //总容量（单个库位）
-                   BigDecimal allVolume = storageLocalBo.getVolume().multiply(new BigDecimal(0.8));
-
-                   //已使用的容量（单个库位）
-                   BigDecimal alreadyUseVolume = commodityVolume.multiply(BigDecimal.valueOf(storageLocalBo.getStockCount()));
-
-                   //剩余的容量（单个库位）
-                   BigDecimal residueVolume = allVolume.subtract(alreadyUseVolume);
-
-                   //剩余可以装多少个商品（单个库位）
-                   BigDecimal usableCount = residueVolume.divideAndRemainder(commodityVolume)[0];
-
-                   //库位装不下一个商品
-                   if(usableCount.intValue() == 0){
-                       //直接找下一个库位
-                       //break;
-                       continue;
-                   }
-                   //可分配的库位数量 大于 剩余的商品数量 ， 说明可以分配完成，此库位足够装下，直接返回订单数量
-                   if(usableCount.intValue() > residueCount){
-                       storageLocalBo.setStockCount(residueCount);
-                       break;
-                   }
-                   storageLocalBo.setStockCount(usableCount.intValue());
-
-                   residueCount = residueCount - usableCount.intValue();
-
-                   //数量小于 零 ，说明已经分配 完成了
-                   if(residueCount < 0){
-                       //直接退出 循环
-                       break;
-                   }
-           }
-
-           //使用 空的 库位进行分配库位如果50个 空库位 还未分配完成 ,继续增加分配库存的数量，在看看如何处理
-           if(residueCount > 0){
-               //获取50个 空的 库位 进行分配
-               storageLocals = baseMapper.getNullStorageLocal(50);
-
-                   for (StorageLocalInfoVo storageLocalBo : storageLocals) {
-
-                       //获取库位 的容量
-                       BigDecimal remain = storageLocalBo.getVolume().multiply(new BigDecimal(0.8));
-
-                       //单个库位 可以装多少个 商品
-                       BigDecimal storageCount = remain.divideAndRemainder(commodityVolume)[0];
-
-                       //一般不会出现 一个库位装不下一个商品
-                       if(storageCount.intValue() == 0){
-                           continue ;
-                       }
-                       //如果一个库位足够装下 商品，直接返回订单数量
-                       if(storageCount.intValue() > residueCount){
-                           storageLocalBo.setStockCount(residueCount);
-                           //单个库位可分配完，直接返回
-                           results.add(storageLocalBo);
-                           break ;
-                       }
-                       storageLocalBo.setStockCount(storageCount.intValue());
-
-                       residueCount = residueCount - storageCount.intValue();
-
-                       //数量小于 零 ，说明已经分配 完成了
-                       if(residueCount < 0){
-                           //直接退出 循环
-                           break;
-                       }
-
-                       //将库位存到返回值
-                       results.add(storageLocalBo);
-                   }
-           }
-
-       }finally {
-       }
 
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , results);
     }
@@ -355,7 +261,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     public ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn) {
 
         //查找商品体积
-        BigDecimal commodityVolume = countCommodityVolume(commodityId);
+        Double commodityVolume = countCommodityVolume(commodityId);
         //查找库位信息
         StorageLocalInfoVo storageLocalInfoVo = baseMapper.getStorageLocalBySn(storageLocalSn);
 
@@ -365,8 +271,8 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         }
 
         //库位存储 商品数量
-        BigDecimal storageCount = storageLocalInfoVo.getVolume().divideAndRemainder(commodityVolume)[0];
-        storageLocalInfoVo.setStockCount(storageCount.intValue());
+        //BigDecimal storageCount = storageLocalInfoVo.getVolume().divideAndRemainder(commodityVolume)[0];
+        //storageLocalInfoVo.setStockCount(storageCount.intValue());
         //分配一个库位
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , storageLocalInfoVo);
     }
@@ -393,7 +299,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
      * @Author: CY
      * @Date: 2020/3/24 9:45
      */
-    private BigDecimal countCommodityVolume(Long commodityId) {
+    private Double countCommodityVolume(Long commodityId) {
 
         CommodityPo find = commodityService.getById(commodityId);
 
@@ -402,7 +308,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         }
 
         //每件商品 的体积
-        return find.getSizeLength().multiply(find.getSizeWidth()).multiply(find.getSizeHeight());
+        return find.getSizeLength() * find.getSizeWidth() * find.getSizeHeight();
     }
 
 
