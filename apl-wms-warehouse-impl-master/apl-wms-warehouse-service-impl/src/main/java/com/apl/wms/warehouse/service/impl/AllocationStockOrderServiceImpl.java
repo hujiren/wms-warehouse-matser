@@ -168,7 +168,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 outOrderBo.setWhId(whId);
 
                 //为订单set好仓库id, 进行对比库位库存
-                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos = checkStorageStockByOrder(outOrderBo, commodityIdJoinKeyValues, stocksHistoryPos);
+                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos = checkStorageLocalStockByOrder(outOrderBo, commodityIdJoinKeyValues, stocksHistoryPos);
 
                 // 更新库位库存
                 Integer updateStorageLocalStockResult = storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBos);
@@ -303,7 +303,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
 
     //按订单, 检查库位库存
-    private List<CompareStorageLocalStocksBo> checkStorageStockByOrder(
+    private List<CompareStorageLocalStocksBo> checkStorageLocalStockByOrder(
                                                                        AllocationWarehouseOutOrderBo outOrderBo,
                                                                        JoinKeyValues commodityIdJoinKeyValues,
                                                                        List<StocksHistoryPo> stocksHistoryPos) throws Exception {
