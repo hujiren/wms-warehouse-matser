@@ -125,7 +125,7 @@ public interface WarehouseFeign {
      * @Author: CY
      * @Date: 2020/1/3 9:43
      */
-    @PostMapping("/storage-local/manual_allocation")
+    @PostMapping("/storage-local/manual-allocation")
     ResultUtil<StorageLocalInfoVo> manualAllotLocal(@RequestParam("commodityId")Long commodityId ,
                                                      @RequestParam("storageLocalSn") String storageLocalSn);
 
