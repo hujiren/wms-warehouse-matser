@@ -1,14 +1,11 @@
 package com.apl.wms.warehouse.utils;
 
-
-import com.apl.cache.AplCacheUtil;
-import com.apl.lib.cachebase.CacheUtil;
+import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.apl.wms.warehouse.service.CacheService;
-
 
 
 /**
@@ -21,7 +18,7 @@ public class JoinLocalCommodityCategory extends JoinBase<CommodityCategoryCacheV
 
     CacheService cacheService;
 
-    public JoinLocalCommodityCategory(int joinStyle, CacheService cacheService, CacheUtil cacheUtil){
+    public JoinLocalCommodityCategory(int joinStyle, CacheService cacheService, BaseCacheUtil cacheUtil){
         this.cacheService = cacheService;
         this.cacheUtil = cacheUtil;
         this.tabName = "commodityCategory";
