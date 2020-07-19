@@ -1,9 +1,10 @@
 package com.apl.wms.warehouse.service.impl;
+import com.apl.cache.AplCacheUtil;
+import com.apl.db.utils.DBUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
 import com.apl.lib.join.JoinUtil;
-import com.apl.lib.utils.DBUtil;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
@@ -22,7 +23,7 @@ import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.text.MessageFormat;
@@ -76,7 +77,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     }
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     @Autowired
     StocksHistoryFeign stocksHistoryFeign;

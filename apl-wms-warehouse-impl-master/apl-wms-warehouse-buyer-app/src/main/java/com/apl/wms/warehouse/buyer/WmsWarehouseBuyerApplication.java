@@ -9,8 +9,18 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication(scanBasePackages = {"com.apl.wms.warehouse", "com.apl.db.datasource", "com.apl.lib", "com.apl.lib.handler"}, exclude = {DataSourceAutoConfiguration.class})
-@EnableFeignClients(basePackages = {"com.apl.wms.warehouse.lib.feign","com.apl.sys.lib.feign", "com.apl.wms.outstorage.order.lib.feign"})
+@SpringBootApplication(
+        scanBasePackages = {
+                "com.apl.wms.warehouse",
+                "com.apl.db",
+                "com.apl.lib",
+                "com.apl.cache"},
+        exclude = {DataSourceAutoConfiguration.class})
+@EnableFeignClients(
+        basePackages = {
+                "com.apl.wms.warehouse.lib.feign",
+                "com.apl.sys.lib.feign",
+                "com.apl.wms.outstorage.order.lib.feign"})
 @MapperScan("com.apl.wms.warehouse.dao")
 @EnableDiscoveryClient
 @EnableSwagger2

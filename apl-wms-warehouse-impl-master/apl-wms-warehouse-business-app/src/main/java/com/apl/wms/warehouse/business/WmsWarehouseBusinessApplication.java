@@ -10,10 +10,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(
-        scanBasePackages = {"com.apl.wms.warehouse",
-                "com.apl.db.datasource",
+        scanBasePackages = {
+                "com.apl.wms.warehouse",
+                "com.apl.db",
                 "com.apl.lib",
-                //"com.apl.lib.handler",
+                "com.apl.cache",
                 "com.apl.wms.warehouse.lib"},
         exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients(

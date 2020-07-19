@@ -15,6 +15,12 @@
             <version>1.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.apl</groupId>
+            <artifactId>apl-cache</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>

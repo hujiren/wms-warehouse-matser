@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
+import com.apl.cache.AplCacheUtil;
 import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
@@ -18,7 +19,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -35,7 +36,7 @@ public class StocksListener {
     StorageLocalStocksService storageLocalStocksService;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     @Autowired
     OuterFeign outerFeign;

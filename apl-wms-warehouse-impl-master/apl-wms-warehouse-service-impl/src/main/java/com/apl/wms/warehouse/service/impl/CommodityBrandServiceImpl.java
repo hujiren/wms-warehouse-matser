@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
+import com.apl.cache.AplCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
@@ -17,7 +18,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -53,7 +54,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
 
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     @Override
     public ResultUtil<Integer> add(String brandName , String brandNameEn){

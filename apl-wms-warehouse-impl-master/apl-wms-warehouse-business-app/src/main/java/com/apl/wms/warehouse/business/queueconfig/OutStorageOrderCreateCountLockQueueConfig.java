@@ -12,7 +12,7 @@ import java.util.Map;
  * @Author: CY
  * @Date: 2020/6/11 10:36
  */
-//@Component
+@Component
 public class OutStorageOrderCreateCountLockQueueConfig {
 
     private String outStorageOrderCreateCountLockQueue = "outStorageOrderCreateCountLockQueue";

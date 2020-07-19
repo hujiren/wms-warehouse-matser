@@ -1,11 +1,12 @@
 package com.apl.wms.warehouse.lib.cache;
 
+import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
-import org.springframework.data.redis.core.RedisTemplate;
+
 
 
 /**
@@ -18,9 +19,9 @@ public class JoinWarehouse extends JoinBase<WarehouseCacheBo> {
 
     public WarehouseFeign warehouseFeign;
 
-    public JoinWarehouse(int joinStyle, WarehouseFeign warehouseFeign, RedisTemplate redisTemplate){
+    public JoinWarehouse(int joinStyle, WarehouseFeign warehouseFeign, BaseCacheUtil cacheUtil){
         this.warehouseFeign = warehouseFeign;
-        this.redisTemplate = redisTemplate;
+        this.cacheUtil = cacheUtil;
         this.tabName = "warehouse";
         this.joinStyle = joinStyle;
 

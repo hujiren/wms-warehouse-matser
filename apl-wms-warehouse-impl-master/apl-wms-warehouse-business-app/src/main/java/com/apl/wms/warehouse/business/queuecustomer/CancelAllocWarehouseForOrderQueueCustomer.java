@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
+import com.apl.cache.AplCacheUtil;
 import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.lib.security.SecurityUser;
@@ -14,7 +15,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,7 +30,7 @@ public class CancelAllocWarehouseForOrderQueueCustomer {
     CancelAllocStockOrderService cancelAllocStockOrderService;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     @RabbitHandler
     @RabbitListener(queues = "cancelAllocWarehouseForOrderQueue")

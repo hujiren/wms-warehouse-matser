@@ -1,19 +1,17 @@
 package com.apl.wms.warehouse.lib.feign;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.apl.cache.AplCacheUtil;
 import com.apl.db.datasource.DataSourceConfig;
 import com.apl.db.datasource.DynamicDataSource;
+import com.apl.db.utils.DBUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.DBUtil;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.lib.utils.SnowflakeIdWorker;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 /**
@@ -27,7 +25,7 @@ public class StocksHistoryFeign {
     DBUtil dbUtil;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     static String insertSql = null;
 

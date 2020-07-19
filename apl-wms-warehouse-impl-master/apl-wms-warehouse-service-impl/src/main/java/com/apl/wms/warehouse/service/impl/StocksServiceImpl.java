@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
+import com.apl.cache.AplCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinUtil;
@@ -21,7 +22,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
     CommodityServiceImpl commodityService;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     @Autowired
     OutstorageOrderBusinessFeign outstorageOrderBusinessFeign;

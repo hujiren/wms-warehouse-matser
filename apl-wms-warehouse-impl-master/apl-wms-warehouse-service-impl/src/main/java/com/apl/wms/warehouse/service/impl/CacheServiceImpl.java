@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
+import com.apl.cache.AplCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
@@ -12,7 +13,7 @@ import com.apl.wms.warehouse.dao.CacheMapper;
 import com.apl.wms.warehouse.service.CacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
 
     @Autowired

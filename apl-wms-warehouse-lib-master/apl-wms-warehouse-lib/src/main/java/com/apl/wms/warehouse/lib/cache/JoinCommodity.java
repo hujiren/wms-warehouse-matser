@@ -1,12 +1,13 @@
 package com.apl.wms.warehouse.lib.cache;
 
+import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
-import org.springframework.data.redis.core.RedisTemplate;
+
 
 
 /**
@@ -23,9 +24,9 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
 
     private Integer keyType=1;  //  1:产品id  2:SKU
 
-    public JoinCommodity(int joinStyle, WarehouseFeign warehouseFeign, RedisTemplate redisTemplate){
+    public JoinCommodity(int joinStyle, WarehouseFeign warehouseFeign, BaseCacheUtil cacheUtil){
         this.warehouseFeign = warehouseFeign;
-        this.redisTemplate = redisTemplate;
+        this.cacheUtil = cacheUtil;
         this.tabName = "commodity";
         this.joinStyle = joinStyle;
 
@@ -52,23 +53,23 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
     //根据sku获取商品对象
     public CommodityCacheBo getEntityBySku(String sku) {
         String cacheKey = "JOIN_CACHE:"+this.tabName+"_sku_"+this.innerOrgId.toString()+"_" + sku;
-        String strVal =  (String)this.redisTemplate.opsForValue().get(cacheKey);
+        String strVal =  (String)this.cacheUtil.opsForValue().get(cacheKey);
         if(StringUtil.isEmpty(strVal))
             return  null;
 
         Long commodityId = Long.parseLong(strVal);
         if (commodityId == null) {
             this.addCache(sku, 0l, 0l);
-            commodityId = (Long)this.redisTemplate.opsForValue().get(cacheKey);
+            commodityId = (Long)this.cacheUtil.opsForValue().get(cacheKey);
         }
         if(commodityId==null)
             return null;
 
         cacheKey = "JOIN_CACHE:"+this.tabName+"_"+this.innerOrgId.toString()+"_" + commodityId.toString();
-        CommodityCacheBo entity = (CommodityCacheBo)this.redisTemplate.opsForValue().get(cacheKey);
+        CommodityCacheBo entity = (CommodityCacheBo)this.cacheUtil.opsForValue().get(cacheKey);
         if (entity == null) {
             this.addCache(commodityId.toString(), commodityId, commodityId);
-            entity = (CommodityCacheBo)this.redisTemplate.opsForValue().get(cacheKey);
+            entity = (CommodityCacheBo)this.cacheUtil.opsForValue().get(cacheKey);
         }
 
         return entity;

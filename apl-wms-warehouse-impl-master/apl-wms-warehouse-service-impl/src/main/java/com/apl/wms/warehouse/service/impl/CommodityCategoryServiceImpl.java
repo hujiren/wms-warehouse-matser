@@ -1,11 +1,12 @@
 package com.apl.wms.warehouse.service.impl;
+import com.apl.cache.AplCacheUtil;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dao.CommodityCategoryMapper;
 import com.apl.wms.warehouse.vo.CommodityCategoryInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;
 
@@ -54,7 +55,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
 
 
     @Autowired
-    RedisTemplate redisTemplate;
+    AplCacheUtil redisTemplate;
 
     @Override
     public ResultUtil<Integer> add(Long parentId , String categoryName , String categoryEnName){

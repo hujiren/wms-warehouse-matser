@@ -12,7 +12,7 @@ import java.util.Map;
  * @Author: CY
  * @Date: 2020/1/8 9:56
  */
-//@Component
+@Component
 public class ReduceStockQueueConfig {
 
     private String reduceQueue = "reduceQueue";
