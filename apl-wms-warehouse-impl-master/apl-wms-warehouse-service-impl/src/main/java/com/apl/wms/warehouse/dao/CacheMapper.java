@@ -13,6 +13,7 @@ import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import java.util.Map;
  * @author APL
  * @since 2019-10-14
  */
+@Repository
 public interface CacheMapper extends BaseMapper {
 
     //添加仓库缓存
@@ -70,8 +72,6 @@ public interface CacheMapper extends BaseMapper {
      */
     @MapKey("cacheKey")
     Map<String, StorageLocalCacheBo> addStorageLocalCache(@Param("keys") String keys, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey, @Param("innerOrgId") Long innerOrgId);
-
-
 
 
 }

@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication(
         scanBasePackages = {
                 "com.apl.wms.warehouse",
-                "com.apl.db",
+                "com.apl.db.*",
                 "com.apl.lib",
                 "com.apl.cache",
                 "com.apl.wms.warehouse.lib"},

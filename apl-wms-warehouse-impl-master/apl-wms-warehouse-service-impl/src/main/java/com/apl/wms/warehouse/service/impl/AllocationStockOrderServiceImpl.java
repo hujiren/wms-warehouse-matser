@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.utils.DBUtil;
+import com.apl.db.orm.AplDBInfo;
+import com.apl.db.orm.AplDBTransactional;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -23,7 +24,6 @@ import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.text.MessageFormat;
@@ -147,7 +147,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     public ResultUtil<Boolean> allocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo)  {
 
         //  1.通过切换数据源保存库存记录
-        DBUtil.DBInfo dbinfo = stocksHistoryFeign.createDBinfo();
+        AplDBInfo dbinfo = stocksHistoryFeign.connectDb();
 
         try {
 
@@ -180,7 +180,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 //如果更新总库存和更新库位库存执行成功则保存此次出库记录, 并更改状态为已分配仓库
                 if(updateStorageLocalStockResult > 0 && updateTotalStockResult > 0) {
                     //切换数据源,开启事务
-                    dbinfo.dbUtil.beginTrans(dbinfo);
+                    AplDBTransactional.beginTrans(dbinfo);
                     //保存库存历史记录列表
                     stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPos);
 
@@ -188,7 +188,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 }
 
                 // 库存历史记录事务提交
-                dbinfo.dbUtil.commit(dbinfo);
+                AplDBTransactional.commit(dbinfo);
             }else{
 
                 //库存不足, 恢复订单拣货状态为1(未分配库存)
@@ -201,7 +201,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
         catch (Exception e){
             log.error(MessageFormat.format("{0},  outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId()));
 
-            dbinfo.dbUtil.rollback(dbinfo);
+            AplDBTransactional.rollback(dbinfo);
             List<CompareStorageLocalStocksBo> listEmpty = new ArrayList<>();
             AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 0, listEmpty);
 
@@ -364,7 +364,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
             // 构建分配信息  availableCount  getFreezeStockCount
             Integer newAvailableCount =  storageLocalStocksPo.getAvailableCount() - compareQty;//新的可用库存
-            // Integer newFreezeCount = storageLocalStocksPo.getFreezeCount() + compareQty;//新的冻结库存
 
             CompareStorageLocalStocksBo compareStocksBo = new CompareStorageLocalStocksBo();
             compareStocksList.add(compareStocksBo);
@@ -372,11 +371,9 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             compareStocksBo.setCommodityId(orderCommodityBo.getCommodityId());
             compareStocksBo.setStorageLocalId(storageLocalStocksPo.getStorageLocalId());
             compareStocksBo.setAvailableCount(newAvailableCount); //新的可用库位库存
-            // compareStocksBo.setFreezeCount(newFreezeCount);//新的冻结库位库存
 
             //构建库位库存记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
-            //shp.setId(SnowflakeIdWorker.generateId());
             shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setOutQty(orderCommodityBo.getOrderQty());

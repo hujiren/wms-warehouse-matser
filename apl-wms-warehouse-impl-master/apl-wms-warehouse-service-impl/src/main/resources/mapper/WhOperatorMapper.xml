@@ -47,7 +47,10 @@
         FROM
         wh_operator
         WHERE
-        (member_id = #{memberId})
+        1 = 1
+        <if test="memberId != null and memberId > 0">
+            AND member_id = #{memberId}
+        </if>
         <if test="id != null and id>0">
             AND id != #{id}
         </if>

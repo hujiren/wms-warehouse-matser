@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(WmsWarehouseUrlConstants.CACHE_PATH)
@@ -56,6 +59,7 @@ public class CacheController {
 
         return cacheService.addOperatorCache(keys, minKey, maxKey);
     }
+
 
     @PostMapping("/add-store-cache")
     @ApiOperation(value = "添加店铺缓存")

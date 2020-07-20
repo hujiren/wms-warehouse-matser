@@ -32,7 +32,6 @@ public class WhOperatorPo extends Model<WhOperatorPo> {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "memberId" , value = "操作员id" , required = true)

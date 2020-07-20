@@ -4,8 +4,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.apl.cache.AplCacheUtil;
 import com.apl.db.datasource.DataSourceConfig;
 import com.apl.db.datasource.DynamicDataSource;
-import com.apl.db.utils.DBUtil;
-import com.apl.lib.constants.CommonStatusCode;
+import com.apl.db.orm.AplDBInfo;
+import com.apl.db.orm.AplDBPersistent;
+import com.apl.db.orm.AplSqlGenerate;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
@@ -21,15 +22,28 @@ import java.util.List;
 @Component
 public class StocksHistoryFeign {
 
-    @Autowired
-    DBUtil dbUtil;
 
     @Autowired
     AplCacheUtil redisTemplate;
 
     static String insertSql = null;
 
-    public DBUtil.DBInfo createDBinfo(){
+    //状态code枚举
+    enum CancelAllocationWarehouseServiceCode {
+
+        CANCEL_ALLOCATION_SUCCESS("CANCEL_ALLOCATION_SUCCESS", "取消分配成功"),
+        ;
+
+        private String code;
+        private String msg;
+
+        CancelAllocationWarehouseServiceCode(String code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+    }
+
+    public AplDBInfo connectDb(){
         // 创建数据库连接信息
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
 
@@ -37,29 +51,29 @@ public class StocksHistoryFeign {
                 DataSourceConfig.sysProduct,
                 "wms_stocks_history",
                 redisTemplate);
-        DBUtil.DBInfo dbInfo = dbUtil.connect(druidDataSource);
+        AplDBInfo dbInfo = new AplDBInfo(druidDataSource);
         dbInfo.setTenantValue(securityUser.getInnerOrgId());
-        DBUtil.DBInfo.tenantIdName = "inner_org_id";
-
-        dbInfo.dbUtil = dbUtil;
+        dbInfo.tenantIdName = "inner_org_id";
 
         return dbInfo;
     }
 
     //批量保存库存记录
-    public ResultUtil<Integer> saveStocksHistoryPos(DBUtil.DBInfo dbInfo, List<StocksHistoryPo> stocksHistoryPos) throws Exception
+    public ResultUtil<Integer> saveStocksHistoryPos(AplDBInfo dbInfo, List<StocksHistoryPo> stocksHistoryPos) throws Exception
     {
-        //if(null==insertSql)
+        if(null==insertSql)
         {
-            // 首次调用生成插入SQL语句
-            insertSql = dbUtil.creteInsertSql(dbInfo, stocksHistoryPos.get(0), "stocks_history");
+             //首次调用生成插入SQL语句
+            insertSql = AplSqlGenerate.creteInsertSql(dbInfo, stocksHistoryPos.get(0), "stocks_history");
         }
 
         for (StocksHistoryPo stocksHistoryPo : stocksHistoryPos) {
-            dbUtil.insert(dbInfo, insertSql, stocksHistoryPo);
+            AplDBPersistent.insert(dbInfo, insertSql, stocksHistoryPo);
         }
+//        dbUtil.insertBatch(dbInfo, stocksHistoryPos, "stocks_history", "id");
 
-        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
+        return ResultUtil.APPRESULT(CancelAllocationWarehouseServiceCode.CANCEL_ALLOCATION_SUCCESS.code,
+                CancelAllocationWarehouseServiceCode.CANCEL_ALLOCATION_SUCCESS.msg, stocksHistoryPos.size());
     }
 
 

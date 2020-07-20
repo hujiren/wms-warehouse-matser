@@ -2,6 +2,8 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.cache.AplCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
+import com.apl.lib.join.JoinKeyValues;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
@@ -11,12 +13,15 @@ import com.apl.wms.warehouse.lib.cache.*;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.apl.wms.warehouse.dao.CacheMapper;
 import com.apl.wms.warehouse.service.CacheService;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +52,6 @@ public class CacheServiceImpl implements CacheService {
 
     @Autowired
     AplCacheUtil redisTemplate;
-
 
     @Autowired
     CacheMapper cacheMapper;

@@ -1,7 +1,8 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.utils.DBUtil;
+import com.apl.db.orm.AplDBInfo;
+import com.apl.db.orm.AplDBTransactional;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -76,6 +77,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     @Autowired
     StocksHistoryFeign stocksHistoryFeign;
 
+    private static Integer count = 0;
 
     /**
      * 手动取消分配
@@ -132,7 +134,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     public ResultUtil<Boolean> cancelAllocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo) {
 
         //  1.通过切换数据源保存库存记录
-        DBUtil.DBInfo dbinfo = stocksHistoryFeign.createDBinfo();
+        AplDBInfo dbinfo = stocksHistoryFeign.connectDb();
         Long whId = outOrderBo.getWhId();
 
         try {
@@ -152,28 +154,32 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, stocksHistoryPoList);
 
             //切换数据源,开启事务
-            dbinfo.dbUtil.beginTrans(dbinfo);
+            AplDBTransactional.beginTrans(dbinfo);
 
             //更新总库存
-            Integer integer1 = stocksService.updateTotalStock(newStocksPos);
+            stocksService.updateTotalStock(newStocksPos);
 
             //更新库位库存
-            Integer integer = storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
+            storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
 
-            //删除拣货明细
-            Integer integer2 = deleteOrderAllocationItem(outOrderBo.getOrderId());
+            Integer integer3 = selectOrderAllocationItem(outOrderBo.getOrderId());
+
+            if (integer3 != 0) {
+                //删除拣货明细
+                deleteOrderAllocationItem(outOrderBo.getOrderId());
+            }
 
             //保存库存历史记录列表
             ResultUtil<Integer> integerResultUtil = stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPoList);
 
 
             // 库存历史记录事务提交
-            dbinfo.dbUtil.commit(dbinfo);
+            AplDBTransactional.commit(dbinfo);
 
 
         } catch (Exception e) {
 
-            dbinfo.dbUtil.rollback(dbinfo);
+            AplDBTransactional.rollback(dbinfo);
             throw new AplException(CommonStatusCode.SAVE_FAIL.code, CommonStatusCode.SAVE_FAIL.msg);
 
         }
@@ -220,22 +226,12 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //总库存对象
             stocksBo = StocksBoMap.get(key);
 
-            //如果冻结库存容量大于即将退回库存的数量
-            if (stocksBo.getFreezeStockCount() > commodityBo.getOrderQty()) {
 
-                stocksPo.setAvailableStockCount(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
-                stocksPo.setFreezeStockCount(stocksBo.getFreezeStockCount() - commodityBo.getOrderQty());
-                stocksPo.setWhId(stocksBo.getWhId());
-                stocksPo.setId(stocksBo.getId());
-                stocksPo.setCommodityId(stocksBo.getCommodityId());
-
-                stocksPoList.add(stocksPo);
-
-            } else {
-
-                throw new AplException(CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.code,
-                        CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.msg);
-            }
+            stocksPo.setAvailableStockCount(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
+            stocksPo.setWhId(stocksBo.getWhId());
+            stocksPo.setId(stocksBo.getId());
+            stocksPo.setCommodityId(stocksBo.getCommodityId());
+            stocksPoList.add(stocksPo);
 
 
             //构建库存历史记录对象
@@ -246,7 +242,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setOutQty(-commodityBo.getOrderQty());
             shp.setWhId(0L);
             shp.setStorageLocalId(0L);
-            shp.setStocksQty(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
+            shp.setStocksQty(stocksBo.getAvailableStockCount());
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
             shp.setCommodityId(commodityBo.getCommodityId());
@@ -326,12 +322,9 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //构建库位库存记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
 
-            //如果当前库位放得下回退的商品
 
             compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + compareQty);
-            //compareStorageLocalStocksBo.setFreezeCount(stocksPo.getFreezeCount() - compareQty);
             compareStorageLocalStocksBo.setAllocationQty(compareQty);
-
 
             compareStorageLocalStocksBo.setCommodityId(orderCommodityBo.getCommodityId());
             compareStorageLocalStocksBo.setId(stocksPo.getId());
@@ -370,6 +363,33 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
         ResultUtil<Integer> result = outStorageOrderOperatorFeign.deleteOrderAllocationItem(outOrderId, tranId);
 
+        if (!redisTemplate.hasKey(tranId)) {
+
+            //如果远程调用失败, redis中key(事务id)将为空
+            throw new AplException(CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.code,
+                    CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.msg, null);
+
+        }
+
+        redisTemplate.delete(tranId);
+
+        return result.getData();
+    }
+
+    //selectOrderAllocationItem
+
+    /**
+     * 跨项目查询拣货明细
+     *
+     * @param outOrderId
+     * @return
+     */
+    public Integer selectOrderAllocationItem(Long outOrderId) {
+
+        //生成一个唯一的事务id , 用来校验远程调用是否成功
+        String tranId = "tranId:" + StringUtil.generateUuid();
+
+        ResultUtil<Integer> result = outStorageOrderOperatorFeign.selectOrderAllocationItem(outOrderId, tranId);
 
         if (!redisTemplate.hasKey(tranId)) {
 

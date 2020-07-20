@@ -2,6 +2,8 @@ package com.apl.wms.warehouse.service;
 
 import com.apl.lib.utils.ResultUtil;
 
+import java.util.List;
+
 public interface CacheService {
 
     ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey);

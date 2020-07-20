@@ -86,8 +86,7 @@
     <update id="updateTotalStock" parameterType="java.util.List">
         <foreach collection="stocksPos"  close="" open="" index="" item="row" separator=";">
             update stocks set
-            available_stock_count = ${row.availableStockCount},
-            freeze_stock_count = ${row.freezeStockCount}
+            available_stock_count = ${row.availableStockCount}
             where id = ${row.id}
         </foreach>
     </update>
