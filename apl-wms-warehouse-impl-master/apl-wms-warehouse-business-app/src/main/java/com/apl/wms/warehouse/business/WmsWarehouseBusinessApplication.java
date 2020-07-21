@@ -12,9 +12,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication(
         scanBasePackages = {
                 "com.apl.wms.warehouse",
-                "com.apl.db.*",
-                "com.apl.lib",
+                "com.apl.db",
                 "com.apl.cache",
+                "com.apl.amqp",
+                "com.apl.lib",
+                "com.apl.sys.lib",
                 "com.apl.wms.warehouse.lib"},
         exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients(
