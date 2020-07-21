@@ -1,8 +1,13 @@
 package com.apl.wms.warehouse.service.impl;
 
+import com.apl.cache.AplCacheUtil;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.utils.ResultUtil;
+import com.apl.wms.warehouse.lib.cache.OperatorCacheBo;
+import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
+import com.apl.wms.warehouse.lib.utils.WmsWarehouseUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;
 
@@ -48,6 +53,11 @@ public class WhOperatorServiceImpl extends ServiceImpl<WhOperatorMapper, WhOpera
         }
     }*/
 
+    @Autowired
+    AplCacheUtil redisTemplate;
+
+    @Autowired
+    WarehouseFeign warehouseFeign;
 
     @Override
     public ResultUtil<Integer> add(WhOperatorPo whOperator) {
@@ -100,6 +110,9 @@ public class WhOperatorServiceImpl extends ServiceImpl<WhOperatorMapper, WhOpera
 
     @Override
     public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, WhOperatorKeyDto keyDto) {
+
+        OperatorCacheBo operatorCacheBo = WmsWarehouseUtils.checkOperator(warehouseFeign, redisTemplate);
+        keyDto.setWhId(operatorCacheBo.getWhId());
 
         Page<WhOperatorListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());

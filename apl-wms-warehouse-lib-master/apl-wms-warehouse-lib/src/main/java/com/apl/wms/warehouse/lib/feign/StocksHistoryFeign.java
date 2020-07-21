@@ -1,11 +1,9 @@
 package com.apl.wms.warehouse.lib.feign;
-
 import com.alibaba.druid.pool.DruidDataSource;
 import com.apl.cache.AplCacheUtil;
 import com.apl.db.adb.AdbContext;
 import com.apl.db.adb.AdbMySqlGenerate;
 import com.apl.db.adb.AdbPersistent;
-import com.apl.db.adb.MySqlGenerate;
 import com.apl.db.datasource.DataSourceConfig;
 import com.apl.db.datasource.DynamicDataSource;
 import com.apl.lib.constants.CommonStatusCode;
@@ -51,12 +49,13 @@ public class StocksHistoryFeign {
         //if(null==insertSql)
         {
             // 首次调用生成插入SQL语句
-            insertSql = AdbMySqlGenerate.creteInsertSql(dbInfo, stocksHistoryPos.get(0), "stocks_history");
+            //insertSql = AdbMySqlGenerate.creteInsertSql(dbInfo, stocksHistoryPos.get(0), "stocks_history");
         }
 
-        for (StocksHistoryPo stocksHistoryPo : stocksHistoryPos) {
-            AdbPersistent.insert(dbInfo, insertSql, stocksHistoryPo);
-        }
+        //for (StocksHistoryPo stocksHistoryPo : stocksHistoryPos) {
+         //   AdbPersistent.insert(dbInfo, insertSql, stocksHistoryPo);
+        //}
+        AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "stocks_history");
 
         return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
     }
