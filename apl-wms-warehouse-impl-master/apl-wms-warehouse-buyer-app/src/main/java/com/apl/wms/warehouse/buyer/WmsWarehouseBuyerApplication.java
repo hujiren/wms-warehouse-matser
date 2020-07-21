@@ -27,6 +27,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class WmsWarehouseBuyerApplication {
 
     public static void main(String[] args) {
+        //com.apl.lib.utils.CommonContextHolder
 
         SpringApplication.run(WmsWarehouseBuyerApplication.class , args);
     }
