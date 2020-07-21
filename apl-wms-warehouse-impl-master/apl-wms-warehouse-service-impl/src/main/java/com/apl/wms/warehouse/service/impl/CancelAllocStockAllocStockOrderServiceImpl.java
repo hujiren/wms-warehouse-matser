@@ -162,12 +162,8 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //更新库位库存
             storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
 
-            Integer integer3 = selectOrderAllocationItem(outOrderBo.getOrderId());
-
-            if (integer3 != 0) {
-                //删除拣货明细
-                deleteOrderAllocationItem(outOrderBo.getOrderId());
-            }
+            //删除拣货明细
+            deleteOrderAllocationItem(outOrderBo.getOrderId());
 
             //保存库存历史记录列表
             ResultUtil<Integer> integerResultUtil = stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPoList);
@@ -376,33 +372,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
         return result.getData();
     }
 
-    //selectOrderAllocationItem
 
-    /**
-     * 跨项目查询拣货明细
-     *
-     * @param outOrderId
-     * @return
-     */
-    public Integer selectOrderAllocationItem(Long outOrderId) {
-
-        //生成一个唯一的事务id , 用来校验远程调用是否成功
-        String tranId = "tranId:" + StringUtil.generateUuid();
-
-        ResultUtil<Integer> result = outStorageOrderOperatorFeign.selectOrderAllocationItem(outOrderId, tranId);
-
-        if (!redisTemplate.hasKey(tranId)) {
-
-            //如果远程调用失败, redis中key(事务id)将为空
-            throw new AplException(CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.code,
-                    CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.msg, null);
-
-        }
-
-        redisTemplate.delete(tranId);
-
-        return result.getData();
-    }
 }
 
 
