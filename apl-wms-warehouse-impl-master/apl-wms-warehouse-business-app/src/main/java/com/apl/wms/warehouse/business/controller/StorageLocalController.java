@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class StorageLocalController {
 
     @PostMapping(value = "/batch-upd")
     @ApiOperation(value =  "批量更新",  notes ="STORAGE_NO_EXIST -> 编号已经存在")
-    public ResultUtil<Boolean> batchUpdate(StorageLocationBatchUpdDto storageLocationBatchUpdDto) {
+    public ResultUtil<Boolean> batchUpdate(@Validated StorageLocationBatchUpdDto storageLocationBatchUpdDto) {
 
         return storageLocalService.batchUpdate(storageLocationBatchUpdDto);
     }
@@ -82,7 +83,7 @@ public class StorageLocalController {
     @PostMapping(value = "/get-storage-local-details")
     @ApiOperation(value =  "获取库位详情详细" , notes = "获取库位详情详细")
     @ApiImplicitParam(name = "storageLocalSn",value = "storageLocalSn",required = true  , paramType = "query")
-    public ResultUtil<StorageLocalInfoVo> getStorageLocalBySn(@NotNull(message = "id不能为空") String storageLocalSn) {
+    public ResultUtil<StorageLocalInfoVo> getStorageLocalBySn(@NotEmpty(message = "id不能为空") String storageLocalSn) {
 
         return storageLocalService.getStorageLocalBySn(storageLocalSn);
     }
@@ -115,9 +116,10 @@ public class StorageLocalController {
             @ApiImplicitParam(name = "count",value = "商品数量",required = true  , paramType = "query"),
             @ApiImplicitParam(name = "storageLocal",value = "库位名称",required = true  , paramType = "query")
     })
-    public ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(@NotNull(message = "commodityId不能为空") Long commodityId,
-                                                                      @Min(value = 0 ,message = "数量不能小于零") Integer count,
-                                                                      @NotNull(message = "storageLocal不能为空") String storageLocal)throws Exception{
+    public ResultUtil<List<StorageLocalInfoVo>> allocationStorageLocal(
+                               @NotNull(message = "commodityId不能为空") @Min(value = 0 ,message = "id不能小于零") Long commodityId,
+                               @NotNull(message = "commodityId不能为空") @Min(value = 0 ,message = "数量不能小于零") Integer count,
+                               @NotEmpty(message = "storageLocal不能为空") String storageLocal)throws Exception{
 
         return storageLocalService.allocationStorageLocal(commodityId , count , storageLocal);
     }
@@ -130,8 +132,8 @@ public class StorageLocalController {
             @ApiImplicitParam(name = "storageLocalSn",value = "库位编号",required = true  , paramType = "query")
     })
 
-    public ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(@Min(value = 1 , message = "商品id不能小于零") Long commodityId,
-                                                                     @NotNull(message = "storageLocalSn") String storageLocalSn){
+    public ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(@Min(value = 1 , message = "商品id不能小于零") @NotNull(message = "商品id不能为空") Long commodityId,
+                                                                     @NotEmpty(message = "storageLocalSn") String storageLocalSn){
 
         return storageLocalService.allocationOneStorageLocal(commodityId , storageLocalSn);
     }
@@ -143,8 +145,8 @@ public class StorageLocalController {
             @ApiImplicitParam(name = "lockIds",value = "lockIds 修改为锁定状态",required = true  , paramType = "query"),
             @ApiImplicitParam(name = "unLockIds",value = "unLockIds 修改为解锁状态",required = true  , paramType = "query")
     })
-    public ResultUtil<Boolean> changeStorageLocalStatus(@NotNull(message = "lockIds不能为空")String lockIds ,
-                                                         @NotNull(message = "ubLockIds不能为空") String unLockIds){
+    public ResultUtil<Boolean> changeStorageLocalStatus(@NotEmpty(message = "lockIds不能为空")String lockIds ,
+                                                         @NotEmpty(message = "ubLockIds不能为空") String unLockIds){
 
         return storageLocalService.changeStorageLocalStatus(lockIds , unLockIds);
     }

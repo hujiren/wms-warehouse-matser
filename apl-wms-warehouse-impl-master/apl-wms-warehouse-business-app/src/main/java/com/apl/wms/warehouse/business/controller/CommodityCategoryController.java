@@ -61,7 +61,7 @@ public class CommodityCategoryController {
             @ApiImplicitParam(name = "categoryName" , value = "分类名称", paramType = "query"),
             @ApiImplicitParam(name = "categoryEnName" , value = "分类英文名称", paramType = "query")
     })
-    public ResultUtil<Boolean> updById(@NotNull(message = "id 不能为空")Long id ,
+    public ResultUtil<Boolean> updById(@NotNull(message = "id 不能为空") @Min(value = 0, message = "id不能小于0") Long id ,
                                         @NotEmpty(message = "categoryName 不能为空") String categoryName ,
                                         @NotEmpty(message = "categoryEnName 不能为空") String categoryEnName) {
 
@@ -72,7 +72,7 @@ public class CommodityCategoryController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
         return commodityCategoryService.delById(id);
     }
@@ -81,7 +81,7 @@ public class CommodityCategoryController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtil<CommodityCategoryInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<CommodityCategoryInfoVo> getById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于 1") Long id) {
 
         commodityCategoryService.getById(id);
         return commodityCategoryService.selectById(id);

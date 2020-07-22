@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,8 @@ public class PackagingMaterialsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId",value = " 订单id",required = true  , paramType = "query")
     })
-    public ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
+    public ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(@NotNull(message = "id不能为空")
+                                                                                               @Min(value = 0, message = "id不能小于0") Long orderId) throws Exception {
 
         return packagingMaterialsService.getCommodityPackMaterials(orderId);
     }
@@ -76,7 +78,7 @@ public class PackagingMaterialsController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return packagingMaterialsService.delById(id);
     }
@@ -85,7 +87,7 @@ public class PackagingMaterialsController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtil<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<CommodityInfoVo> getById(@NotNull(message = "id不能为空") @Min(value = 1 , message = "id不能小于 1") Long id) {
 
         return packagingMaterialsService.selectById(id);
     }
@@ -102,7 +104,7 @@ public class PackagingMaterialsController {
     @PostMapping("/print")
     @ApiOperation(value =  "打印条形码" , notes = "")
     @ApiImplicitParam(name = "id",value = " 商品id列表，多个id用逗号隔开",required = true  , paramType = "query")
-    public void print(@NotNull(message = "商品id 不能为空") String id)  throws Exception{
+    public void print(@NotEmpty(message = "商品id 不能为空") String id)  throws Exception{
         ApiParamValidate.notEmpty("id",id);
 
         packagingMaterialsService.print(id);

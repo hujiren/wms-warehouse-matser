@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
 
 /**
@@ -21,6 +23,7 @@ public class ShelvesSpecKeyDto implements Serializable {
 
     private static final long serialVersionUID=1L;
 
+    @Length(max = 50, message = "关键词长度不能超过50")
     @ApiModelProperty(name = "keyword", value = "关键词")
     private String keyword;
 

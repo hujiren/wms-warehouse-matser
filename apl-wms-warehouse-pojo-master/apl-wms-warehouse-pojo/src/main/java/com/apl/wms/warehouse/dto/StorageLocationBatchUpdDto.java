@@ -40,7 +40,7 @@ public class StorageLocationBatchUpdDto {
     @NotNull(message = "承量不能为空")
     private Double supportWeight;
 
-    @ApiModelProperty(name = "remark" , value = "库位描述" , required = true)
+    @ApiModelProperty(name = "remark" , value = "库位描述")
     @NotEmpty(message = "库位描述不能为空")
     private String remark;
 

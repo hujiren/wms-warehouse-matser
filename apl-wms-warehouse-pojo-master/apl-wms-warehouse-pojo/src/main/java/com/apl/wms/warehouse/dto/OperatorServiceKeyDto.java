@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
@@ -23,6 +24,7 @@ public class OperatorServiceKeyDto implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "keyword", value = "关键词")
+    @Length(max = 50, message = "关键词长度不能超过50")
     private String keyword;
 
     public String getKeyword() {

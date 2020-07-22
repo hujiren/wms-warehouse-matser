@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -25,30 +27,29 @@ public class CommodityKeyDto implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(name = "customerId" , value = "客户id")
+    @Range(min = 0, message = "客户id不能小于0")
     private Long customerId;
 
     @ApiModelProperty(name = "brandId" , value = "品牌id")
+    @Range(min = 0, message = "品牌id不能小于0")
     private Integer brandId;
 
     @ApiModelProperty(name = "categoryId" , value = "品类id")
+    @Range(min = 0, message = "品类id不能小于0")
     private Integer categoryId;
 
-
-    @ApiModelProperty(name = "isCorrespondence" , value = "是否含电 1:含电 0：不含电")
+    @ApiModelProperty(name = "isCorrespondence" , value = "是否含电 1:含电 2：不含电")
+    @Range(min = 0, max = 2 , message = "是否含电状态值不合法")
     private Integer isCorrespondence;
-
 
     @ApiModelProperty(name = "saleStatus" , value = "销售状态 1:上架   2：下架", required = true)
     @NotNull(message = "销售状态不能为空")
     @Range(min = 0, max = 2, message = "销售状态值不合法")
     private Integer saleStatus;
 
-
     @ApiModelProperty(name = "reviewStatus" , value = "审核状态 1：已审核   2：未审核")
     @Range(min = 0, max = 2 , message = "审核状态值不合法")
     private Integer reviewStatus;
-
-
 
     @ApiModelProperty(name = "keyword" , value = "keyword关键字")
     private String keyword;

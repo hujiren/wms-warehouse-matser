@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author CY
@@ -67,7 +68,7 @@ public class WarehouseController {
     @PostMapping(value = "/get")
     @ApiOperation(value = "获取基本信息", notes = "获取基本信息")
     @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "query")
-    public ResultUtil<WarehouseInfoVo> getById(@Min(value = 1, message = "id不能小于 1") Long id) {
+    public ResultUtil<WarehouseInfoVo> getById(@Min(value = 1, message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
         return warehouseService.selectById(id);
     }
@@ -98,7 +99,7 @@ public class WarehouseController {
     @PostMapping(value = "/get-details")
     @ApiOperation(value = "获取详细", notes = "获取详细")
     @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "long")
-    public ResultUtil<WhDetailsPo> getByWhId(@Min(value = 1, message = "id不能小于 1") Long id) {
+    public ResultUtil<WhDetailsPo> getByWhId(@Min(value = 1, message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
         return whDetailsService.selectById(id);
     }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -59,7 +60,7 @@ public class CommodityController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "query")
-    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于1") @NotNull(message = "id不能为空") Long id) {
 
         return commodityService.delById(id, null);
     }
@@ -68,7 +69,7 @@ public class CommodityController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtil<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
         return commodityService.selectById(id, null);
     }
@@ -85,7 +86,7 @@ public class CommodityController {
     @PostMapping("/print")
     @ApiOperation(value =  "打印条形码" , notes = "")
     @ApiImplicitParam(name = "id",value = " 商品id列表，多个id用逗号隔开",required = true  , paramType = "query")
-    public void print(@NotNull(message = "商品id 不能为空") String id)  throws Exception{
+    public void print(@NotEmpty(message = "商品id 不能为空") String id)  throws Exception{
         ApiParamValidate.notEmpty("id",id);
 
         commodityService.print(id, 0L);

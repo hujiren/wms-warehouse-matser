@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
@@ -27,16 +28,17 @@ public class PackagingMaterialsKeyDto implements Serializable {
 
     @ApiModelProperty(name = "saleStatus" , value = "销售状态 1:上架   2：下架", required = true)
     @NotNull(message = "销售状态不能为空")
-    @Range(min = 0, max = 2, message = "销售状态值不合法")
+    @Range(min = 1, max = 2, message = "销售状态值不合法")
     private Integer saleStatus;
 
 
     @ApiModelProperty(name = "reviewStatus" , value = "审核状态 1：已审核   2：未审核")
-    @Range(min = 0, max = 2 , message = "审核状态值不合法")
+    @Range(min = 1, max = 2 , message = "审核状态值不合法")
     private Integer reviewStatus;
 
 
     @ApiModelProperty(name = "keyword", value = "关键词")
+    @Length(max = 50, message = "关键词长度不能超过50")
     private String keyword;
 
 

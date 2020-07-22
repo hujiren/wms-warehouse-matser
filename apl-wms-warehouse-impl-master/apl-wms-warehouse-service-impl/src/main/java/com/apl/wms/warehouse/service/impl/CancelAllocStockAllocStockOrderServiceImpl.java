@@ -48,7 +48,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     //状态code枚举
     enum CancelAllocationWarehouseServiceCode {
 
-        THERE_IS_NOT_ENOUGH_FREE_SPACE("THERE_IS_NOT_ENOUGH_FREE_SPACE", "当前库存可用空间不足"),
+        THE_ORDER_QTY_IS_WRONG("THE_ORDER_QTY_IS_WRONG", "分配数量不正确"),
         REDIS_DOES_NOT_HAS_KEY("REDIS_GET_KEY_FAILED", "远程调用redis key 不存在"),
         CANCEL_ALLOCATION_STOCK_SUCCESS("CANCEL_ALLOCATION_STOCK_SUCCESS", "取消分配成功 ");
         ;
@@ -133,7 +133,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     public ResultUtil<Boolean> cancelAllocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo) {
 
         //  1.通过切换数据源保存库存记录
-        AdbContext dbinfo = stocksHistoryFeign.connectDb();
+        AdbContext dbInfo = stocksHistoryFeign.connectDb();
         Long whId = outOrderBo.getWhId();
 
         try {
@@ -153,7 +153,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, stocksHistoryPoList);
 
             //切换数据源,开启事务
-            AdbTransactional.beginTrans(dbinfo);
+            AdbTransactional.beginTrans(dbInfo);
 
             //更新总库存
             Integer integer1 = stocksService.updateTotalStock(newStocksPos);
@@ -165,16 +165,16 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             Integer integer2 = deleteOrderAllocationItem(outOrderBo.getOrderId());
 
             //保存库存历史记录列表
-            ResultUtil<Integer> integerResultUtil = stocksHistoryFeign.saveStocksHistoryPos(dbinfo, stocksHistoryPoList);
+            ResultUtil<Integer> integerResultUtil = stocksHistoryFeign.saveStocksHistoryPos(dbInfo, stocksHistoryPoList);
 
 
             // 库存历史记录事务提交
-            AdbTransactional.commit(dbinfo);
+            AdbTransactional.commit(dbInfo);
 
 
         } catch (Exception e) {
 
-            AdbTransactional.rollback(dbinfo);
+            AdbTransactional.rollback(dbInfo);
             throw new AplException(CommonStatusCode.SAVE_FAIL.code, CommonStatusCode.SAVE_FAIL.msg);
 
         }
@@ -221,8 +221,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //总库存对象
             stocksBo = StocksBoMap.get(key);
 
-            //如果冻结库存容量大于即将退回库存的数量
-            if (stocksBo.getFreezeStockCount() > commodityBo.getOrderQty()) {
+            if(commodityBo.getOrderQty() > 0) {
 
                 stocksPo.setAvailableStockCount(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
                 stocksPo.setFreezeStockCount(stocksBo.getFreezeStockCount() - commodityBo.getOrderQty());
@@ -234,10 +233,9 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
             } else {
 
-                throw new AplException(CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.code,
-                        CancelAllocationWarehouseServiceCode.THERE_IS_NOT_ENOUGH_FREE_SPACE.msg);
-            }
+                throw new AplException(CancelAllocationWarehouseServiceCode.THE_ORDER_QTY_IS_WRONG.code, CancelAllocationWarehouseServiceCode.THE_ORDER_QTY_IS_WRONG.msg, null);
 
+            }
 
             //构建库存历史记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
@@ -246,6 +244,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setInQty(0);
             shp.setOutQty(-commodityBo.getOrderQty());
             shp.setWhId(0L);
+            //库位id为0, 表示总库存
             shp.setStorageLocalId(0L);
             shp.setStocksQty(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
             shp.setOrderSn(outOrderBo.getOrderSn());

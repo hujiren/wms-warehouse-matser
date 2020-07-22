@@ -59,7 +59,7 @@ public class CommodityBrandController {
             @ApiImplicitParam(name = "brandName" , value = "品牌名称",paramType = "query"),
             @ApiImplicitParam(name = "brandNameEn" , value = "品牌英文名称",paramType = "query")
     })
-    public ResultUtil<Boolean> updById(@NotNull(message = "brandId 不能为空") Long brandId ,
+    public ResultUtil<Boolean> updById(@NotNull(message = "brandId 不能为空") @Min(value = 0, message = "brandId不能为负数") Long brandId ,
                                         @NotEmpty(message = "brandName 不能为空")String brandName ,
                                         @NotEmpty(message = "brandNameEn 不能为空") String brandNameEn) {
 
@@ -70,7 +70,7 @@ public class CommodityBrandController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除  如果品牌有多个，用逗号隔开")
     @ApiImplicitParam(name = "brandIdList",value = " id 列表",required = true  , paramType = "query")
-    public ResultUtil<Boolean> delById(@NotNull(message = "brandIdList 不能为空") String brandIdList) {
+    public ResultUtil<Boolean> delById(@NotEmpty(message = "brandIdList 不能为空") String brandIdList) {
 
         return commodityBrandService.delById(brandIdList);
     }

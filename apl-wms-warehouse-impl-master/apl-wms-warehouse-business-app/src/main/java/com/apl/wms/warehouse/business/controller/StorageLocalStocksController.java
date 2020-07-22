@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class StorageLocalStocksController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtil<StorageLocalStocksPo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<StorageLocalStocksPo> getById(@Min(value = 1 , message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
             return storageCommodityService.selectById(id);
     }

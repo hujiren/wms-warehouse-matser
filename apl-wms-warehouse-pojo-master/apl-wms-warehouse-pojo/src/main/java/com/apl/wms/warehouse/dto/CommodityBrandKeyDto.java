@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ public class CommodityBrandKeyDto implements Serializable {
     private static final long serialVersionUID=1L;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @Range(min = 0, message = "客户id最小值为0")
     private Long customerId;
 
     @ApiModelProperty(name = "keyword", value = "关键词")

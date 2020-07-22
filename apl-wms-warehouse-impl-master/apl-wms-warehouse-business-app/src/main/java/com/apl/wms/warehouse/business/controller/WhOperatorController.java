@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -49,7 +50,7 @@ public class WhOperatorController {
     @PostMapping(value = "/del")
     @ApiOperation(value =  "删除" , notes = "删除")
     @ApiImplicitParam(name = "id",value = " id",required = true  , paramType = "long")
-    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<Boolean> delById(@Min(value = 1 , message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
         return whOperatorService.delById(id);
     }
@@ -66,7 +67,7 @@ public class WhOperatorController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "long")
-    public ResultUtil<WhOperatorInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<WhOperatorInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") @NotNull(message = "id不能为空") Long id) {
 
             return whOperatorService.selectById(id);
     }

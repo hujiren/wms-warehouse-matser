@@ -24,37 +24,19 @@ public class StocksHistoryFeign {
 
 
     @Autowired
-    AplCacheUtil redisTemplate;
-
-    static String insertSql = null;
+    AplCacheUtil aplCacheUtil;
 
     public AdbContext connectDb(){
-        // 创建数据库连接信息
-        SecurityUser securityUser = CommonContextHolder.getSecurityUser();
 
-        DruidDataSource druidDataSource = DynamicDataSource.getDruidDataSource(securityUser.getTenantGroup(),
-                DataSourceConfig.sysProduct,
-                "wms_stocks_history",
-                redisTemplate);
-        AdbContext dbInfo = new AdbContext(druidDataSource);
-        dbInfo.setTenantValue(securityUser.getInnerOrgId());
-        AdbContext.tenantIdName = "inner_org_id";
+        // 创建数据库上下文
+        AdbContext adbContext = new AdbContext("wms_stocks_history", aplCacheUtil);
 
-        return dbInfo;
+        return adbContext;
     }
 
     //批量保存库存记录
     public ResultUtil<Integer> saveStocksHistoryPos(AdbContext dbInfo, List<StocksHistoryPo> stocksHistoryPos) throws Exception
     {
-        //if(null==insertSql)
-        {
-            // 首次调用生成插入SQL语句
-            //insertSql = AdbMySqlGenerate.creteInsertSql(dbInfo, stocksHistoryPos.get(0), "stocks_history");
-        }
-
-        //for (StocksHistoryPo stocksHistoryPo : stocksHistoryPos) {
-         //   AdbPersistent.insert(dbInfo, insertSql, stocksHistoryPo);
-        //}
         AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "stocks_history");
 
         return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());

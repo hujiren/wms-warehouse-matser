@@ -191,7 +191,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 // 库存历史记录事务提交
                 AdbTransactional.commit(adbContext);
             }else{
-
+                
                 //库存不足, 恢复订单拣货状态为1(未分配库存)
                 List<CompareStorageLocalStocksBo> listEmpty = new ArrayList<>();
                 AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 1 ,listEmpty);

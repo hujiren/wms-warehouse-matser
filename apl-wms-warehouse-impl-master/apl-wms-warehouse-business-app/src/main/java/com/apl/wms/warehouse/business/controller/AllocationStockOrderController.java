@@ -12,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -36,7 +38,7 @@ public class AllocationStockOrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outOrderId" , value = "订单id",paramType = "query")
     })
-    public ResultUtil<Boolean> allocationManual(@NotNull(message = "outOrderId不能为空") Long outOrderId) throws Exception {
+    public ResultUtil<Boolean> allocationManual(@NotNull(message = "outOrderId不能为空") @Min(value = 0, message = "id不能为负数") Long outOrderId) {
          return allocationStockOrderService.allocationManual(outOrderId);
     }
 
@@ -46,7 +48,7 @@ public class AllocationStockOrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outOrderId" , value = "订单id",paramType = "query")
     })
-    public ResultUtil<Boolean> cancelAllocationManual(@NotNull(message = "订单信息不能为空") Long outOrderId) throws Exception {
+    public ResultUtil<Boolean> cancelAllocationManual(@NotNull(message = "订单信息不能为空") @Min(value = 0, message = "id不能为负数") Long outOrderId) throws Exception {
 
         return cancelAllocStockOrderService.cancelAllocationManual(outOrderId);
     }
