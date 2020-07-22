@@ -285,7 +285,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
             return true;
            /*for(StorageLocationInfoVo storageLocationInfoVo : list) {
 
-              if(storageLocationInfoVo.getStorageSn().equals(storageLocalSn));
+              if(storageLocationInfoVo.getStorageLocalSn().equals(storageLocalSn));
                  return true;
            }*/
         }
