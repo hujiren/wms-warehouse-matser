@@ -27,8 +27,7 @@
         member_name,
         member_position,
         member_position_en,
-        wh_id,
-        inner_org_id
+        wh_id
         FROM
         wh_operator
         where
@@ -36,7 +35,6 @@
         <if test="kd.whId != null and kd.whId>0">
             AND wh_id = #{kd.whId}
         </if>
-        order by id desc
     </select>
 
     <!-- 检查记录是否重复 -->

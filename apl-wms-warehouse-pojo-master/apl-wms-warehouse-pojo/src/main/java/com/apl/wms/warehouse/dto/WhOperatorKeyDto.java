@@ -27,9 +27,7 @@ public class WhOperatorKeyDto implements Serializable {
     @ApiModelProperty(name = "keyword", value = "关键词")
     private String keyword;
 
-    @ApiModelProperty(name = "whId", value = "所属的仓库id", required = true)
-    @NotNull(message = "所属的仓库id不能为空")
-    @Min(value = 0, message = "所属的仓库id不合法")
+    @ApiModelProperty(name = "whId", value = "所属的仓库id", hidden = true)
     private Long whId;
 
     public String getKeyword() {
