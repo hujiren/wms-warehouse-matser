@@ -136,6 +136,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
 
 
+
     /**
      * 统一为手动分配或队列分配的对象分配 总库存 , 库位库存
      * @param outOrderBo
@@ -191,7 +192,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 // 库存历史记录事务提交
                 AdbTransactional.commit(adbContext);
             }else{
-                
+
                 //库存不足, 恢复订单拣货状态为1(未分配库存)
                 List<CompareStorageLocalStocksBo> listEmpty = new ArrayList<>();
                 AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 1 ,listEmpty);
@@ -212,7 +213,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
         return ResultUtil.APPRESULT(AllocationWarehouseServiceCode.ALLOCATION_STOCKS_SUCCESS.code,
                 AllocationWarehouseServiceCode.ALLOCATION_STOCKS_SUCCESS.msg,  true);
     }
-
 
 
 
@@ -263,25 +263,23 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             //获取指定商品对应的总库存
             StocksBo stocksBo = stocksPoMap.get(key);//如果没有库存中没有该商品, key将不存在, stockBo也为空
             if(stocksBo == null){
-                //其中一个商品, 可用库存为空
+                //其中一个商品, 可售库存为空
                 return null;
             }
             Integer orderQty = orderCommodityBo.getOrderQty();
 
             //将指定的商品的出库数量与对应的实际的库存做比较
-            if(stocksBo.getAvailableStockCount() < orderQty){
-                //其中一个商品, 可用库存不足
+            if(stocksBo.getAvailableCount() < orderQty){
+                //其中一个商品, 可售库存不足
                 return null;
             }
 
             // 构建总库存对象, 每出库一件商品将更新一次总库存
-            Integer newAvailableStockCount = stocksBo.getAvailableStockCount() - orderQty;//新的可用库存
-            Integer newFreezeStockCount = stocksBo.getFreezeStockCount() + orderQty;//新的冻结库存
+            Integer newAvailableCount = stocksBo.getAvailableCount() - orderQty;//新的可售库存
             StocksPo newStocksPo = new StocksPo();
             newStocksPo.setId(stocksBo.getId());
             newStocksPo.setWhId(whId);
-            newStocksPo.setAvailableStockCount(newAvailableStockCount);
-            newStocksPo.setFreezeStockCount(newFreezeStockCount);
+            newStocksPo.setAvailableCount(newAvailableCount);
             newStocksPos.add(newStocksPo);
 
             //构建总库存记录对象
@@ -292,7 +290,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             shp.setOutQty(orderCommodityBo.getOrderQty());
             shp.setWhId(whId);
             shp.setStorageLocalId(0L);
-            shp.setStocksQty(newAvailableStockCount);
+            shp.setStocksQty(newAvailableCount);
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
             shp.setCommodityId(orderCommodityBo.getCommodityId());
@@ -315,7 +313,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
         List<AllocationWarehouseOrderCommodityBo> commodityBoList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
 
 
-        //通过商品id查询出所有对应的库位id和可用库存
+        //通过商品id查询出所有对应的库位id和可售库存
         List<StorageLocalStocksPo> storageStocksPos = baseMapper.queryStorageLocalStock(outOrderBo.getWhId(),
                 commodityIdJoinKeyValues.getSbKeys().toString(),
                 commodityIdJoinKeyValues.getMinKey(),
@@ -363,9 +361,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
         for (StorageLocalStocksPo storageLocalStocksPo : storageStocksList) {
 
-            // 构建分配信息  availableCount  getFreezeStockCount
-            Integer newAvailableCount =  storageLocalStocksPo.getAvailableCount() - compareQty;//新的可用库存
-            // Integer newFreezeCount = storageLocalStocksPo.getFreezeCount() + compareQty;//新的冻结库存
+            Integer newAvailableCount =  storageLocalStocksPo.getAvailableCount() - compareQty;//新的可售库存
 
             CompareStorageLocalStocksBo compareStocksBo = new CompareStorageLocalStocksBo();
             compareStocksList.add(compareStocksBo);
@@ -373,11 +369,9 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             compareStocksBo.setCommodityId(orderCommodityBo.getCommodityId());
             compareStocksBo.setStorageLocalId(storageLocalStocksPo.getStorageLocalId());
             compareStocksBo.setAvailableCount(newAvailableCount); //新的可用库位库存
-            // compareStocksBo.setFreezeCount(newFreezeCount);//新的冻结库位库存
 
             //构建库位库存记录对象
             StocksHistoryPo shp = new StocksHistoryPo();
-            //shp.setId(SnowflakeIdWorker.generateId());
             shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setOutQty(orderCommodityBo.getOrderQty());
@@ -390,7 +384,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
 
             if (storageLocalStocksPo.getAvailableCount() >= compareQty) {
-                //如果本库位可用库存足够分配
+                //如果本库位可售库存足够分配
                 compareStocksBo.allocationQty = compareQty;
                 shp.setStocksQty(newAvailableCount);
                 return compareStocksList;

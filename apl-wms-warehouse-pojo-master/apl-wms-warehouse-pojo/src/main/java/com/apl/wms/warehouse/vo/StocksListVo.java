@@ -44,8 +44,11 @@ private static final long serialVersionUID=1L;
     // 仓库id
     private Long whId;
 
-    // 可用库存
-    private Integer availableStockCount;
+    // 可售库存
+    private Integer availableCount;
+
+    // 实际库存
+    private Integer realityCount;
 
     //是否带电
     private Integer isCorrespondence;

@@ -35,7 +35,7 @@ public class StorageLocationBo {
     // 商品ID
     private Long commodityId;
 
-    // 商品可用库存
+    // 商品可售库存
     private Integer availableCount;
 
     // 商品实际库存

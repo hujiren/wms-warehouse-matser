@@ -30,10 +30,10 @@ private static final long serialVersionUID=1L;
     // 商品id
     private Long commodityId;
 
-    // 可用库存
+    // 可售库存
     private Integer availableCount;
 
-    // 冻结库存
+    // 实际库存
     private Integer freezeCount;
 
     // 实际库存

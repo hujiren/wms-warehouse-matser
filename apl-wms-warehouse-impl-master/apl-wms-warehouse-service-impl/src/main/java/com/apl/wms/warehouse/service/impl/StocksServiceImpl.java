@@ -159,8 +159,8 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
                 //getCommodityStock
             for (PlatformOutOrderStockBo.PlatformOutOrderStock platformOutOrderStock : platformOutOrderStockBo.getPlatformOutOrderStocks()) {
                 StocksPo commodityStock = baseMapper.getCommodityStock(whId, platformOutOrderStock.getCommodityId());
-                commodityStock.setFreezeStockCount(commodityStock.getFreezeStockCount() + platformOutOrderStock.getChangeCount());
-                commodityStock.setAvailableStockCount(commodityStock.getAvailableStockCount() - platformOutOrderStock.getChangeCount());
+                commodityStock.setRealityCount(commodityStock.getRealityCount() + platformOutOrderStock.getChangeCount());
+                commodityStock.setAvailableCount(commodityStock.getAvailableCount() - platformOutOrderStock.getChangeCount());
 
                 stocksUpdList.add(commodityStock);
             }
@@ -187,14 +187,14 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         for (PlatformOutOrderStockBo.PlatformOutOrderStock platformOutOrderStock : platformOutOrderStockBo.getPlatformOutOrderStocks()) {
             StocksPo commodityStock = getStockByWhIdAndCommodity(whId , platformOutOrderStock.getCommodityId());
             if(commodityStock != null){
-                Integer availableCount = commodityStock.getAvailableStockCount() - platformOutOrderStock.getChangeCount();
+                Integer availableCount = commodityStock.getAvailableCount() - platformOutOrderStock.getChangeCount();
                 if(availableCount < 0){
                     //库存不足异常
                     return false;
                 }
-                Integer freezeCount = commodityStock.getFreezeStockCount() + platformOutOrderStock.getChangeCount();
-                commodityStock.setAvailableStockCount(availableCount);
-                commodityStock.setFreezeStockCount(freezeCount);
+                Integer freezeCount = commodityStock.getRealityCount() + platformOutOrderStock.getChangeCount();
+                commodityStock.setAvailableCount(availableCount);
+                commodityStock.setRealityCount(freezeCount);
             }else{
                 //库存不存在异常
                 return false;
@@ -265,7 +265,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         for (Map.Entry<Long, Integer> commodityCountEntry : commodityCount.entrySet()) {
 
             StocksPo stocksPo = getStockByWhIdAndCommodity(whId, commodityCountEntry.getKey());
-            stocksPo.setFreezeStockCount(stocksPo.getFreezeStockCount() - commodityCountEntry.getValue());
+            stocksPo.setRealityCount(stocksPo.getRealityCount() - commodityCountEntry.getValue());
             stocksPo.setAllStockCount(stocksPo.getAllStockCount() - commodityCountEntry.getValue());
 
             updateById(stocksPo);

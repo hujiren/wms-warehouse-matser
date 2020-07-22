@@ -14,9 +14,8 @@
             id,
             wh_id,
             commodity_id,
-            available_stock_count,
-            freeze_stock_count,
-            all_stock_count
+            available_count,
+            reality_count
         from
             stocks
         where

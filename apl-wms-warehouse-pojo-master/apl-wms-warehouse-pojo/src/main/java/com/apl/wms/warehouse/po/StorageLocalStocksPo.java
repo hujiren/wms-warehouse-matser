@@ -43,12 +43,12 @@ private static final long serialVersionUID=1L;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long commodityId;
 
-    @ApiModelProperty(name = "availableCount" , value = "可用库存" , required = true)
-    @Min(value = 0 , message = "可用库存 不能小于0")
+    @ApiModelProperty(name = "availableCount" , value = "可售库存" , required = true)
+    @Min(value = 0 , message = "可售库存 不能小于0")
     private Integer availableCount;
 
-    //@ApiModelProperty(name = "freezeCount" , value = "冻结库存" , required = true)
-    //@Min(value = 0 , message = "冻结库存 不能小于0")
+    //@ApiModelProperty(name = "freezeCount" , value = "实际库存" , required = true)
+    //@Min(value = 0 , message = "实际库存 不能小于0")
     //private Integer freezeCount;
 
     @ApiModelProperty(name = "realityCount" , value = "实际库存" , required = true)

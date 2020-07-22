@@ -24,10 +24,8 @@
         id,
         wh_id,
         commodity_id,
-        available_stock_count,
-        freeze_stock_count,
-        all_stock_count,
-        inner_org_id
+        available_count,
+        reality_count
         FROM
         stocks
         where
@@ -46,7 +44,8 @@
         getCategoryName (getCategoryChildId ( c.category1_id, c.category2_id, c.category3_id, c.category4_id, c.category5_id )) categoryName,
         getCategoryNameEn (getCategoryChildId ( c.category1_id, c.category2_id, c.category3_id, c.category4_id, c.category5_id )) categoryNameEn,
         s.id as id,
-        s.available_stock_count,
+        s.available_count,
+        s.reality_count,
         s.wh_id
         from stocks s left join commodity c on s.commodity_id = c.id
         where
@@ -66,14 +65,13 @@
          id,
          wh_id,
         commodity_id,
-        available_stock_count,
-        freeze_stock_count,
-        all_stock_count
+        available_count,
+        reality_count
         from stocks where wh_id = #{whId} and commodity_id = #{commodityId}
     </select>
 
     <insert id="addStock" parameterType="com.apl.wms.warehouse.bo.StockUpdBo">
-        INSERT INTO stocks ( wh_id, commodity_id, available_stock_count )
+        INSERT INTO stocks ( wh_id, commodity_id, available_count )
         VALUE
             ( #{stockUpdBo.whId} ,
             #{stockUpdBo.commodityId} ,
@@ -86,7 +84,7 @@
     <update id="updateTotalStock" parameterType="java.util.List">
         <foreach collection="stocksPos"  close="" open="" index="" item="row" separator=";">
             update stocks set
-            available_stock_count = ${row.availableStockCount}
+            available_count = ${row.availableCount}
             where id = ${row.id}
         </foreach>
     </update>

@@ -223,8 +223,8 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
             if(commodityBo.getOrderQty() > 0) {
 
-                stocksPo.setAvailableStockCount(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
-                stocksPo.setFreezeStockCount(stocksBo.getFreezeStockCount() - commodityBo.getOrderQty());
+                stocksPo.setAvailableCount(stocksBo.getAvailableCount() + commodityBo.getOrderQty());
+                stocksPo.setRealityCount(stocksBo.getRealityCount() - commodityBo.getOrderQty());
                 stocksPo.setWhId(stocksBo.getWhId());
                 stocksPo.setId(stocksBo.getId());
                 stocksPo.setCommodityId(stocksBo.getCommodityId());
@@ -246,7 +246,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setWhId(0L);
             //库位id为0, 表示总库存
             shp.setStorageLocalId(0L);
-            shp.setStocksQty(stocksBo.getAvailableStockCount() + commodityBo.getOrderQty());
+            shp.setStocksQty(stocksBo.getAvailableCount() + commodityBo.getOrderQty());
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
             shp.setCommodityId(commodityBo.getCommodityId());
