@@ -6,8 +6,8 @@
     <select id="getStorageLocalBySn" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
         SELECT
             sl.id,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName,
-            sl.storage_sn,
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName,
+            sl.storage_local_sn,
             sl.shelves_id,
             sl.storage_status,
             sl.volume,
@@ -17,7 +17,7 @@
             left JOIN wh_shelves ws ON sl.shelves_id = ws.id
             left JOIN wh_zone wz ON ws.wh_zone_id = wz.id
         WHERE
-            sl.storage_sn = #{storageLocalSn}
+            sl.storage_local_sn = #{storageLocalSn}
     </select>
 
     <!-- 查找列表 2019-12-17-->
@@ -25,7 +25,7 @@
         SELECT
            id,
            storage_layer,
-           storage_sn,
+           storage_local_sn,
            size_length, 
            size_width, 
            size_height, 
@@ -40,7 +40,7 @@
             and storage_layer = #{kd.storageLayer}
         </if>
         <if test="kd.keyword != null and kd.keyword.length>0">
-            and (storage_sn=#{kd.keyword} or locate(#{kd.keyword}, remark)>0)
+            and (storage_local_sn=#{kd.keyword} or locate(#{kd.keyword}, remark)>0)
         </if>
     </select>
 
@@ -48,11 +48,11 @@
     <select id="exists" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
         SELECT
            id,
-           storage_sn
+           storage_local_sn
         FROM
            storage_local
         WHERE
-           (storage_sn = #{storageSn})
+           storage_local_sn = #{storageLocalSn}
         <if test="id != null and id>0">
             AND id !=  #{id}
         </if>
@@ -62,7 +62,7 @@
     <!-- 检查记录是否重复 -->
     <select id="getPrintData" resultType="com.apl.wms.warehouse.lib.pojo.bo.StorageLocationBo">
         SELECT
-           storage_sn,
+            storage_local_sn,
            remark
         FROM
            storage_local
@@ -80,7 +80,7 @@
             sl.id as storageLocalId,
             sl.volume,
             sl.available_count,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
         FROM
             storage_local sl
             left join wh_shelves ws on sl.shelves_id = ws.id
@@ -94,7 +94,7 @@
             sl.id as storageLocalId,
             sl.volume,
             sl.stock_count,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
         FROM
             storage_local_stocks sls
             LEFT JOIN storage_local sl ON sls.storage_local_id = sl.id
@@ -111,8 +111,8 @@
         SELECT
             sl.id ,
             sl.volume,
-            sl.storage_sn,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName
+            sl.storage_local_sn,
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
         FROM
             storage_local sl
             left join wh_shelves ws on sl.shelves_id = ws.id

@@ -10,7 +10,7 @@
             sl.id as storage_local_id,
             sl.commodity_id,
             sls.reality_count,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
         FROM storage_local sl
             LEFT JOIN wh_shelves ws ON sl.shelves_id = ws.id
             LEFT JOIN wh_zone wz ON ws.wh_zone_id = wz.id and wz.wh_id = #{whId}
@@ -27,7 +27,7 @@
             sls.commodity_id,
             sls.storage_local_id,
             sls.reality_count,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_sn) as storageLocalName
+            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
         FROM
             storage_local_stocks sls
             LEFT JOIN storage_local sl ON sls.storage_local_id = sl.id

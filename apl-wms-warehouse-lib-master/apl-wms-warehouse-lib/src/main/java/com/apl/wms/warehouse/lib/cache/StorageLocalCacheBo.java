@@ -10,7 +10,7 @@ public class StorageLocalCacheBo {
     private Long storageLocalId;
 
     //库位编号
-    private String storageLocalCn;
+    private String storageLocalSn;
 
     // 库位全称
     private String storageLocalName;

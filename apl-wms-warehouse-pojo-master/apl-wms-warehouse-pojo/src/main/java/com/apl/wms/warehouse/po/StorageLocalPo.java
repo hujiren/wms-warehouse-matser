@@ -38,10 +38,10 @@ private static final long serialVersionUID=1L;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
-    @ApiModelProperty(name = "storageSn" , value = "库位编号" , required = true)
+    @ApiModelProperty(name = "storageLocalSn" , value = "库位编号" , required = true)
     @NotEmpty(message = "库位编号不能为空")
     @Length(min=6, max=30,  message = "库位编号长度必须是6-30位，且后3位必须为纯数字")
-    private String storageSn;
+    private String storageLocalSn;
 
     @ApiModelProperty(name = "storageLayer" , value = "所在层数" , required = true)
     @Range(min = 1, max = 10, message = "所在层数必须是1-10")

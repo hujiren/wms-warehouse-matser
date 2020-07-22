@@ -41,7 +41,7 @@ public interface StorageLocalMapper extends BaseMapper<StorageLocalPo> {
      * @Author: ${cfg.author}
      * @Date: 2019-12-17
      */
-    List<StorageLocalInfoVo> exists(@Param("id" ) Long id, @Param("storageSn" ) String storageSn);
+    List<StorageLocalInfoVo> exists(@Param("id" ) Long id, @Param("storageLocalSn" ) String storageLocalSn);
 
 
     /**

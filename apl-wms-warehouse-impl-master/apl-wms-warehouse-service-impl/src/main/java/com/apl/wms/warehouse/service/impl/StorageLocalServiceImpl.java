@@ -95,8 +95,8 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         Integer addCount = 0, failCount = 0;
         //生成 预 插入对象列表
         for (Integer i = 0; i < count; i++) {
-            String storageSn = prefix + String.format("%03d", num);
-            Boolean result = this.exists(0l, storageSn);
+            String storageLocalSn = prefix + String.format("%03d", num);
+            Boolean result = this.exists(0l, storageLocalSn);
             //库位不存在，进行生成库位
             if (!result) {
                 //自增 生成code
@@ -107,7 +107,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
                 storageLocationPo.setSizeHeight(storageLocationAddDto.getSizeHeight());
                 storageLocationPo.setRemark(storageLocationAddDto.getRemark());
                 storageLocationPo.setShelvesId(storageLocationAddDto.getShelvesId());
-                storageLocationPo.setStorageSn(storageSn);
+                storageLocationPo.setStorageLocalSn((storageLocalSn));
                 storageLocationPo.setStorageStatus(1);
                 //体积
                 storageLocationPo.setVolume(storageLocationAddDto.getSizeLength().multiply(storageLocationAddDto.getSizeWidth()).multiply(storageLocationAddDto.getSizeHeight()));
@@ -133,7 +133,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     @Override
     public ResultUtil<Boolean> updById(StorageLocalPo storageLocation) {
 
-        Boolean result = this.exists(storageLocation.getId(), storageLocation.getStorageSn());
+        Boolean result = this.exists(storageLocation.getId(), storageLocation.getStorageLocalSn());
         if (!result) {
             Integer flag = baseMapper.updateById(storageLocation);
             if (flag > 0) {
@@ -278,14 +278,14 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     }
 
 
-    Boolean exists(Long id, String storageSn) {
+    Boolean exists(Long id, String storageLocalSn) {
 
-        List<StorageLocalInfoVo> list = baseMapper.exists(id, storageSn);
+        List<StorageLocalInfoVo> list = baseMapper.exists(id, storageLocalSn);
         if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
             return true;
            /*for(StorageLocationInfoVo storageLocationInfoVo : list) {
 
-              if(storageLocationInfoVo.getStorageSn().equals(storageSn));
+              if(storageLocationInfoVo.getStorageSn().equals(storageLocalSn));
                  return true;
            }*/
         }
