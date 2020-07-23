@@ -21,9 +21,9 @@ import lombok.experimental.Accessors;
  * @since 2020-07-08
  */
 //@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@ApiModel(value="StocksHistory对象", description="总库存记录")
+//@EqualsAndHashCode(callSuper = false)
+//@Accessors(chain = true)
+//@ApiModel(value="StocksHistory对象", description="总库存记录")
 public class StocksHistoryPo implements Serializable { //extends Model<StocksHistoryPo>
 
     //private static final long serialVersionUID=1L;

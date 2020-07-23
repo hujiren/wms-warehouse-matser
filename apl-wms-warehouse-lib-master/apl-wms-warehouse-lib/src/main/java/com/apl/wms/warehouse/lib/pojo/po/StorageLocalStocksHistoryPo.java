@@ -21,9 +21,9 @@ import java.time.LocalDateTime;
  * @since 2020-07-08
  */
 //@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@ApiModel(value="StorageLocalStocksHistory对象", description="库位库存记录")
+//@EqualsAndHashCode(callSuper = false)
+//@Accessors(chain = true)
+//@ApiModel(value="StorageLocalStocksHistory对象", description="库位库存记录")
 public class StorageLocalStocksHistoryPo implements Serializable {
 
     @TableId(value = "id", type = IdType.INPUT)
