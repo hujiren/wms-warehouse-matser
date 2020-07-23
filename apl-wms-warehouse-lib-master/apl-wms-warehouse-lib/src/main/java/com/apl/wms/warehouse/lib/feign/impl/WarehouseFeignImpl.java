@@ -97,7 +97,7 @@ public class WarehouseFeignImpl implements WarehouseFeign {
     }
 
     @Override
-    public ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
+    public ResultUtil<Map<Long, List<StorageLocalPo>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
         return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 }

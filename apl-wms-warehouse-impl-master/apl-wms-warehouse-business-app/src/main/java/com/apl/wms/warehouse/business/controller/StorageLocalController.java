@@ -155,12 +155,14 @@ public class StorageLocalController {
         return storageLocalService.changeStorageLocalStatus(lockIds , unLockIds);
     }
 
+
+
     @PostMapping("/get-storage-local-reality-count")
     @ApiOperation(value =  "查询总库存的实际库存" , notes = "查询总库存的实际库存")
     @ApiIgnore
-    public ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(@RequestBody List<Long> commodityIdList) {
+    public ResultUtil<List<Map<Long, List<StorageLocalPo>>>> getStorageLocalRealityCountByCommodityId(@RequestBody List<Long> commodityIdList) {
 
-        ResultUtil<Map<Long, Map<Long, Integer>>> result = storageLocalService.getStorageLocalRealityCountByCommodityId(commodityIdList);
+        ResultUtil<List<Map<Long, List<StorageLocalPo>>>> result = storageLocalService.getStorageLocalRealityCountByCommodityId(commodityIdList);
 
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , result);
     }

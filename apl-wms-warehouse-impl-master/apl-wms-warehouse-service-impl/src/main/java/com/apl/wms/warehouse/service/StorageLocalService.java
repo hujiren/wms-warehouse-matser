@@ -109,5 +109,5 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          * @param commodityIdList
          * @return
          */
-        ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList);
+        ResultUtil<List<Map<Long, List<StorageLocalPo>>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList);
 }

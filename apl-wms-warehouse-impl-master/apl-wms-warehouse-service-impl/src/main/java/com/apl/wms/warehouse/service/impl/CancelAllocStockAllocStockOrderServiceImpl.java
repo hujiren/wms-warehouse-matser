@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -250,7 +251,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setWhId(0L);
             shp.setStocksQty(stocksBo.getAvailableCount() + commodityBo.getOrderQty());
             shp.setOrderSn(outOrderBo.getOrderSn());
-            shp.setOperatorTime(LocalDateTime.now());
+            shp.setOperatorTime(new Timestamp(System.currentTimeMillis()));
             shp.setCommodityId(commodityBo.getCommodityId());
             shp.setStocksType(1);
             stocksHistoryPoList.add(shp);
@@ -343,7 +344,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setOutQty(-compareQty);
             shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
-            shp.setOperatorTime(LocalDateTime.now());
+            shp.setOperatorTime(new Timestamp(System.currentTimeMillis()));
             shp.setOrderSn(orderSn);
             shp.setWhId(whId);
             shp.setInQty(0);

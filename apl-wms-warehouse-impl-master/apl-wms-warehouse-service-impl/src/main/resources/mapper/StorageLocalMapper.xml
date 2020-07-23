@@ -120,6 +120,7 @@
         where sl.storage_status = 1 and sl.is_lock = 0 limit 0 , #{count}
     </select>
 
+
     <update id="batchUpdateStorageStatus">
         update storage_local set storage_status = #{status} where id in (${storageIds})
     </update>
@@ -130,4 +131,20 @@
         where id in ( ${storageLocalIds})
 
     </update>
+
+    <select id="getStorageLocalRealityCountByCommodityId" resultType="com.apl.wms.warehouse.po.StorageLocalPo">
+        select
+            id,
+            commodity_id,
+            reality_count
+        from
+            storage_local
+        where
+            commodity_id
+        in 
+        <foreach collection="ids" open="(" close=")" item="row" separator="," index="">
+            #{row}
+        </foreach>
+
+    </select>
 </mapper>

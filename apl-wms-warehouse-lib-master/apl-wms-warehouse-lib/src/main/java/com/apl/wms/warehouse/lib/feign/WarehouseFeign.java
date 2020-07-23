@@ -172,9 +172,19 @@ public interface WarehouseFeign {
     ResultUtil getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
 
 
-    @PostMapping(value = "/stocks/getStocks-reality-count")
-    ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId(@RequestBody List<Long> commodityIdList);
+    @PostMapping(value = "/storage-local/get-storage-local-reality-count")
+    ResultUtil<Map<Long, Integer>> getStorageLocalRealityCount(@RequestBody List<Long> StorageLocalIdList);
+
 
     @PostMapping(value = "/storage-local/get-storage-local-reality-count")
-    ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(@RequestBody List<Long> commodityIdList);
+    ResultUtil<Map<Long, List<StorageLocalPo>>> getStorageLocalRealityCountByCommodityId2(@RequestBody List<Long> commodityIdList);
+
+
+    @PostMapping(value = "/stocks/getStocks-reality-count")
+    ResultUtil<Map<Long, Integer>> getStocksRealityCountByCommodityId(@RequestBody List<Long> commodityIdList);
+
+    @PostMapping(value = "/stocks/getStocks-reality-count")
+    ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId2(@RequestBody List<Long> commodityIdList);
+
+
 }
