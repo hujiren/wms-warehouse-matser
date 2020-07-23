@@ -312,4 +312,13 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     }
 
 
+    /**
+     * 批量获取库位库存id和实际库存
+     * @param commodityIdList
+     * @return
+     */
+    @Override
+    public ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
+        return null;
+    }
 }

@@ -22,7 +22,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -285,4 +284,12 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         Integer integer = baseMapper.updateTotalStock(newStocksPos);
         return  integer;
     }
+
+
+    @Override
+    public ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId(List<Long> commodityIdList) {
+        List<StocksPo> stocksRealityCountByCommodityId = baseMapper.getStocksRealityCountByCommodityId(commodityIdList);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, stocksRealityCountByCommodityId);
+    }
+
 }

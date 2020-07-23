@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.dao;
 
 
+import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.po.StocksPo;
@@ -64,4 +65,11 @@ public interface StocksMapper extends BaseMapper<StocksPo> {
      * @return
      */
     Integer updateTotalStock(@Param("stocksPos") List<StocksPo> newStocksPos);
+
+    /**
+     * 根据商品Id获取总库存表的实际库存
+     * @param commodityIdList
+     * @return
+     */
+    List<StocksPo> getStocksRealityCountByCommodityId(@Param("ids") List<Long> commodityIdList);
 }

@@ -159,8 +159,10 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                     "commodityId",
                     Long.class);
 
-            //新建库存历史记录列表
+            //新建总库存历史记录列表
             List<StocksHistoryPo> stocksHistoryPos = new ArrayList<>();
+
+            //新建库位库存历史记录
             List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos = new ArrayList<>();
 
             // 3.调用对比总库存方法, 将循环对比总库存
@@ -173,7 +175,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 outOrderBo.setWhId(whId);
 
                 //为订单set好仓库id, 进行对比库位库存
-                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos = checkStorageLocalStockByOrder(outOrderBo, commodityIdJoinKeyValues, stocksHistoryPos);
+                List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos = checkStorageLocalStockByOrder(outOrderBo, commodityIdJoinKeyValues, storageLocalStocksHistoryPos);
 
                 // 更新库位库存
                 Integer updateStorageLocalStockResult = storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBos);
@@ -185,8 +187,9 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 if(updateStorageLocalStockResult > 0 && updateTotalStockResult > 0) {
                     //切换数据源,开启事务
                     AdbTransactional.beginTrans(adbContext);
-                    //保存库存历史记录列表
-                    stocksHistoryFeign.saveStocksHistoryPos(adbContext, stocksHistoryPos);
+
+                    //保存总库存历史记录列表和库位库存历史记录列表
+                    stocksHistoryFeign.saveStocksHistoryPos(adbContext, stocksHistoryPos, storageLocalStocksHistoryPos);
 
                     AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 3, compareStorageLocalStocksBos);
                 }
@@ -291,7 +294,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             shp.setInQty(0);
             shp.setOutQty(orderCommodityBo.getOrderQty());
             shp.setWhId(whId);
-            shp.setStorageLocalId(0L);
             shp.setStocksQty(newAvailableCount);
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
@@ -309,7 +311,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     private List<CompareStorageLocalStocksBo> checkStorageLocalStockByOrder(
                                                                        AllocationWarehouseOutOrderBo outOrderBo,
                                                                        JoinKeyValues commodityIdJoinKeyValues,
-                                                                       List<StocksHistoryPo> stocksHistoryPos) throws Exception {
+                                                                       List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) throws Exception {
 
 
         //通过订单对象取出商品对象列表集合
@@ -334,13 +336,14 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
         // 循环多个商品
         List<CompareStorageLocalStocksBo> compareAllCommodityStocksList = new ArrayList<>();
+
         for (AllocationWarehouseOrderCommodityBo orderCommodityBo : commodityBoList) {
             // 找到单个商品的所有对应的库位库存对象                                每次遍历商品信息集合都获取一个商品id
             List<StorageLocalStocksPo> storageStocksList = storageStocksMaps.get(orderCommodityBo.getCommodityId().toString());
 
             //传入单个商品和其对应的一个或多个库位库存对象进行剩余库存的比较
             List<CompareStorageLocalStocksBo> commodityStocksList = checkStorageStockByCommodity(outOrderBo.getOrderSn(),
-                    outOrderBo.getWhId(), orderCommodityBo, storageStocksList, stocksHistoryPos);
+                    outOrderBo.getWhId(), orderCommodityBo, storageStocksList, storageLocalStocksHistoryPos);
             if(commodityStocksList.size()>0){
                 compareAllCommodityStocksList.addAll(commodityStocksList);
             }
@@ -356,7 +359,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             Long whId,
             AllocationWarehouseOrderCommodityBo orderCommodityBo,
             List<StorageLocalStocksPo> storageStocksList,
-            List<StocksHistoryPo> stocksHistoryPos) {
+            List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) {
 
         //单个商品的出库数量
         Integer compareQty = orderCommodityBo.getOrderQty();
@@ -374,7 +377,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             compareStocksBo.setAvailableCount(newAvailableCount); //新的可用库位库存
 
             //构建库位库存记录对象
-            StocksHistoryPo shp = new StocksHistoryPo();
+            StorageLocalStocksHistoryPo shp = new StorageLocalStocksHistoryPo();
             shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setOutQty(orderCommodityBo.getOrderQty());
@@ -398,7 +401,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 compareStocksBo.allocationQty = storageLocalStocksPo.getAvailableCount();
                 shp.setStocksQty(0);
             }
-            stocksHistoryPos.add(shp);
+            storageLocalStocksHistoryPos.add(shp);
 
             //剩余未分配商品数量, 继续在下一个库位分配
             compareQty -= storageLocalStocksPo.getAvailableCount();

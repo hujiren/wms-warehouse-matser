@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -61,7 +62,7 @@ public class StorageLocalStocksHistoryPo implements Serializable { //extends Mod
     private Integer stocksQty;
 
     @ApiModelProperty(value = "操作时间")
-    private LocalDateTime operatorTime;
+    private Timestamp operatorTime;
 
 
     //@Override

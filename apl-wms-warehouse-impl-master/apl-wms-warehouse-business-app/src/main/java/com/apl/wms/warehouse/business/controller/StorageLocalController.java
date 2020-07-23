@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.business.controller;
 
 
+import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.validate.ApiParamValidate;
@@ -8,6 +9,7 @@ import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
 import com.apl.wms.warehouse.dto.StorageLocationKeyDto;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
+import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
 import com.apl.wms.warehouse.service.StorageLocalService;
 import com.apl.wms.warehouse.vo.StorageLocalListVo;
@@ -20,8 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -151,6 +155,14 @@ public class StorageLocalController {
         return storageLocalService.changeStorageLocalStatus(lockIds , unLockIds);
     }
 
+    @PostMapping("/get-storage-local-reality-count")
+    @ApiOperation(value =  "查询总库存的实际库存" , notes = "查询总库存的实际库存")
+    @ApiIgnore
+    public ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(@RequestBody List<Long> commodityIdList) {
 
+        ResultUtil<Map<Long, Map<Long, Integer>>> result = storageLocalService.getStorageLocalRealityCountByCommodityId(commodityIdList);
+
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , result);
+    }
 
 }

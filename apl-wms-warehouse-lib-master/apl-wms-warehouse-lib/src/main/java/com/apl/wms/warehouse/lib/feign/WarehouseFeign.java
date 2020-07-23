@@ -6,11 +6,13 @@ import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.feign.impl.WarehouseFeignImpl;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
+import com.apl.wms.warehouse.po.StocksPo;
+import com.apl.wms.warehouse.po.StorageLocalPo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -169,4 +171,10 @@ public interface WarehouseFeign {
     @PostMapping(value = "/stocks/commodity/get")
     ResultUtil getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
 
+
+    @PostMapping(value = "/stocks/getStocks-reality-count")
+    ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId(@RequestBody List<Long> commodityIdList);
+
+    @PostMapping(value = "/storage-local/get-storage-local-reality-count")
+    ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(@RequestBody List<Long> commodityIdList);
 }

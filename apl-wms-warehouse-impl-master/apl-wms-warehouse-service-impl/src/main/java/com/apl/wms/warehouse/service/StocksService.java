@@ -104,4 +104,6 @@ public interface StocksService extends IService<StocksPo> {
          Integer updateTotalStock(List<StocksPo> newStocksPos);
 
 
+         //查询总库存的实际库存
+        ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId(List<Long> commodityIdList);
 }

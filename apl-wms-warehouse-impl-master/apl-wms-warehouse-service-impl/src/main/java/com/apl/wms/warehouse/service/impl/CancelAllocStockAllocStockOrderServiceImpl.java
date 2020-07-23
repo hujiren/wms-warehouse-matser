@@ -17,6 +17,7 @@ import com.apl.wms.warehouse.dao.CancelAllocStockOrderMapper;
 import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
+import com.apl.wms.warehouse.lib.pojo.po.StorageLocalStocksHistoryPo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.service.CancelAllocStockOrderService;
@@ -143,29 +144,32 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
                     Long.class);
 
 
-            //创建库存历史记录集合
+            //创建总库存历史记录集合
             List<StocksHistoryPo> stocksHistoryPoList = new ArrayList<>();
+
+            //创建库位库存历史记录列表
+            List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos = new ArrayList<>();
 
             //取消分配总库存
             List<StocksPo> newStocksPos = this.CancelTotalStock(commodityIdJoinKeyValues, outOrderBo, whId, stocksHistoryPoList);
 
             //取消分配库位库存
-            List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, stocksHistoryPoList);
+            List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, storageLocalStocksHistoryPos);
 
             //切换数据源,开启事务
             AdbTransactional.beginTrans(dbInfo);
 
             //更新总库存
-            Integer integer1 = stocksService.updateTotalStock(newStocksPos);
+            stocksService.updateTotalStock(newStocksPos);
 
             //更新库位库存
-            Integer integer = storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
+            storageLocalStocksService.updateStorageLocalStock(compareStorageLocalStocksBoList);
 
             //删除拣货明细
-            Integer integer2 = deleteOrderAllocationItem(outOrderBo.getOrderId());
+            deleteOrderAllocationItem(outOrderBo.getOrderId());
 
             //保存库存历史记录列表
-            ResultUtil<Integer> integerResultUtil = stocksHistoryFeign.saveStocksHistoryPos(dbInfo, stocksHistoryPoList);
+            stocksHistoryFeign.saveStocksHistoryPos(dbInfo, stocksHistoryPoList, storageLocalStocksHistoryPos);
 
 
             // 库存历史记录事务提交
@@ -244,8 +248,6 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setInQty(0);
             shp.setOutQty(-commodityBo.getOrderQty());
             shp.setWhId(0L);
-            //库位id为0, 表示总库存
-            shp.setStorageLocalId(0L);
             shp.setStocksQty(stocksBo.getAvailableCount() + commodityBo.getOrderQty());
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
@@ -265,13 +267,13 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
      *
      * @param joinKeyValues
      * @param outOrderBo
-     * @param stocksHistoryPoList
+     * @param
      * @return
      * @throws Exception
      */
     public List<CompareStorageLocalStocksBo> cancelStorageLocalStock(JoinKeyValues joinKeyValues,
                                                                      AllocationWarehouseOutOrderBo outOrderBo,
-                                                                     List<StocksHistoryPo> stocksHistoryPoList) throws Exception {
+                                                                     List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) throws Exception {
 
         //统一订单商品列表
         List<AllocationWarehouseOrderCommodityBo> commodityList = outOrderBo.getAllocationWarehouseOrderCommodityBoList();
@@ -293,7 +295,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             this.buildFallbackData(outOrderBo.getOrderSn(), outOrderBo.getWhId(),
                     commodityBo,
                     storageLocalStockList,
-                    stocksHistoryPoList,
+                    storageLocalStocksHistoryPos,
                     compareStorageLocalStocksBos);
         }
 
@@ -308,14 +310,13 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
      * @param whId
      * @param orderCommodityBo
      * @param storageLocalStockList
-     * @param stocksHistoryPos
      * @param compareStorageLocalStocksBos
      * @return
      */
     private List<CompareStorageLocalStocksBo> buildFallbackData(String orderSn, Long whId,
                                                                 AllocationWarehouseOrderCommodityBo orderCommodityBo,
                                                                 List<StorageLocalStocksPo> storageLocalStockList,
-                                                                List<StocksHistoryPo> stocksHistoryPos,
+                                                                List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos,
                                                                 List<CompareStorageLocalStocksBo> compareStorageLocalStocksBos) {
         //单个商品的出库数量
         Integer compareQty = orderCommodityBo.getOrderQty();
@@ -325,12 +326,11 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             //构建库位库存更新对象
             CompareStorageLocalStocksBo compareStorageLocalStocksBo = new CompareStorageLocalStocksBo();
             //构建库位库存记录对象
-            StocksHistoryPo shp = new StocksHistoryPo();
+            StorageLocalStocksHistoryPo shp = new StorageLocalStocksHistoryPo();
 
             //如果当前库位放得下回退的商品
 
             compareStorageLocalStocksBo.setAvailableCount(stocksPo.getAvailableCount() + compareQty);
-            //compareStorageLocalStocksBo.setFreezeCount(stocksPo.getFreezeCount() - compareQty);
             compareStorageLocalStocksBo.setAllocationQty(compareQty);
 
 
@@ -348,10 +348,9 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setWhId(whId);
             shp.setInQty(0);
             shp.setOrderId(orderCommodityBo.getOrderId());
-            shp.setStorageLocalId(stocksPo.getStorageLocalId());
             shp.setStocksQty(compareStorageLocalStocksBo.getAvailableCount());
             shp.setStocksType(1);
-            stocksHistoryPos.add(shp);
+            storageLocalStocksHistoryPos.add(shp);
 
         }
 

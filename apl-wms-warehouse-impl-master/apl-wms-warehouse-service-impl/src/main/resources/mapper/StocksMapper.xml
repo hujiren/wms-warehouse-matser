@@ -70,6 +70,7 @@
         from stocks where wh_id = #{whId} and commodity_id = #{commodityId}
     </select>
 
+
     <insert id="addStock" parameterType="com.apl.wms.warehouse.bo.StockUpdBo">
         INSERT INTO stocks ( wh_id, commodity_id, available_count )
         VALUE
@@ -88,4 +89,13 @@
             where id = ${row.id}
         </foreach>
     </update>
+
+    <!--根据商品Id获取总库存表的历史记录-->
+    <select id="getStocksRealityCountByCommodityId" resultType="com.apl.wms.warehouse.po.StocksPo">
+
+        select commodity_id, reality_count from stocks where commodity_id in
+        <foreach collection="ids" open="(" close=")" item="row" separator="," index="">
+            #{row}
+        </foreach>
+    </select>
 </mapper>

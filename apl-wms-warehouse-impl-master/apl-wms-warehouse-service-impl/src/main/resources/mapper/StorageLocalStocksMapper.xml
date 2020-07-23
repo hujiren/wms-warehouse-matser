@@ -119,11 +119,6 @@
             available_count = #{row.availableCount}
             where id = ${row.storageLocalId}
         </foreach>
-        <!--<foreach collection="storageLocalStocksBos" close="" open="" index="" item="row" separator=";">
-            update storage_local_stocks set
-            available_count = #{row.availableCount},
-            freeze_count = #{row.freezeCount}
-            where id = ${row.id}
-        </foreach>-->
+
     </update>
 </mapper>

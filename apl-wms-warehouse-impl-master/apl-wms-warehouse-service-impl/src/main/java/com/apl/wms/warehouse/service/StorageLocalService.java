@@ -6,6 +6,7 @@ import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
 import com.apl.wms.warehouse.dto.StorageLocationKeyDto;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
+import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
 import com.apl.wms.warehouse.vo.StorageLocalListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -103,4 +104,10 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          */
         ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn);
 
+        /**
+         * 批量获取库位库存id和实际库存
+         * @param commodityIdList
+         * @return
+         */
+        ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList);
 }

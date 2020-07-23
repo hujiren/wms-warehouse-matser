@@ -89,6 +89,9 @@ private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "可售库存", hidden = true)
     private Integer availableCount;
 
+    @ApiModelProperty(value = "实际库存", hidden = true)
+    private Integer realityCount;
+
     @ApiModelProperty(value = "可以存放最大的商品数量", hidden = true)
     private Integer thresholdCount;
 

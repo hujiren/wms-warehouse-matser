@@ -1,7 +1,8 @@
 package com.apl.wms.warehouse.lib.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -58,7 +59,7 @@ public class StocksHistoryPo implements Serializable { //extends Model<StocksHis
     private Integer stocksQty;
 
     @ApiModelProperty(value = "操作时间")
-    private LocalDateTime operatorTime;
+    private Timestamp operatorTime;
 
 
     //@Override

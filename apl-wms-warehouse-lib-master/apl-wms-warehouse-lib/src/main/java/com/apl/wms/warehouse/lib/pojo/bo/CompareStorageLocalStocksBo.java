@@ -39,10 +39,6 @@ public class CompareStorageLocalStocksBo implements Serializable {
     @Min(value = 0 , message = "可售库存 不能小于0")
     private Integer availableCount;
 
-    @ApiModelProperty(name = "freezeCount" , value = "实际库存" , required = true)
-    @Min(value = 0 , message = "实际库存 不能小于0")
-    private Integer freezeCount;
-
     @ApiModelProperty(name = "realityCount" , value = "实际库存" , required = true)
     @Min(value = 0 , message = "实际库存 不能小于0")
     private Integer realityCount;
