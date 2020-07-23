@@ -28,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -296,7 +298,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             shp.setWhId(whId);
             shp.setStocksQty(newAvailableCount);
             shp.setOrderSn(outOrderBo.getOrderSn());
-            shp.setOperatorTime(LocalDateTime.now());
+            shp.setOperatorTime(new Timestamp(System.currentTimeMillis()));
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setStocksType(1);
             stocksHistoryPos.add(shp);
@@ -381,7 +383,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             shp.setOrderType(2);
             shp.setCommodityId(orderCommodityBo.getCommodityId());
             shp.setOutQty(orderCommodityBo.getOrderQty());
-            shp.setOperatorTime(LocalDateTime.now());
+            shp.setOperatorTime(new Timestamp(System.currentTimeMillis()));
             shp.setOrderSn(orderSn);
             shp.setWhId(whId);
             shp.setInQty(0);

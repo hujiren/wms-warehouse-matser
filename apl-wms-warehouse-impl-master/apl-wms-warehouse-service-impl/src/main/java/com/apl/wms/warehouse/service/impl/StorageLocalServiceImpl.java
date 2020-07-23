@@ -2,6 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
+import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
@@ -318,7 +319,22 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
      * @return
      */
     @Override
-    public ResultUtil<Map<Long, Map<Long, Integer>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
-        return null;
+    public ResultUtil<List<Map<Long, List<StorageLocalPo>>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
+
+        List<StorageLocalPo> list = baseMapper.getStorageLocalRealityCountByCommodityId(commodityIdList);
+        List<Map<Long, List<StorageLocalPo>>> lists = new ArrayList<>();
+
+        for (Long aLong : commodityIdList) {
+            Map<Long, List<StorageLocalPo>> map = new HashMap<>();
+            List<StorageLocalPo> list2 = new ArrayList<>();
+            for (StorageLocalPo storageLocalPo : list) {
+                if(aLong == storageLocalPo.getCommodityId()){
+                    list2.add(storageLocalPo);
+                }
+            }
+            map.put(aLong, list2);
+            lists.add(map);
+        }
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, list);
     }
 }
