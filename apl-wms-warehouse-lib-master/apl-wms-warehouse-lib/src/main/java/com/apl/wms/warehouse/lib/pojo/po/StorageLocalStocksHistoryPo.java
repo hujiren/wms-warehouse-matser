@@ -64,11 +64,8 @@ public class StorageLocalStocksHistoryPo implements Serializable { //extends Mod
     @ApiModelProperty(value = "操作时间")
     private Timestamp operatorTime;
 
-
     //@Override
     //protected Serializable pkVal() {
      //   return this.id;
     //}
-
-
 }

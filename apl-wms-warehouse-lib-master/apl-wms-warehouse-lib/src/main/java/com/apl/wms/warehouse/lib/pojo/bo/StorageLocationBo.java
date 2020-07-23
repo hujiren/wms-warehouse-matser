@@ -41,7 +41,7 @@ public class StorageLocationBo {
     // 商品实际库存
     private Integer realityCount;
 
-    // 商品可存放数量
+    // 可以存放的商品数量
     private Integer thresholdCount;
 
     // 库位描述
@@ -49,9 +49,6 @@ public class StorageLocationBo {
 
     // 货架id
     private Long shelvesId;
-
-    //库位可以存放 的商品数量
-    //private Integer stockCount;
 
     //库位状态
     //private Integer storageStatus;

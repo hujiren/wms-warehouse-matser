@@ -283,7 +283,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         List<StorageLocalInfoVo> list = baseMapper.exists(id, storageLocalSn);
         if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
             return true;
-           /*for(StorageLocationInfoVo storageLocationInfoVo : list) {
+           /*for(StorageLocalInfoVo storageLocationInfoVo : list) {
 
               if(storageLocationInfoVo.getStorageLocalSn().equals(storageLocalSn));
                  return true;
