@@ -229,12 +229,12 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
             if (stocksPo == null) {
                 result = result && baseMapper.addStock(stockUpdBo);
             } else {
-                Integer residue = stocksPo.getAllStockCount() + stockUpdBo.getQty();
+                Integer residue = stocksPo.getAvailableCount() + stockUpdBo.getQty();
                 if (residue < 0) {
                     //库存不合法
                     throw new AplException(StocksServiceCode.STOCK_IS_NOT_ENOUGH.code , StocksServiceCode.STOCK_IS_NOT_ENOUGH.msg);
                 } else {
-                    stocksPo.setAllStockCount(residue);
+                    stocksPo.setAvailableCount(residue);
                     result = result && this.updateById(stocksPo);
                 }
 
@@ -266,7 +266,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
 
             StocksPo stocksPo = getStockByWhIdAndCommodity(whId, commodityCountEntry.getKey());
             stocksPo.setRealityCount(stocksPo.getRealityCount() - commodityCountEntry.getValue());
-            stocksPo.setAllStockCount(stocksPo.getAllStockCount() - commodityCountEntry.getValue());
+            stocksPo.setAvailableCount(stocksPo.getAvailableCount() - commodityCountEntry.getValue());
 
             updateById(stocksPo);
 
