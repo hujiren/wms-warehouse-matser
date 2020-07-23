@@ -250,6 +250,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
             shp.setCommodityId(commodityBo.getCommodityId());
+            shp.setStocksType(1);
             stocksHistoryPoList.add(shp);
 
         }
@@ -349,6 +350,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             shp.setOrderId(orderCommodityBo.getOrderId());
             shp.setStorageLocalId(stocksPo.getStorageLocalId());
             shp.setStocksQty(compareStorageLocalStocksBo.getAvailableCount());
+            shp.setStocksType(1);
             stocksHistoryPos.add(shp);
 
         }

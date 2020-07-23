@@ -17,6 +17,7 @@ import com.apl.wms.warehouse.dao.AllocationStockOrderMapper;
 import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
+import com.apl.wms.warehouse.lib.pojo.po.StorageLocalStocksHistoryPo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.service.AllocationStockOrderService;
@@ -160,6 +161,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
             //新建库存历史记录列表
             List<StocksHistoryPo> stocksHistoryPos = new ArrayList<>();
+            List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos = new ArrayList<>();
 
             // 3.调用对比总库存方法, 将循环对比总库存
             List<StocksPo> newStocksPos = checkTotalStock(outOrderBo, commodityIdJoinKeyValues, stocksHistoryPos);
@@ -294,6 +296,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             shp.setOrderSn(outOrderBo.getOrderSn());
             shp.setOperatorTime(LocalDateTime.now());
             shp.setCommodityId(orderCommodityBo.getCommodityId());
+            shp.setStocksType(1);
             stocksHistoryPos.add(shp);
         }
 
@@ -380,6 +383,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
             shp.setWhId(whId);
             shp.setInQty(0);
             shp.setOrderId(orderCommodityBo.getOrderId());
+            shp.setStocksType(1);
             shp.setStorageLocalId(storageLocalStocksPo.getStorageLocalId());
 
 
