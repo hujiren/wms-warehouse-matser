@@ -1,10 +1,10 @@
 package com.apl.wms.warehouse.lib.cache;
 
+import com.apl.db.abatis.MyBatisPlusConfig;
 import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 
 
@@ -37,6 +37,8 @@ public class JoinOperator extends JoinBase<OperatorCacheBo> {
         ResultUtil<Boolean> result = warehouseFeign.addOperatorCache(keys, minKey, maxKey);
         if(result.getCode().equals(CommonStatusCode.SYSTEM_SUCCESS.code))
             return true;
+
+
 
         return false;
     }

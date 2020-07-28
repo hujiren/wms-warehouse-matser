@@ -91,11 +91,11 @@
     </update>
 
     <!--根据商品Id获取总库存表的历史记录-->
-    <select id="getStocksRealityCountByCommodityId" resultType="com.apl.wms.warehouse.po.StocksPo">
+    <select id="getStocksByCommodityId" resultType="com.apl.wms.warehouse.po.StocksPo">
 
         select commodity_id, reality_count from stocks where commodity_id in
-        <foreach collection="ids" open="(" close=")" item="row" separator="," index="">
-            #{row}
+        <foreach collection="ids" index="" separator="," item="row" open="(" close=")">
+            ${row}
         </foreach>
     </select>
 </mapper>

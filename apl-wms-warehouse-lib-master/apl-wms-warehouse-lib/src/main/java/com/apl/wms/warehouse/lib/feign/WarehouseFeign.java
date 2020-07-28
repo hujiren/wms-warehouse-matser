@@ -172,19 +172,10 @@ public interface WarehouseFeign {
     ResultUtil getCommodityStockMsg(@RequestParam("whId")Long whId ,@RequestParam("commodityIds") String commodityIds);
 
 
-    @PostMapping(value = "/storage-local/get-storage-local-reality-count")
-    ResultUtil<Map<Long, Integer>> getStorageLocalRealityCount(@RequestBody List<Long> StorageLocalIdList);
-
-
-    @PostMapping(value = "/storage-local/get-storage-local-reality-count")
-    ResultUtil<Map<Long, List<StorageLocalPo>>> getStorageLocalRealityCountByCommodityId2(@RequestBody List<Long> commodityIdList);
-
-
-    @PostMapping(value = "/stocks/getStocks-reality-count")
-    ResultUtil<Map<Long, Integer>> getStocksRealityCountByCommodityId(@RequestBody List<Long> commodityIdList);
-
-    @PostMapping(value = "/stocks/getStocks-reality-count")
-    ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId2(@RequestBody List<Long> commodityIdList);
-
+    /**
+     * 根据商品id批量查询总库存表实际库存
+     */
+    @PostMapping("/stocks/batch-query")
+    ResultUtil getStocksByCommodityId(@RequestBody List<Long> commodityIdList);
 
 }

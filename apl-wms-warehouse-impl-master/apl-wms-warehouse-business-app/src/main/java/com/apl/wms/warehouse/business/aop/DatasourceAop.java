@@ -1,23 +1,20 @@
 package com.apl.wms.warehouse.business.aop;
 
 import com.apl.cache.AplCacheUtil;
+import com.apl.db.abatis.MyBatisPlusConfig;
 import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.lib.constants.CommonAplConstants;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
-import com.apl.lib.utils.StringUtil;
-import com.apl.db.mybatis.MyBatisPlusConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.TimeUnit;
+
 
 
 @Aspect

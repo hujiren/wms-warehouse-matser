@@ -40,8 +40,6 @@ public class WmsWarehouseBusinessApplication {
 
     public static void main(String[] args) throws Exception {
 
-//        com.apl.db.datasource.DataSourceConfig
-
         SpringApplication.run(WmsWarehouseBusinessApplication.class , args);
 
     }

@@ -8,6 +8,7 @@ import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -91,13 +92,9 @@ public class WarehouseFeignImpl implements WarehouseFeign {
         return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 
-    @Override
-    public ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId(List<Long> commodityIdList) {
-        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
-    }
 
     @Override
-    public ResultUtil<Map<Long, List<StorageLocalPo>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
+    public ResultUtil getStocksByCommodityId(List<Long> commodityIdList) {
         return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 }

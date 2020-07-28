@@ -313,28 +313,4 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
     }
 
 
-    /**
-     * 批量获取库位库存id和实际库存
-     * @param commodityIdList
-     * @return
-     */
-    @Override
-    public ResultUtil<List<Map<Long, List<StorageLocalPo>>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList) {
-
-        List<StorageLocalPo> list = baseMapper.getStorageLocalRealityCountByCommodityId(commodityIdList);
-        List<Map<Long, List<StorageLocalPo>>> lists = new ArrayList<>();
-
-        for (Long aLong : commodityIdList) {
-            Map<Long, List<StorageLocalPo>> map = new HashMap<>();
-            List<StorageLocalPo> list2 = new ArrayList<>();
-            for (StorageLocalPo storageLocalPo : list) {
-                if(aLong == storageLocalPo.getCommodityId()){
-                    list2.add(storageLocalPo);
-                }
-            }
-            map.put(aLong, list2);
-            lists.add(map);
-        }
-        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, list);
-    }
 }

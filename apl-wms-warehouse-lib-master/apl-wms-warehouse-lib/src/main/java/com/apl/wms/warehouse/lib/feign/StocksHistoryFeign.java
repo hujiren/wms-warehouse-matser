@@ -1,17 +1,13 @@
 package com.apl.wms.warehouse.lib.feign;
-import com.alibaba.druid.pool.DruidDataSource;
 import com.apl.cache.AplCacheUtil;
+import com.apl.db.abatis.AbatisExecutor;
 import com.apl.db.adb.AdbContext;
-import com.apl.db.adb.AdbMySqlGenerate;
 import com.apl.db.adb.AdbPersistent;
-import com.apl.db.datasource.DataSourceConfig;
-import com.apl.db.datasource.DynamicDataSource;
 import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.security.SecurityUser;
-import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import com.apl.wms.warehouse.lib.pojo.po.StorageLocalStocksHistoryPo;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -35,22 +31,23 @@ public class StocksHistoryFeign {
         return adbContext;
     }
 
+    public SqlSession connectDb2(){
+
+        // 创建数据库上下文
+
+        SqlSession sqlSession = AbatisExecutor.sqlSessionFactory.openSession("wms_stocks_history", aplCacheUtil);
+        return sqlSession;
+    }
+
     //批量保存库存记录
     public ResultUtil<Integer> saveStocksHistoryPos(AdbContext dbInfo, List<StocksHistoryPo> stocksHistoryPos, List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) throws Exception
     {
-        AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "stocks_history");
+         AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "stocks_history");
 
-        AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "storage_local_stocks_history");
+         AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "storage_local_stocks_history");
 
-        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
+         return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
     }
 
-
-    public ResultUtil<Integer> insertBatchStocksHistoryInfo(AdbContext dbInfo,List<StocksHistoryPo> stocksHistoryPoList, List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPoList){
-
-
-
-        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPoList.size());
-    }
 
 }

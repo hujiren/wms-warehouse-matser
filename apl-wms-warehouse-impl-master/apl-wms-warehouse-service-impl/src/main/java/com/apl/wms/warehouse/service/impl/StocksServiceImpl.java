@@ -287,8 +287,11 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
 
 
     @Override
-    public ResultUtil<List<StocksPo>> getStocksRealityCountByCommodityId(List<Long> commodityIdList) {
-        List<StocksPo> stocksRealityCountByCommodityId = baseMapper.getStocksRealityCountByCommodityId(commodityIdList);
+    public ResultUtil<List<StocksPo>> getStocksByCommodityId(List<Long> commodityIdList) {
+
+
+
+        List<StocksPo> stocksRealityCountByCommodityId = baseMapper.getStocksByCommodityId(commodityIdList);
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, stocksRealityCountByCommodityId);
     }
 

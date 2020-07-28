@@ -1,9 +1,9 @@
 package com.apl.wms.warehouse.utils;
 
+import com.apl.db.abatis.MyBatisPlusConfig;
 import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.apl.wms.warehouse.service.CacheService;
 

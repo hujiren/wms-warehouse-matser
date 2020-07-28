@@ -104,10 +104,5 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
          */
         ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId , String storageLocalSn);
 
-        /**
-         * 批量获取库位库存id和实际库存
-         * @param commodityIdList
-         * @return
-         */
-        ResultUtil<List<Map<Long, List<StorageLocalPo>>>> getStorageLocalRealityCountByCommodityId(List<Long> commodityIdList);
+
 }
