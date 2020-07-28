@@ -89,10 +89,5 @@ public interface StorageLocalMapper extends BaseMapper<StorageLocalPo> {
      */
     StorageLocalInfoVo getStorageLocalBySn(@Param("storageLocalSn") String storageLocalSn);
 
-    /**
-     * 根据商品id查询出多个库位信息
-     * @param commodityIdList
-     * @return
-     */
-    List<StorageLocalPo> getStorageLocalRealityCountByCommodityId(@Param("ids") List<Long> commodityIdList);
+
 }

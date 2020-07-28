@@ -132,19 +132,5 @@
 
     </update>
 
-    <select id="getStorageLocalRealityCountByCommodityId" resultType="com.apl.wms.warehouse.po.StorageLocalPo">
-        select
-            id,
-            commodity_id,
-            reality_count
-        from
-            storage_local
-        where
-            commodity_id
-        in 
-        <foreach collection="ids" open="(" close=")" item="row" separator="," index="">
-            #{row}
-        </foreach>
 
-    </select>
 </mapper>

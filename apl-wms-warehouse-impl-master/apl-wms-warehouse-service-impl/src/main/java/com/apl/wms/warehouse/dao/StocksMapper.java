@@ -71,5 +71,5 @@ public interface StocksMapper extends BaseMapper<StocksPo> {
      * @param commodityIdList
      * @return
      */
-    List<StocksPo> getStocksRealityCountByCommodityId(@Param("ids") List<Long> commodityIdList);
+    List<StocksPo> getStocksByCommodityId(@Param("ids") List<Long> commodityIdList);
 }
