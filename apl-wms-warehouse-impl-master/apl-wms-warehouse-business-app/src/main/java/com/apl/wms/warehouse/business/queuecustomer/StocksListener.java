@@ -1,11 +1,11 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
 import com.apl.cache.AplCacheUtil;
+import com.apl.db.abatis.MyBatisPlusConfig;
 import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
-import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.sys.lib.feign.OuterFeign;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.bo.StockUpdListBo;
@@ -16,8 +16,6 @@ import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;

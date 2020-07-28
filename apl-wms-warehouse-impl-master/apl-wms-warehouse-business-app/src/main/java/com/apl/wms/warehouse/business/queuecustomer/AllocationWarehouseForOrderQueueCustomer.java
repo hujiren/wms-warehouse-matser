@@ -1,11 +1,11 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
 import com.apl.cache.AplCacheUtil;
+import com.apl.db.abatis.MyBatisPlusConfig;
 import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
-import com.apl.db.mybatis.MyBatisPlusConfig;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.service.AllocationStockOrderService;
 import com.rabbitmq.client.Channel;
