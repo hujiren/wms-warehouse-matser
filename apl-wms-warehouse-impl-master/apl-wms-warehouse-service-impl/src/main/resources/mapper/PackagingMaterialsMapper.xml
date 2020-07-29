@@ -6,48 +6,50 @@
     <!-- 查找详情 2019-12-09-->
     <select id="getPackMaterialsByCommodityId" resultType="com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo">
         SELECT
-        id,
-        commodity_name,
-        commodity_name_en,
-        unit_code,
-        img_url,
-        capacity
+            id,
+            commodity_name,
+            commodity_name_en,
+            unit_code,
+            img_url,
+            capacity
         FROM
             packaging_materials
         WHERE
-        commodity_id = #{commodityId}
-        and sale_status = #{saleStatus}
-        and review_status = #{reviewStatus}
+            commodity_id = #{commodityId}
+        and
+            sale_status = #{saleStatus}
+        and
+            review_status = #{reviewStatus}
     </select>
 
     <!-- 查找详情 2019-12-09-->
-    <select id="getById" resultType="com.apl.wms.warehouse.vo.PackagingMaterialsInfoVo">
+    <select id="getById" resultType="com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo">
         SELECT
-        id,
-        sku,
-        commodity_name,
-        commodity_name_en,
-        sale_status,
-        review_status,
-        unit_code,
-        size_length,
-        size_width,
-        size_height,
-        weight,
-        net_url,
-        img_url,
-        texture_name,
-        texture_name_en,
-        color_name,
-        color_name_en,
-        spec_name,
-        spec_name_en,
-        use_way,
-        use_way_en
+            id,
+            sku,
+            commodity_name,
+            commodity_name_en,
+            sale_status,
+            review_status,
+            unit_code,
+            size_length,
+            size_width,
+            size_height,
+            weight,
+            net_url,
+            img_url,
+            texture_name,
+            texture_name_en,
+            color_name,
+            color_name_en,
+            spec_name,
+            spec_name_en,
+            use_way,
+            use_way_en
         FROM
             commodity c
         WHERE
-        c.id = #{id}
+            c.id = #{id}
     </select>
 
     <!-- 查找列表 2019-12-09-->
@@ -65,9 +67,9 @@
             color_name_en,
             img_url
         FROM
-          commodity
+            commodity
         where
-          sale_status = #{kd.saleStatus}
+            sale_status = #{kd.saleStatus}
         <if test="kd.saleStatus != null and kd.saleStatus > 0">
             and sale_status = #{kd.saleStatus}
         </if>
@@ -89,7 +91,7 @@
             c.commodity_name_en,
             c.remark
         FROM
-        commodity c
+            commodity c
         left join commodity_brand cb on c.brand_id = cb.id
         <foreach collection="ids" open=" where c.id in (" separator="," close=")" item="id">
             #{id}
@@ -97,16 +99,16 @@
     </select>
 
     <!-- 检查记录是否重复 -->
-    <select id="exists" resultType="com.apl.wms.warehouse.vo.PackagingMaterialsInfoVo">
+    <select id="exists" resultType="com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo">
         SELECT
-        id,
-        sku,
-        commodity_name,
-        commodity_name_en
+            id,
+            sku,
+            commodity_name,
+            commodity_name_en
         FROM
-        commodity
+            commodity
         WHERE
-        (sku = #{sku} or commodity_name = #{commodityName} or commodity_name_en = #{commodityNameEn})
+            (sku = #{sku} or commodity_name = #{commodityName} or commodity_name_en = #{commodityNameEn})
         <if test="id != null and id>0">
             AND id !=  #{id}
         </if>
@@ -115,11 +117,23 @@
     <!-- 检查记录是否重复 -->
     <select id="existsOwm" resultType="long">
         SELECT
-        id
+            id
         FROM
-        commodity
+            commodity
         WHERE
-        id = #{commodityId}
+            id = #{commodityId}
+    </select>
+
+    <!--根据商品ids获取包装材料信息列表-->
+    <select id="getPackingMaterialsByCommodityIds"
+            resultType="com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo">
+        select
+            id, sku, commodity_id, commodity_name, commodity_name_en, spec_name, spec_name_en, unit_code, img_url, texture_name,
+            texture_name_en, color_name, color_name_en, use_way, use_way_en, remark, capacity
+        from
+            packaging_materials
+        where
+            commodity_id in (${ids})
     </select>
 
 </mapper>

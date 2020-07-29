@@ -97,4 +97,9 @@ public class WarehouseFeignImpl implements WarehouseFeign {
     public ResultUtil getStocksByCommodityId(List<Long> commodityIdList) {
         return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
+
+    @Override
+    public ResultUtil getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    }
 }

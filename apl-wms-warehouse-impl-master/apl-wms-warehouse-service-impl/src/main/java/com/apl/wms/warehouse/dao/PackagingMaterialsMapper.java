@@ -4,6 +4,7 @@ import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
 import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
+import com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -70,5 +71,10 @@ public interface PackagingMaterialsMapper extends BaseMapper<PackagingMaterialsP
     Long existsOwm(@Param("commodityId") Long commodityId);
 
 
-
+    /**
+     * 根据商品ids获取包装材料列表
+     * @param ids
+     * @return
+     */
+    List<PackagingMaterialsInfoVo> getPackingMaterialsByCommodityIds(@Param("ids") String ids);
 }
