@@ -9,6 +9,7 @@ import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
 import com.apl.wms.warehouse.service.PackagingMaterialsService;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
+import com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -18,11 +19,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -42,9 +42,6 @@ public class PackagingMaterialsController {
 
     @Autowired
     public PackagingMaterialsService packagingMaterialsService;
-
-
-
 
     @PostMapping(value = "/get-commodity-pack")
     @ApiOperation(value =  "获取商品的包装材料信息" , notes = "获取商品的包装材料信息,包含包装材料的数量")
@@ -108,6 +105,14 @@ public class PackagingMaterialsController {
         ApiParamValidate.notEmpty("id",id);
 
         packagingMaterialsService.print(id);
+    }
+
+
+    @PostMapping("/get-by-commodityIds")
+    @ApiOperation(value =  "获取包装材料信息" , notes = "获取包装材料信息")
+    public ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(@NotEmpty String tranId, @RequestBody List<Long> commodityIds)  throws Exception{
+
+        return packagingMaterialsService.getPackingMaterialsByCommodityIds(tranId, commodityIds);
     }
 
 

@@ -16,15 +16,15 @@ import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.sys.lib.feign.OuterFeign;
 import com.apl.wms.warehouse.dao.CommodityMapper;
 import com.apl.wms.warehouse.dao.CommodityPicMapper;
-import com.apl.wms.warehouse.service.CacheService;
-import com.apl.wms.warehouse.service.CommodityCategoryService;
-import com.apl.wms.warehouse.service.CommodityService;
-import com.apl.wms.warehouse.utils.JoinLocalCommodityCategory;
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.CommodityKeyDto;
 import com.apl.wms.warehouse.po.CommodityCategoryPo;
 import com.apl.wms.warehouse.po.CommodityPo;
+import com.apl.wms.warehouse.service.CacheService;
+import com.apl.wms.warehouse.service.CommodityCategoryService;
+import com.apl.wms.warehouse.service.CommodityService;
 import com.apl.wms.warehouse.utils.JasperHelper;
+import com.apl.wms.warehouse.utils.JoinLocalCommodityCategory;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
 import com.apl.wms.warehouse.vo.CommodityListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -32,7 +32,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -57,11 +56,9 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     //状态code枚举
     enum CommodityServiceCode {
 
-        COMMODITY_IS_ALREADY_EXIST("COMMODITY_IS_ALREADY_EXIST","商品已经存在"),
         COMMODITY_IS_NOT_EXIST("COMMODITY_IS_NOT_EXIST","商品不存在"),
         CUSTOMER_IS_NOT_EXIST("CUSTOMER_IS_NOT_EXIST","客户不存在"),
-        COMMODITY_CATEGORY_NOT_EXIST("COMMODITY_CATEGORY_NOT_EXIST","商品分类不存在"),
-        COMMODITY_TYPE_NOT_TRUE("COMMODITY_TYPE_NOT_TRUE","商品类型错误"),
+        COMMODITY_CATEGORY_NOT_EXIST("COMMODITY_CATEGORY_NOT_EXIST","商品分类不存在")
         ;
 
         private String code;

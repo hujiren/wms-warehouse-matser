@@ -178,4 +178,12 @@ public interface WarehouseFeign {
     @PostMapping("/stocks/batch-query")
     ResultUtil getStocksByCommodityId(@RequestBody List<Long> commodityIdList);
 
+    /**
+     * 根据商品id批量查询总库存表实际库存
+     */
+    @PostMapping("/packaging-materials/get-by-commodityIds")
+    ResultUtil getPackingMaterialsByCommodityIds(@RequestParam("tranId") String tranId, @RequestBody List<Long> commodityIds);
+
+
+
 }

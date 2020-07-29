@@ -5,6 +5,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinFieldInfo;
+import com.apl.lib.join.JoinKeyValues;
 import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
@@ -20,22 +21,21 @@ import com.apl.wms.warehouse.dao.CommodityPicMapper;
 import com.apl.wms.warehouse.dao.PackagingMaterialsMapper;
 import com.apl.wms.warehouse.service.CommodityCategoryService;
 import com.apl.wms.warehouse.service.PackagingMaterialsService;
-import com.apl.wms.warehouse.utils.JasperHelper;
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
+import com.apl.wms.warehouse.utils.JasperHelper;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
+import com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
 import java.io.File;
 import java.util.*;
 
@@ -55,11 +55,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
     //状态code枚举
     enum PackagingMaterialsServiceCode {
 
-        COMMODITY_IS_ALREADY_EXIST("COMMODITY_IS_ALREADY_EXIST","商品已经存在"),
-        COMMODITY_IS_NOT_EXIST("COMMODITY_IS_NOT_EXIST","包装材料不存在"),
-        CUSTOMER_IS_NOT_EXIST("CUSTOMER_IS_NOT_EXIST","客户不存在"),
-        COMMODITY_CATEGORY_NOT_EXIST("COMMODITY_CATEGORY_NOT_EXIST","商品分类不存在"),
-        COMMODITY_TYPE_NOT_TRUE("COMMODITY_TYPE_NOT_TRUE","商品类型错误"),
+        COMMODITY_IS_NOT_EXIST("COMMODITY_IS_NOT_EXIST","包装材料不存在")
         ;
 
         private String code;
@@ -82,7 +78,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
     CommodityCategoryService commodityCategoryService;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheUtil aplCacheUtil;
 
     @Autowired
     InnerFeign innerFeign;
@@ -97,7 +93,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
     @Override
     public ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
 
-        OrderCountVo orderCountVo = (OrderCountVo) redisTemplate.opsForValue().get("packaging:" + orderId);
+        OrderCountVo orderCountVo = (OrderCountVo) aplCacheUtil.opsForValue().get("packaging:" + orderId);
 
         Map<String , List<PackagingMaterialsCountBo>> commodityPackMap = new HashMap<>();
         if(orderCountVo != null){
@@ -120,7 +116,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
 
                 commodityPackMap.put(orderCountEntry.getKey() , packagingMaterials);
             }
-            redisTemplate.opsForValue().set("packaging:count:" + orderId , commodityPackMap);
+            aplCacheUtil.opsForValue().set("packaging:count:" + orderId , commodityPackMap);
         }
 
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , commodityPackMap);
@@ -195,7 +191,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         List<PackagingMaterialsListVo> list = baseMapper.getList(page , packagingMaterialsKeyDto);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
         if(null!=joinCommodityFieldInfo) {
             //已经缓存字段
             joinCustomer.setJoinFieldInfo(joinCommodityFieldInfo);
@@ -225,7 +221,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         List<CommodityReportBo> list = baseMapper.getCommodityReportBarcode(ids);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
         if(null!=joinCommodityReportBo) {
             //已经缓存字段
             joinCustomer.setJoinFieldInfo(joinCommodityReportBo);
@@ -262,4 +258,16 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         }
     }
 
+
+    @Override
+    public ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds) {
+
+        JoinKeyValues longKeys = JoinUtil.getLongKeys(commodityIds);
+        List<PackagingMaterialsInfoVo> packagingMaterialsList = baseMapper.getPackingMaterialsByCommodityIds(longKeys.getSbKeys().toString());
+        if(packagingMaterialsList.size() > 0) {
+            aplCacheUtil.opsForValue().set(tranId, 1);
+        }
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, packagingMaterialsList);
+
+    }
 }

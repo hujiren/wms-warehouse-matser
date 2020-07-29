@@ -3,7 +3,9 @@ package com.apl.wms.warehouse.dao;
 import com.apl.wms.warehouse.po.CommodityPicPo;
 import com.apl.wms.warehouse.vo.CommodityPicListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
  * @author cy
  * @since 2019-12-12
  */
+@Repository
+@Mapper
 public interface CommodityPicMapper extends BaseMapper<CommodityPicPo> {
 
 

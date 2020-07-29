@@ -4,6 +4,7 @@ import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
 import com.apl.wms.warehouse.lib.pojo.bo.PackagingMaterialsCountBo;
+import com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;
@@ -79,5 +80,10 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
          */
         void print(String commodityIds)  throws Exception;
 
-
+        /**
+         * 根据商品ids获取包装材料信息
+          * @param commodityIds
+         * @return
+         */
+    ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds);
 }
