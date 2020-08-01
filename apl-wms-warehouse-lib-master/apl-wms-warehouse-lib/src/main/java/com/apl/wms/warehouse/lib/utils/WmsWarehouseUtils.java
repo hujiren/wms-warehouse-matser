@@ -5,7 +5,7 @@ import com.apl.lib.exception.AplException;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.wms.warehouse.lib.cache.JoinOperator;
-import com.apl.wms.warehouse.lib.cache.OperatorCacheBo;
+import com.apl.wms.warehouse.lib.cache.bo.OperatorCacheBo;
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseCommonStatusCode;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 

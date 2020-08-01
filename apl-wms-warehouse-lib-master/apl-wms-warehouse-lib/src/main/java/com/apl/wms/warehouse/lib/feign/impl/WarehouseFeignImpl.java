@@ -78,11 +78,6 @@ public class WarehouseFeignImpl implements WarehouseFeign {
     }
 
     @Override
-    public ResultUtil<Boolean> checkStockCount(PlatformOutOrderStockBo platformOutOrderStockBo) {
-        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
-    }
-
-    @Override
     public ResultUtil<Map<String, List<PullBatchOrderItemBo>>> lockStorageLocal(List<PullBatchOrderItemBo> pullBatchOrderItems) {
         return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
@@ -100,6 +95,16 @@ public class WarehouseFeignImpl implements WarehouseFeign {
 
     @Override
     public ResultUtil getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    }
+
+    @Override
+    public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey) {
+        return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
+    }
+
+    @Override
+    public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey) {
         return ResultUtil.APPRESULT(CommonStatusCode.SERVER_INVOKE_FAIL.getCode() , CommonStatusCode.SERVER_INVOKE_FAIL.getMsg() , null);
     }
 }

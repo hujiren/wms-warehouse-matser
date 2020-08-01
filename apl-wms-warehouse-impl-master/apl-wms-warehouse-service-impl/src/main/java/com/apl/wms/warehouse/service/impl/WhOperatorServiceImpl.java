@@ -3,7 +3,7 @@ package com.apl.wms.warehouse.service.impl;
 import com.apl.cache.AplCacheUtil;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.wms.warehouse.lib.cache.OperatorCacheBo;
+import com.apl.wms.warehouse.lib.cache.bo.OperatorCacheBo;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 import com.apl.wms.warehouse.lib.utils.WmsWarehouseUtils;
 import lombok.extern.slf4j.Slf4j;

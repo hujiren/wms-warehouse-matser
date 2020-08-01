@@ -8,10 +8,11 @@
 package com.apl.wms.warehouse.dao;
 
 
-import com.apl.wms.warehouse.lib.cache.*;
+import com.apl.wms.warehouse.lib.cache.bo.*;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -73,6 +74,18 @@ public interface CacheMapper extends BaseMapper {
     @MapKey("cacheKey")
     Map<String, StorageLocalCacheBo> addStorageLocalCache(@Param("keys") String keys, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey, @Param("innerOrgId") Long innerOrgId);
 
+    /**
+     * 添加包装材料缓存
+     * @return
+     */
+    @MapKey("cacheKey")
+    Map<String, PackingMaterialsCacheBo> addPackMaterialsCache(@Param("keys") String keys, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey, @Param("innerOrgId") Long innerOrgId);
 
+    /**
+     * 添加商品品牌缓存
+     * @return
+     */
+    @MapKey("cacheKey")
+    Map<String, CommodityBrandCacheBo> addCommodityBrandCache(@Param("keys") String keys, @Param("minKey") Long minKey, @Param("maxKey") Long maxKey, @Param("innerOrgId") Long innerOrgId);
 }
 

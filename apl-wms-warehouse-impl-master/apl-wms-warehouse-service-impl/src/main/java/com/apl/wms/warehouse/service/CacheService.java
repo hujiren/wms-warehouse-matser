@@ -22,4 +22,7 @@ public interface CacheService {
 
     ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey);
 
+    ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey);
+
+    ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey);
 }

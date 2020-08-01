@@ -28,6 +28,29 @@ import java.util.Map;
 @FeignClient(value = "apl-wms-warehouse-business-app" , fallback = WarehouseFeignImpl.class)
 public interface WarehouseFeign {
 
+    /**
+     * 添加商品品牌缓存
+     * @param keys
+     * @param minKey
+     * @param maxKey
+     * @return
+     */
+    @PostMapping( WmsWarehouseUrlConstants.CACHE_PATH + "/add-commodity-brand-cache")
+    ResultUtil<Boolean> addCommodityBrandCache(@RequestParam("keys") String keys,
+                                               @RequestParam("minKey") Long minKey,
+                                               @RequestParam("maxKey") Long maxKey);
+
+    /**
+     * 添加包装材料缓存
+     * @param keys
+     * @param minKey
+     * @param maxKey
+     * @return
+     */
+    @PostMapping( WmsWarehouseUrlConstants.CACHE_PATH + "/add-warehouse-cache")
+    ResultUtil<Boolean> addPackMaterialsCache(@RequestParam("keys") String keys,
+                                              @RequestParam("minKey") Long minKey,
+                                              @RequestParam("maxKey") Long maxKey);
 
     /**
      * @Description : 添加仓库缓存
@@ -147,13 +170,7 @@ public interface WarehouseFeign {
     @PostMapping("/store/feign/apiconfig-strval")
     ResultUtil<String> getStoreApiConfigStrVal(@RequestParam("id") Long id);
 
-    /**
-     * @Desc: 校验库存
-     * @Author: CY
-     * @Date: 2020/6/8 11:56
-     */
-    @PostMapping(value = "/stocks/check" , consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResultUtil<Boolean> checkStockCount(PlatformOutOrderStockBo platformOutOrderStockBo);
+
 
     /**
      * @Desc: 锁定库位库存
@@ -183,7 +200,6 @@ public interface WarehouseFeign {
      */
     @PostMapping("/packaging-materials/get-by-commodityIds")
     ResultUtil getPackingMaterialsByCommodityIds(@RequestParam("tranId") String tranId, @RequestBody List<Long> commodityIds);
-
 
 
 }

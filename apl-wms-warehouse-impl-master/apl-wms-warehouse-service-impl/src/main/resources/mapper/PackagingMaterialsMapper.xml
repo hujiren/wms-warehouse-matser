@@ -129,7 +129,7 @@
             resultType="com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo">
         select
             id, sku, commodity_id, commodity_name, commodity_name_en, spec_name, spec_name_en, unit_code, img_url, texture_name,
-            texture_name_en, color_name, color_name_en, use_way, use_way_en, remark, capacity
+            texture_name_en, color_name, color_name_en, use_way, use_way_en, capacity, remark
         from
             packaging_materials
         where

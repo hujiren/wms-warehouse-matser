@@ -25,6 +25,20 @@ public class CacheController {
     CacheService cacheService;
 
     @PostMapping("/add-warehouse-cache")
+    @ApiOperation(value = "添加包装材料缓存")
+    public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey){
+
+        return cacheService.addPackMaterialsCache(keys, minKey, maxKey);
+    }
+
+    @PostMapping("//add-commodity-brand-cache")
+    @ApiOperation(value = "添加包装材料缓存")
+    public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey){
+
+        return cacheService.addCommodityBrandCache(keys, minKey, maxKey);
+    }
+
+    @PostMapping("/add-warehouse-cache")
     @ApiOperation(value = "添加仓库缓存")
     public ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey){
 
