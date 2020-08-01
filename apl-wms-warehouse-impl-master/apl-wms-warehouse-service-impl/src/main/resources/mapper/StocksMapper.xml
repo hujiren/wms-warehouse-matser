@@ -91,9 +91,9 @@
     </update>
 
     <!--根据商品Id获取总库存表的历史记录-->
-    <select id="getStocksByCommodityId" resultType="com.apl.wms.warehouse.po.StocksPo">
+    <select id="getStocksByCommodityId" resultType="com.apl.wms.warehouse.lib.pojo.vo.StocksVo">
 
-        select commodity_id, reality_count from stocks where commodity_id in
+        select id, commodity_id, reality_count from stocks where commodity_id in
         <foreach collection="ids" index="" separator="," item="row" open="(" close=")">
             ${row}
         </foreach>

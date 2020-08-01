@@ -131,4 +131,8 @@
 
     </update>
 
+    <!--查询库位实际库存列表-->
+    <select id="getStorageLocalListByIds" resultType="com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo">
+        select id, reality_count from storage_local where id in (${ids})
+    </select>
 </mapper>

@@ -5,6 +5,7 @@ import com.apl.wms.warehouse.lib.constants.WmsWarehouseUrlConstants;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.feign.impl.WarehouseFeignImpl;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
+import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
@@ -193,13 +194,16 @@ public interface WarehouseFeign {
      * 根据商品id批量查询总库存表实际库存
      */
     @PostMapping("/stocks/batch-query")
-    ResultUtil getStocksByCommodityId(@RequestBody List<Long> commodityIdList);
+    ResultUtil<List<StocksVo>> getStocksByCommodityId(@RequestBody List<Long> commodityIdList);
 
     /**
      * 根据商品id批量查询总库存表实际库存
      */
     @PostMapping("/packaging-materials/get-by-commodityIds")
     ResultUtil getPackingMaterialsByCommodityIds(@RequestParam("tranId") String tranId, @RequestBody List<Long> commodityIds);
+
+    @PostMapping("/storage-local/get-storage-local-list")
+    ResultUtil<List<StorageLocalInfoVo>> getStorageLocalList(@RequestParam("ids") String ids);
 
 
 }

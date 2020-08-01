@@ -25,7 +25,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @TableName("stocks")
 @ApiModel(value="StocksPo对象", description="库存")
-public class StocksPo extends Model<StocksPo> {
+public class StocksPo extends Model<StocksPo> implements Serializable{
 
 private static final long serialVersionUID=1L;
 

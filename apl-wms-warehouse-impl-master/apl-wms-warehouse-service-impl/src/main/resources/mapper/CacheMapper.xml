@@ -2,17 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apl.wms.warehouse.dao.CacheMapper">
 
-
     <!-- 添加仓库缓存 -->
     <select id="addWarehouseCache" resultType="com.apl.wms.warehouse.lib.cache.bo.WarehouseCacheBo">
         SELECT
-            concat('JOIN_CACHE:warehouse_',  ${innerOrgId}, '_', id) AS cache_key,
-            id,
-            wh_code,
-            wh_name,
-            wh_name_en
+        concat('JOIN_CACHE:warehouse_',  ${innerOrgId}, '_', id) AS cache_key,
+        id,
+        wh_code,
+        wh_name,
+        wh_name_en
         FROM
-          warehouse
+        warehouse
         WHERE
         <if test="minKey>0 and minKey==maxKey">
             id = #{keys}
@@ -29,23 +28,23 @@
     <!-- 添加商品缓存(根据id) -->
     <select id="addCommodityCacheById" resultType="com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo">
         SELECT
-            concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
-            c.id,
-            c.customer_id,
-            c.sku,
-            c.commodity_name,
-            c.commodity_name_en,
-            c.spec_name,
-            c.spec_name_en,
-            c.color_name,
-            c.color_name_en,
-            cb.brand_name,
-            cb.brand_name_en,
-            c.img_url,
-            c.is_correspondence,
-            c.hs_code
+        concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
+        c.id,
+        c.customer_id,
+        c.sku,
+        c.commodity_name,
+        c.commodity_name_en,
+        c.spec_name,
+        c.spec_name_en,
+        c.color_name,
+        c.color_name_en,
+        cb.brand_name,
+        cb.brand_name_en,
+        c.img_url,
+        c.is_correspondence,
+        c.hs_code
         FROM
-           commodity c
+        commodity c
         LEFT JOIN commodity_brand cb ON c.brand_id = cb.id
         WHERE
         <if test="minKey >0 and minKey == maxKey">
@@ -62,23 +61,23 @@
     <!-- 添加商品缓存(根据SKU) -->
     <select id="addCommodityCacheBySku" resultType="com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo">
         SELECT
-            concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
-            c.id,
-            c.customer_id,
-            c.sku,
-            c.commodity_name,
-            c.commodity_name_en,
-            c.spec_name,
-            c.spec_name_en,
-            c.color_name,
-            c.color_name_en,
-            cb.brand_name,
-            cb.brand_name_en,
-            c.img_url,
-            c.is_correspondence,
-            c.hs_code
+        concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
+        c.id,
+        c.customer_id,
+        c.sku,
+        c.commodity_name,
+        c.commodity_name_en,
+        c.spec_name,
+        c.spec_name_en,
+        c.color_name,
+        c.color_name_en,
+        cb.brand_name,
+        cb.brand_name_en,
+        c.img_url,
+        c.is_correspondence,
+        c.hs_code
         FROM
-            commodity c
+        commodity c
         LEFT JOIN commodity_brand cb ON c.brand_id = cb.id
         WHERE
         <if test="skus!=null and skus.length>0">
@@ -92,13 +91,13 @@
     <!-- 添加操作员 缓存 -->
     <select id="addOperatorCache" resultType="com.apl.wms.warehouse.lib.cache.bo.OperatorCacheBo">
         SELECT
-            concat('JOIN_CACHE:operator_',  ${innerOrgId}, '_', member_id) AS cache_key,
-            id,
-            member_id,
-            member_name,
-            wh_id
+        concat('JOIN_CACHE:operator_',  ${innerOrgId}, '_', member_id) AS cache_key,
+        id,
+        member_id,
+        member_name,
+        wh_id
         FROM
-            wh_operator
+        wh_operator
         WHERE
         <if test="minKey>0 and minKey==maxKey">
             member_id = ${keys}
@@ -114,12 +113,12 @@
     <!-- 添加操作服务缓存 -->
     <select id="addOperatorServiceCache" resultType="com.apl.wms.warehouse.lib.cache.bo.OperatorServiceBo">
         SELECT
-            concat('JOIN_CACHE:operator_service_',  ${innerOrgId}, '_', id) AS cache_key,
-            id,
-            service_name,
-            service_name_en
+        concat('JOIN_CACHE:operator_service_',  ${innerOrgId}, '_', id) AS cache_key,
+        id,
+        service_name,
+        service_name_en
         FROM
-            operator_service
+        operator_service
         WHERE
         <if test="minKey==maxKey">
             id = #{minKey}
@@ -136,14 +135,14 @@
     <!-- 添加商品缓存 -->
     <select id="addCommodityCategoryCache" resultType="com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo">
         SELECT
-            concat('JOIN_CACHE:commodityCategory_',  ${innerOrgId}, '_', id) AS cache_key,
-            id,
-            category_name,
-            category_name_en,
-            parent_id,
-            number_of_plies
+        concat('JOIN_CACHE:commodityCategory_',  ${innerOrgId}, '_', id) AS cache_key,
+        id,
+        category_name,
+        category_name_en,
+        parent_id,
+        number_of_plies
         FROM
-            commodity_category
+        commodity_category
         WHERE
         <if test="minKey>0 and minKey==maxKey">
             id = #{keys}
@@ -155,16 +154,16 @@
             1 = 2
         </if>
     </select>
-git
+
     <!-- 添加网店铺缓存 -->
     <select id="addStoreCache" resultType="com.apl.wms.warehouse.lib.cache.bo.StoreCacheBo">
         SELECT
-            concat('JOIN_CACHE:store_',  ${innerOrgId}, '_', id) AS cache_key,
-            id as storeId,
-            store_name,
-            store_name_en
+        concat('JOIN_CACHE:store_',  ${innerOrgId}, '_', id) AS cache_key,
+        id as storeId,
+        store_name,
+        store_name_en
         FROM
-            store
+        store
         WHERE
         <if test="minKey>0 and minKey==maxKey">
             id = #{keys}
@@ -181,24 +180,24 @@ git
     <!-- 添加库位缓存 -->
     <select id="addStorageLocalCache" resultType="com.apl.wms.warehouse.lib.cache.bo.StorageLocalCacheBo">
         SELECT
-            concat('JOIN_CACHE:storage_local_',  ${innerOrgId}, '_', sl.id) AS cache_key,
-            sl.id as storageLocalId ,
-            sl.storage_local_sn,
-            concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
+        concat('JOIN_CACHE:storage_local_',  ${innerOrgId}, '_', sl.id) AS cache_key,
+        sl.id as storageLocalId ,
+        sl.storage_local_sn,
+        concat(wz.zone_name , "/" , ws.shelves_no , "/" , sl.storage_local_sn) as storageLocalName
         FROM
-            storage_local sl
-            left JOIN wh_shelves ws ON sl.shelves_id = ws.id
-            left JOIN wh_zone wz ON ws.wh_zone_id = wz.id
-            WHERE
-            <if test="minKey>0 and minKey==maxKey">
-                sl.id = #{keys}
-            </if>
-            <if test="minKey!=maxKey">
-                sl.id BETWEEN #{minKey} AND #{maxKey} AND sl.id in(#{keys})
-            </if>
-            <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
-                1 = 2
-            </if>
+        storage_local sl
+        left JOIN wh_shelves ws ON sl.shelves_id = ws.id
+        left JOIN wh_zone wz ON ws.wh_zone_id = wz.id
+        WHERE
+        <if test="minKey>0 and minKey==maxKey">
+            sl.id = #{keys}
+        </if>
+        <if test="minKey!=maxKey">
+            sl.id BETWEEN #{minKey} AND #{maxKey} AND sl.id in(#{keys})
+        </if>
+        <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
+            1 = 2
+        </if>
     </select>
 
     <!--添加包装材料缓存-->

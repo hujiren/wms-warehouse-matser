@@ -12,6 +12,7 @@ import com.apl.wms.outstorage.order.lib.feign.OutstorageOrderBusinessFeign;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
+import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
 import com.apl.wms.warehouse.dao.StocksMapper;
 import com.apl.wms.warehouse.service.StocksService;
@@ -287,9 +288,9 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
 
 
     @Override
-    public ResultUtil<List<StocksPo>> getStocksByCommodityId(List<Long> commodityIdList) {
+    public ResultUtil<List<StocksVo>> getStocksByCommodityId(List<Long> commodityIdList) {
 
-        List<StocksPo> stocksRealityCountByCommodityId = baseMapper.getStocksByCommodityId(commodityIdList);
+        List<StocksVo> stocksRealityCountByCommodityId = baseMapper.getStocksByCommodityId(commodityIdList);
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, stocksRealityCountByCommodityId);
     }
 

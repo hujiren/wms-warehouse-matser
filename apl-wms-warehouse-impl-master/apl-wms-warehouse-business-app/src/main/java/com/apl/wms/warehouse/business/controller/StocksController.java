@@ -6,6 +6,7 @@ import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
+import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.vo.StocksListVo;
@@ -129,12 +130,11 @@ public class StocksController {
 
     @PostMapping("/batch-query")
     @ApiOperation(value =  "查询总库存的实际库存" , notes = "查询总库存的实际库存")
-    @ApiIgnore
-    public ResultUtil<List<StocksPo>> getStocksByCommodityId(@RequestBody List<Long> commodityIdList) {
+    public ResultUtil<List<StocksVo>> getStocksByCommodityId(@RequestBody List<Long> commodityIdList) {
 
-        ResultUtil<List<StocksPo>> result = stocksService.getStocksByCommodityId(commodityIdList);
+        ResultUtil<List<StocksVo>> result = stocksService.getStocksByCommodityId(commodityIdList);
 
-        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , result);
+        return result;
     }
 
 

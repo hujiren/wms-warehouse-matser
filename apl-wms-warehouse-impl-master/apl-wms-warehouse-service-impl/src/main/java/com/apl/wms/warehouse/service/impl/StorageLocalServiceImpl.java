@@ -310,4 +310,14 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         return find.getSizeLength() * find.getSizeWidth() * find.getSizeHeight();
     }
 
+
+    @Override
+    public ResultUtil<List<StorageLocalInfoVo>> getStorageLocalList(String ids) {
+
+        List<StorageLocalInfoVo> storageLocalInfoList = baseMapper.getStorageLocalListByIds(ids);
+        if(storageLocalInfoList.size() == 0){
+            return ResultUtil.APPRESULT(CommonStatusCode.GET_FAIL, null);
+        }
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, storageLocalInfoList);
+    }
 }

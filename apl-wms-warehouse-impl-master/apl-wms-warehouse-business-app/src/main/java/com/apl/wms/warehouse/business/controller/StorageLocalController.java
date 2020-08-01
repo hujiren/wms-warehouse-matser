@@ -152,4 +152,13 @@ public class StorageLocalController {
         return storageLocalService.changeStorageLocalStatus(lockIds , unLockIds);
     }
 
+
+    @PostMapping("/get-storage-local-list")
+    @ApiOperation(value =  "查询库位库存" , notes = "查询库位库存", hidden = true)
+            @ApiImplicitParam(name = "ids",value = "库位ids",required = true  , paramType = "query")
+    public ResultUtil<List<StorageLocalInfoVo>> getStorageLocalList(@NotNull(message = "ids") @RequestParam("ids") String ids){
+
+        return storageLocalService.getStorageLocalList(ids);
+    }
+
 }

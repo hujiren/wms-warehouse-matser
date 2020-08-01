@@ -98,4 +98,10 @@ public interface StorageLocalService extends IService<StorageLocalPo> {
      */
     ResultUtil<StorageLocalInfoVo> allocationOneStorageLocal(Long commodityId, String storageLocalSn);
 
+    /**
+     * 查询库位实际库存
+     * @param ids
+     * @return
+     */
+    ResultUtil<List<StorageLocalInfoVo>> getStorageLocalList(String ids);
 }

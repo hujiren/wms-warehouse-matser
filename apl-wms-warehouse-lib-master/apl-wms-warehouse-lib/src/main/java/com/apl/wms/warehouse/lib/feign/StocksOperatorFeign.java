@@ -8,10 +8,13 @@ import com.apl.db.adb.AdbQuery;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.StorageLocalMapper;
+import com.apl.wms.warehouse.lib.feign.impl.WarehouseFeignImpl;
+import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -52,17 +55,16 @@ public class StocksOperatorFeign {
     }
     
     //根据库位ids查询库位对应实际库存
-    public ResultUtil<Map<Long, Integer>> getStorageLocalMap(AdbContext adbContext ,String ids) throws Exception{
+    public ResultUtil<List<StorageLocalInfoVo>> getStorageLocalMap(AdbContext adbContext , String ids) throws Exception{
 
         Map<String, Object> paramMaps = new HashMap();
         paramMaps.put("ids", ids);
-        Map<String, Integer> storageLocalMap = AdbQuery.queryMap(adbContext,
-                "select id as mapKey, reality_count from storage_local where id in (:ids)",
+        List<StorageLocalInfoVo> storageLocalList = AdbQuery.queryList(adbContext,
+                "select id, reality_count from storage_local where id in (:ids)",
                 paramMaps,
-                Integer.class,
-                "mapKey");
+                StorageLocalInfoVo.class);
 
-        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS.code, CommonStatusCode.GET_SUCCESS.msg, storageLocalMap);
+        return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS.code, CommonStatusCode.GET_SUCCESS.msg, storageLocalList);
     }
 
 

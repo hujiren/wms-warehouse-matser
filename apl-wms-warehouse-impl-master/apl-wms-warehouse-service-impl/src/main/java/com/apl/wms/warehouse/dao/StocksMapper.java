@@ -4,6 +4,7 @@ package com.apl.wms.warehouse.dao;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
+import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.vo.StocksListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -71,5 +72,5 @@ public interface StocksMapper extends BaseMapper<StocksPo> {
      * @param commodityIdList
      * @return
      */
-    List<StocksPo> getStocksByCommodityId(@Param("ids") List<Long> commodityIdList);
+    List<StocksVo> getStocksByCommodityId(@Param("ids") List<Long> commodityIdList);
 }

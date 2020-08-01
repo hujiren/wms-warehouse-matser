@@ -5,6 +5,7 @@ import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
+import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.vo.StocksListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -111,5 +112,5 @@ public interface StocksService extends IService<StocksPo> {
 
 
          //查询总库存的实际库存
-        ResultUtil<List<StocksPo>> getStocksByCommodityId(List<Long> commodityIdList);
+         ResultUtil<List<StocksVo>> getStocksByCommodityId(List<Long> commodityIdList);
 }
