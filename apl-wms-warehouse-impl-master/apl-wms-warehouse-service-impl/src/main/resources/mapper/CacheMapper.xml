@@ -90,7 +90,7 @@
     </select>
 
     <!-- 添加操作员 缓存 -->
-    <select id="addOperatorCache" resultType="com.apl.wms.warehouse.lib.cache.OperatorCacheBo">
+    <select id="addOperatorCache" resultType="com.apl.wms.warehouse.lib.cache.bo.OperatorCacheBo">
         SELECT
             concat('JOIN_CACHE:operator_',  ${innerOrgId}, '_', member_id) AS cache_key,
             id,
