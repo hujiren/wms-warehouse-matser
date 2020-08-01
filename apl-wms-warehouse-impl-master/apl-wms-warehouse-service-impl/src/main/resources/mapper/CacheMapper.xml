@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apl.wms.warehouse.dao.CacheMapper">
-    <insert id="addOperatorCache2"></insert>
-
 
     <!-- 添加仓库缓存 -->
     <select id="addWarehouseCache" resultType="com.apl.wms.warehouse.lib.cache.WarehouseCacheBo">
@@ -36,6 +34,10 @@
             c.sku,
             c.commodity_name,
             c.commodity_name_en,
+            c.spec_name,
+            c.spec_name_en,
+            c.color_name,
+            c.color_name_en,
             cb.brand_name,
             cb.brand_name_en,
             c.img_url,
@@ -65,6 +67,10 @@
             c.sku,
             c.commodity_name,
             c.commodity_name_en,
+            c.spec_name,
+            c.spec_name_en,
+            c.color_name,
+            c.color_name_en,
             cb.brand_name,
             cb.brand_name_en,
             c.img_url,

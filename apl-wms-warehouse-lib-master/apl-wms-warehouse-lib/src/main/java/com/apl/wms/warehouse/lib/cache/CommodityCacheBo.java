@@ -27,6 +27,18 @@ public class CommodityCacheBo {
     //品牌英文名
     private String brandNameEn;
 
+    //规格
+    private String specName;
+
+    //规格英文名
+    private String specNameEn;
+
+    //颜色
+    private String colorName;
+
+    //颜色英文名
+    private String colorNameEn;
+
     //商品图片
     private String imgUrl;
 
