@@ -155,9 +155,9 @@
             1 = 2
         </if>
     </select>
-
+git
     <!-- 添加网店铺缓存 -->
-    <select id="addStoreCache" resultType="com.apl.wms.warehouse.lib.cache.StoreCacheBo">
+    <select id="addStoreCache" resultType="com.apl.wms.warehouse.lib.cache.bo.StoreCacheBo">
         SELECT
             concat('JOIN_CACHE:store_',  ${innerOrgId}, '_', id) AS cache_key,
             id as storeId,
@@ -179,7 +179,7 @@
 
 
     <!-- 添加库位缓存 -->
-    <select id="addStorageLocalCache" resultType="com.apl.wms.warehouse.lib.cache.StorageLocalCacheBo">
+    <select id="addStorageLocalCache" resultType="com.apl.wms.warehouse.lib.cache.bo.StorageLocalCacheBo">
         SELECT
             concat('JOIN_CACHE:storage_local_',  ${innerOrgId}, '_', sl.id) AS cache_key,
             sl.id as storageLocalId ,
