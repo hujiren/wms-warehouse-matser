@@ -24,7 +24,7 @@ public class CacheController {
     @Autowired
     CacheService cacheService;
 
-    @PostMapping("/add-warehouse-cache")
+    @PostMapping("//add-packMaterials-cache")
     @ApiOperation(value = "添加包装材料缓存")
     public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey){
 
@@ -32,7 +32,7 @@ public class CacheController {
     }
 
     @PostMapping("//add-commodity-brand-cache")
-    @ApiOperation(value = "添加包装材料缓存")
+    @ApiOperation(value = "添加商品品牌缓存")
     public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey){
 
         return cacheService.addCommodityBrandCache(keys, minKey, maxKey);
