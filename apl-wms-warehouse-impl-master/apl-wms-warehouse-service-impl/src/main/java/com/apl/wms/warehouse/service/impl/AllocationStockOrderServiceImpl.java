@@ -139,7 +139,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
 
 
-
     /**
      * 统一为手动分配或队列分配的对象分配 总库存 , 库位库存
      * @param outOrderBo
@@ -149,10 +148,11 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
      *      3.调用对比总库存方法, 将循环对比总库存
      *      4.如果总库存充足, 则进行对比库位库存
      */
+
     public ResultUtil<Boolean> allocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo)  {
 
         //  1.通过切换数据源保存库存记录
-        AdbContext adbContext = stocksHistoryFeign.connectDb();
+       AdbContext adbContext = stocksHistoryFeign.connectDb();
 
         try {
 

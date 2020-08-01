@@ -32,13 +32,6 @@ public interface StorageLocalMapper extends BaseMapper<StorageLocalPo> {
 
 
     /**
-     * @Desc: 获取商品对应的库位库存列表
-     * @Author: CY
-     * @Date: 2020/6/9 15:01
-     */
-    List<StorageLocalInfoVo> getStorageLocalByCommodityId(@Param("commodityId") Long commodityId);
-
-    /**
      * @Desc: 检测记录是否重复
      * @Author: ${cfg.author}
      * @Date: 2019-12-17

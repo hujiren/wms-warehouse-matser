@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apl.wms.warehouse.dao.CacheMapper">
-    <insert id="addOperatorCache2"></insert>
 
+    <!--添加商品品牌缓存-->
+    <select id="addCommodityBrandCache" resultType="com.apl.wms.warehouse.lib.cache.bo.CommodityBrandCacheBo">
+        SELECT
+        concat('JOIN_CACHE:commodity_brand_',  ${innerOrgId}, '_', id) AS cache_key,
+        id,
+        brand_name,
+        brand_name_en,
+        customer_id
+        FROM
+        commodity_brand
+        WHERE
+        <if test="minKey>0 and minKey==maxKey">
+            id = #{keys}
+        </if>
+        <if test="minKey!=maxKey">
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+        </if>
+        <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
+            1 = 2
+        </if>
+    </select>
 
     <!-- 添加仓库缓存 -->
-    <select id="addWarehouseCache" resultType="com.apl.wms.warehouse.lib.cache.WarehouseCacheBo">
+    <select id="addWarehouseCache" resultType="com.apl.wms.warehouse.lib.cache.bo.WarehouseCacheBo">
         SELECT
             concat('JOIN_CACHE:warehouse_',  ${innerOrgId}, '_', id) AS cache_key,
             id,
@@ -28,7 +48,7 @@
 
 
     <!-- 添加商品缓存(根据id) -->
-    <select id="addCommodityCacheById" resultType="com.apl.wms.warehouse.lib.cache.CommodityCacheBo">
+    <select id="addCommodityCacheById" resultType="com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo">
         SELECT
             concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
             c.id,
@@ -57,7 +77,7 @@
     </select>
 
     <!-- 添加商品缓存(根据SKU) -->
-    <select id="addCommodityCacheBySku" resultType="com.apl.wms.warehouse.lib.cache.CommodityCacheBo">
+    <select id="addCommodityCacheBySku" resultType="com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo">
         SELECT
             concat('JOIN_CACHE:commodity_',  ${innerOrgId}, '_', c.id) AS cache_key,
             c.id,
@@ -83,7 +103,7 @@
     </select>
 
     <!-- 添加操作员 缓存 -->
-    <select id="addOperatorCache" resultType="com.apl.wms.warehouse.lib.cache.OperatorCacheBo">
+    <select id="addOperatorCache" resultType="com.apl.wms.warehouse.lib.cache.bo.OperatorCacheBo">
         SELECT
             concat('JOIN_CACHE:operator_',  ${innerOrgId}, '_', member_id) AS cache_key,
             id,
@@ -105,7 +125,7 @@
     </select>
 
     <!-- 添加操作服务缓存 -->
-    <select id="addOperatorServiceCache" resultType="com.apl.wms.warehouse.lib.cache.OperatorServiceBo">
+    <select id="addOperatorServiceCache" resultType="com.apl.wms.warehouse.lib.cache.bo.OperatorServiceBo">
         SELECT
             concat('JOIN_CACHE:operator_service_',  ${innerOrgId}, '_', id) AS cache_key,
             id,
@@ -150,7 +170,7 @@
     </select>
 
     <!-- 添加网店铺缓存 -->
-    <select id="addStoreCache" resultType="com.apl.wms.warehouse.lib.cache.StoreCacheBo">
+    <select id="addStoreCache" resultType="com.apl.wms.warehouse.lib.cache.bo.StoreCacheBo">
         SELECT
             concat('JOIN_CACHE:store_',  ${innerOrgId}, '_', id) AS cache_key,
             id as storeId,
@@ -172,7 +192,7 @@
 
 
     <!-- 添加库位缓存 -->
-    <select id="addStorageLocalCache" resultType="com.apl.wms.warehouse.lib.cache.StorageLocalCacheBo">
+    <select id="addStorageLocalCache" resultType="com.apl.wms.warehouse.lib.cache.bo.StorageLocalCacheBo">
         SELECT
             concat('JOIN_CACHE:storage_local_',  ${innerOrgId}, '_', sl.id) AS cache_key,
             sl.id as storageLocalId ,
@@ -194,5 +214,23 @@
             </if>
     </select>
 
-
+    <!--添加包装材料缓存-->
+    <select id="addPackMaterialsCache" resultType="com.apl.wms.warehouse.lib.cache.bo.PackingMaterialsCacheBo">
+        SELECT
+        concat('JOIN_CACHE:packMaterials_',  ${innerOrgId}, '_', id) AS cache_key,
+        id, sku, commodity_id, commodity_name, commodity_name_en, spec_name, spec_name_en, unit_code, img_url, texture_name,
+        texture_name_en, color_name, color_name_en, use_way, use_way_en, capacity, remark
+        from
+        packaging_materials
+        WHERE
+        <if test="minKey>0 and minKey==maxKey">
+            id = #{keys}
+        </if>
+        <if test="minKey!=maxKey">
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+        </if>
+        <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
+            1 = 2
+        </if>
+    </select>
 </mapper>

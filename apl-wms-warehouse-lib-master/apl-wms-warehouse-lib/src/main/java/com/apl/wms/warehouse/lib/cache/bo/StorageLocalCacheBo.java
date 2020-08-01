@@ -1,4 +1,4 @@
-package com.apl.wms.warehouse.lib.cache;
+package com.apl.wms.warehouse.lib.cache.bo;
 
 import lombok.Data;
 

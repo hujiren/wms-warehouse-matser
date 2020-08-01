@@ -293,8 +293,6 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         return false;
     }
 
-
-
     /**
      * @Desc: 计算商品体积
      * @Author: CY
@@ -311,6 +309,5 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         //每件商品 的体积
         return find.getSizeLength() * find.getSizeWidth() * find.getSizeHeight();
     }
-
 
 }

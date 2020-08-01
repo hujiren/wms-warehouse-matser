@@ -120,7 +120,6 @@
         where sl.storage_status = 1 and sl.is_lock = 0 limit 0 , #{count}
     </select>
 
-
     <update id="batchUpdateStorageStatus">
         update storage_local set storage_status = #{status} where id in (${storageIds})
     </update>
@@ -131,6 +130,5 @@
         where id in ( ${storageLocalIds})
 
     </update>
-
 
 </mapper>

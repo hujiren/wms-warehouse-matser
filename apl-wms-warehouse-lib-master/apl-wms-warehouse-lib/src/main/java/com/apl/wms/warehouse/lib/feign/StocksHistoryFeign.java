@@ -40,11 +40,12 @@ public class StocksHistoryFeign {
     }
 
     //批量保存库存记录
-    public ResultUtil<Integer> saveStocksHistoryPos(AdbContext dbInfo, List<StocksHistoryPo> stocksHistoryPos, List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) throws Exception
+    public ResultUtil<Integer> saveStocksHistoryPos(AdbContext adbContext, List<StocksHistoryPo> stocksHistoryPos, List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) throws Exception
     {
-         AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "stocks_history");
 
-         AdbPersistent.insertBatch(dbInfo, stocksHistoryPos, "storage_local_stocks_history");
+         AdbPersistent.insertBatch(adbContext, stocksHistoryPos, "stocks_history");
+
+         AdbPersistent.insertBatch(adbContext, stocksHistoryPos, "storage_local_stocks_history");
 
          return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
     }

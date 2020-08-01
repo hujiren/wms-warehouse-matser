@@ -101,6 +101,12 @@ public interface StocksService extends IService<StocksPo> {
 
 
         //更新总库存
+
+        /**
+         * hjr
+         * @param newStocksPos
+         * @return
+         */
          Integer updateTotalStock(List<StocksPo> newStocksPos);
 
 

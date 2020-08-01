@@ -108,6 +108,7 @@ public interface StorageLocalStocksService extends IService<StorageLocalStocksPo
 
 
     /**
+     * hjr
      * 更新库位库存
      * @param
      * @return

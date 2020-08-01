@@ -1,27 +1,14 @@
-package com.apl.wms.warehouse.vo;
+package com.apl.wms.warehouse.lib.cache.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
 
 /**
- * <p>
- * 商品品牌
- * </p>
- *
- * @author cy
- * @since 2019-12-12
+ * @author hjr start
+ * @date 2020/8/1 - 10:46
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class CommodityBrandInfoVo implements Serializable {
-
-
-private static final long serialVersionUID=1L;
-
+public class CommodityBrandCacheBo {
 
     // 商品品牌id
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -36,10 +23,4 @@ private static final long serialVersionUID=1L;
     // 品牌所属的客户id
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long customerId;
-
-
-
-
-
-
 }

@@ -127,7 +127,7 @@ public class StocksController {
     }
 
 
-    @PostMapping("/stocks/batch-query")
+    @PostMapping("/batch-query")
     @ApiOperation(value =  "查询总库存的实际库存" , notes = "查询总库存的实际库存")
     @ApiIgnore
     public ResultUtil<List<StocksPo>> getStocksByCommodityId(@RequestBody List<Long> commodityIdList) {
