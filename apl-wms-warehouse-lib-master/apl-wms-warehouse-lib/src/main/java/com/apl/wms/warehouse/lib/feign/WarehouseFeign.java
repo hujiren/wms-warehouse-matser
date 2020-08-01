@@ -47,7 +47,7 @@ public interface WarehouseFeign {
      * @param maxKey
      * @return
      */
-    @PostMapping( WmsWarehouseUrlConstants.CACHE_PATH + "/add-warehouse-cache")
+    @PostMapping( WmsWarehouseUrlConstants.CACHE_PATH + "/add-packMaterials-cache")
     ResultUtil<Boolean> addPackMaterialsCache(@RequestParam("keys") String keys,
                                               @RequestParam("minKey") Long minKey,
                                               @RequestParam("maxKey") Long maxKey);
