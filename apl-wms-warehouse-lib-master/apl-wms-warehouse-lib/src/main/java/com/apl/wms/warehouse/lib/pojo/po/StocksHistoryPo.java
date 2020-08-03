@@ -20,10 +20,9 @@ import lombok.experimental.Accessors;
  * @author cy
  * @since 2020-07-08
  */
-//@Data
-//@EqualsAndHashCode(callSuper = false)
-//@Accessors(chain = true)
-//@ApiModel(value="StocksHistory对象", description="总库存记录")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@ApiModel(value="StocksHistory对象", description="总库存记录")
 public class StocksHistoryPo implements Serializable { //extends Model<StocksHistoryPo>
 
     //private static final long serialVersionUID=1L;
@@ -61,92 +60,94 @@ public class StocksHistoryPo implements Serializable { //extends Model<StocksHis
     @ApiModelProperty(value = "操作时间")
     private Timestamp operatorTime;
 
+    @ApiModelProperty(value = "多租户id")
+    private Long innerOrgId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(Integer orderType) {
-        this.orderType = orderType;
-    }
-
-    public Integer getStocksType() {
-        return stocksType;
-    }
-
-    public void setStocksType(Integer stocksType) {
-        this.stocksType = stocksType;
-    }
-
-    public String getOrderSn() {
-        return orderSn;
-    }
-
-    public void setOrderSn(String orderSn) {
-        this.orderSn = orderSn;
-    }
-
-    public Long getWhId() {
-        return whId;
-    }
-
-    public void setWhId(Long whId) {
-        this.whId = whId;
-    }
-
-    public Long getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(Long commodityId) {
-        this.commodityId = commodityId;
-    }
-
-    public Integer getInQty() {
-        return inQty;
-    }
-
-    public void setInQty(Integer inQty) {
-        this.inQty = inQty;
-    }
-
-    public Integer getOutQty() {
-        return outQty;
-    }
-
-    public void setOutQty(Integer outQty) {
-        this.outQty = outQty;
-    }
-
-    public Integer getStocksQty() {
-        return stocksQty;
-    }
-
-    public void setStocksQty(Integer stocksQty) {
-        this.stocksQty = stocksQty;
-    }
-
-    public Timestamp getOperatorTime() {
-        return operatorTime;
-    }
-
-    public void setOperatorTime(Timestamp operatorTime) {
-        this.operatorTime = operatorTime;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public Long getOrderId() {
+//        return orderId;
+//    }
+//
+//    public void setOrderId(Long orderId) {
+//        this.orderId = orderId;
+//    }
+//
+//    public Integer getOrderType() {
+//        return orderType;
+//    }
+//
+//    public void setOrderType(Integer orderType) {
+//        this.orderType = orderType;
+//    }
+//
+//    public Integer getStocksType() {
+//        return stocksType;
+//    }
+//
+//    public void setStocksType(Integer stocksType) {
+//        this.stocksType = stocksType;
+//    }
+//
+//    public String getOrderSn() {
+//        return orderSn;
+//    }
+//
+//    public void setOrderSn(String orderSn) {
+//        this.orderSn = orderSn;
+//    }
+//
+//    public Long getWhId() {
+//        return whId;
+//    }
+//
+//    public void setWhId(Long whId) {
+//        this.whId = whId;
+//    }
+//
+//    public Long getCommodityId() {
+//        return commodityId;
+//    }
+//
+//    public void setCommodityId(Long commodityId) {
+//        this.commodityId = commodityId;
+//    }
+//
+//    public Integer getInQty() {
+//        return inQty;
+//    }
+//
+//    public void setInQty(Integer inQty) {
+//        this.inQty = inQty;
+//    }
+//
+//    public Integer getOutQty() {
+//        return outQty;
+//    }
+//
+//    public void setOutQty(Integer outQty) {
+//        this.outQty = outQty;
+//    }
+//
+//    public Integer getStocksQty() {
+//        return stocksQty;
+//    }
+//
+//    public void setStocksQty(Integer stocksQty) {
+//        this.stocksQty = stocksQty;
+//    }
+//
+//    public Timestamp getOperatorTime() {
+//        return operatorTime;
+//    }
+//
+//    public void setOperatorTime(Timestamp operatorTime) {
+//        this.operatorTime = operatorTime;
+//    }
 }

@@ -7,16 +7,12 @@ import com.apl.db.adb.AdbPersistent;
 import com.apl.db.adb.AdbQuery;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.wms.warehouse.lib.StorageLocalMapper;
-import com.apl.wms.warehouse.lib.feign.impl.WarehouseFeignImpl;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

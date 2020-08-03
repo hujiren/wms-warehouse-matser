@@ -1,21 +1,12 @@
 package com.apl.wms.warehouse.business;
-
-
-import com.apl.db.adb.AdbContext;
-import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication(
         scanBasePackages = {

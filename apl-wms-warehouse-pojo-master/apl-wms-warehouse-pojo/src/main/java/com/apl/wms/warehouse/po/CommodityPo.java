@@ -184,6 +184,9 @@ private static final long serialVersionUID=1L;
     @ApiModelProperty(name = "remark" , value = "商品备注")
     private String remark;
 
+    @ApiModelProperty(name = "isLock" , value = "是否锁定")
+    private Integer isLock;
+
 
     @Override
     protected Serializable pkVal() {
