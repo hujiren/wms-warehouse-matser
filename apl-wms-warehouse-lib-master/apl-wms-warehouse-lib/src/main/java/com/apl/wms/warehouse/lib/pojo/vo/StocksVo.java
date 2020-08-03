@@ -20,12 +20,14 @@ public class StocksVo implements Serializable {
 
     private static final long serialVersionUID = -6044949101567714516L;
     @ApiModelProperty(name = "id" , value = "id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "whId" , value = "仓库id")
     private Long whId;
 
     @ApiModelProperty(name = "commodityId" , value = "商品id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long commodityId;
 
     @ApiModelProperty(name = "availableCount" , value = "可售库存")

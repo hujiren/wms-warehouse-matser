@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.lib.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,12 +18,14 @@ private static final long serialVersionUID=1L;
 
 
     @ApiModelProperty(name = "orderId" , value = "盘点订单id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long orderId;
 
     @ApiModelProperty(name = "whId" , value = "仓库id")
     private Long whId;
 
     @ApiModelProperty(name = "commodityId" , value = "商品id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long commodityId;
 
     @ApiModelProperty(name = "allStockCount" , value = "仓库总库存")

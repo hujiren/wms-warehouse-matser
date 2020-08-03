@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.lib.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,6 +24,7 @@ private static final long serialVersionUID=1L;
 
 
     // 库位id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     // 库位编号（条形码）

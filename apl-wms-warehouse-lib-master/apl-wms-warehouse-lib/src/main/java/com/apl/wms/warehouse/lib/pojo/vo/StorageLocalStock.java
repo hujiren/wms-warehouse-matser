@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.lib.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,9 +8,11 @@ import lombok.Data;
 public class StorageLocalStock {
 
     @ApiModelProperty(name = "id", value = "库位库存id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(name = "commodityId", value = "商品id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long commodityId;
 
     @ApiModelProperty(name = "storageLocalId", value = "库位id")

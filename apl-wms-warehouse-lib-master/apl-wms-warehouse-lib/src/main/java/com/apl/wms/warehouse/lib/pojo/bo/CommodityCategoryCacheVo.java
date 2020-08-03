@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.lib.pojo.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,6 +24,7 @@ private static final long serialVersionUID=1L;
     private String cacheKey;
 
     // 商品种类id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     // 商品分类名称
