@@ -1,5 +1,4 @@
 package com.apl.wms.warehouse.business;
-import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,8 +25,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableDiscoveryClient
 @EnableSwagger2
 public class WmsWarehouseBusinessApplication {
-
-
 
     public static void main(String[] args) throws Exception {
 
