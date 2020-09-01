@@ -1,8 +1,5 @@
 package com.apl.wms.warehouse.service.impl;
-
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.adb.AdbContext;
-import com.apl.db.adb.AdbTransactional;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -26,12 +23,9 @@ import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -135,7 +129,6 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     public ResultUtil<Boolean> cancelAllocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo) {
 
         //  1.通过切换数据源保存库存记录
-        AdbContext dbInfo = stocksHistoryFeign.connectDb();
         Long whId = outOrderBo.getWhId();
 
         try {
@@ -158,7 +151,6 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             List<CompareStorageLocalStocksBo> compareStorageLocalStocksBoList = this.cancelStorageLocalStock(commodityIdJoinKeyValues, outOrderBo, storageLocalStocksHistoryPos);
 
             //切换数据源,开启事务
-            AdbTransactional.beginTrans(dbInfo);
 
             //更新总库存
             stocksService.updateTotalStock(newStocksPos);
@@ -170,16 +162,10 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
             deleteOrderAllocationItem(outOrderBo.getOrderId());
 
             //保存库存历史记录列表
-            stocksHistoryFeign.saveStocksHistoryPos(dbInfo, stocksHistoryPoList, storageLocalStocksHistoryPos);
-
-
-            // 库存历史记录事务提交
-            AdbTransactional.commit(dbInfo);
-
+            stocksHistoryFeign.saveStocksHistoryPos(stocksHistoryPoList, storageLocalStocksHistoryPos);
 
         } catch (Exception e) {
 
-            AdbTransactional.rollback(dbInfo);
             throw new AplException(CommonStatusCode.SAVE_FAIL.code, CommonStatusCode.SAVE_FAIL.msg);
 
         }

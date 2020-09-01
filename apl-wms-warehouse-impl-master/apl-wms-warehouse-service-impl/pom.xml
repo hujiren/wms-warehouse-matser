@@ -16,19 +16,6 @@
             <version>1.0.0</version>
         </dependency>
 
-                <!-- 动态数据源 -->
-        <dependency>
-            <groupId>com.apl</groupId>
-            <artifactId>apl-db</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.apl</groupId>
-            <artifactId>apl-cache</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <dependency>
             <groupId>com.apl</groupId>
             <artifactId>apl-amqp</artifactId>
@@ -105,6 +92,21 @@
         <!-- jasperreports-->
 
     </dependencies>
+
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

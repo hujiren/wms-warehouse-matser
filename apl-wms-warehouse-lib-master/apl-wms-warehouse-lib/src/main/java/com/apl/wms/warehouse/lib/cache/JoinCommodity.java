@@ -1,11 +1,11 @@
 package com.apl.wms.warehouse.lib.cache;
 
-import com.apl.db.abatis.MyBatisPlusConfig;
 import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
+import com.apl.tenant.AplTenantConfig;
 import com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 
@@ -31,7 +31,7 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
         this.tabName = "commodity";
         this.joinStyle = joinStyle;
 
-        this.innerOrgId = MyBatisPlusConfig.tenantIdContextHolder.get();
+        this.innerOrgId = AplTenantConfig.tenantIdContextHolder.get();
         this.cacheKeyNamePrefix = "JOIN_CACHE:"+this.tabName+"_"+this.innerOrgId.toString()+"_";
     }
 

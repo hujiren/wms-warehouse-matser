@@ -26,12 +26,11 @@
             <artifactId>apl-wms-warehouse-service-impl</artifactId>
             <version>1.0.0</version>
         </dependency>
-
-        <!--  -->
+        <!-- 健康检查 -->
         <dependency>
-            <groupId>com.apl</groupId>
-            <artifactId>apl-db</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.2.3.RELEASE</version>
         </dependency>
 
     </dependencies>

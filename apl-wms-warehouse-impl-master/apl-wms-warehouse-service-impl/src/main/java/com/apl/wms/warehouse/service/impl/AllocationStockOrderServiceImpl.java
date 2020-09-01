@@ -1,8 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.adb.AdbContext;
-import com.apl.db.adb.AdbTransactional;
+import com.apl.db.adb.AdbHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -28,10 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,6 +67,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     @Autowired
     private OutStorageOrderOperatorFeign outStorageOrderOperatorFeign;
 
+
     static final ThreadLocal<AllocationWarehouseContextInfo> contextHolder = new ThreadLocal();
 
     public class AllocationWarehouseContextInfo{
@@ -86,7 +84,8 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     @Autowired
     StocksHistoryFeign stocksHistoryFeign;
 
-
+    @Autowired
+    AdbHelper adbHelper;
     /**
      * 根据订单<手动>分配仓库
      * 手动分配, 队列分配都是取单个订单进行分配
@@ -151,8 +150,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
 
     public ResultUtil<Boolean> allocationStockByOrder(AllocationWarehouseOutOrderBo outOrderBo)  {
 
-        //  1.通过切换数据源保存库存记录
-       AdbContext adbContext = stocksHistoryFeign.connectDb();
 
         try {
 
@@ -188,16 +185,14 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
                 //如果更新总库存和更新库位库存执行成功则保存此次出库记录, 并更改状态为已分配仓库
                 if(updateStorageLocalStockResult > 0 && updateTotalStockResult > 0) {
                     //切换数据源,开启事务
-                    AdbTransactional.beginTrans(adbContext);
+
 
                     //保存总库存历史记录列表和库位库存历史记录列表
-                    stocksHistoryFeign.saveStocksHistoryPos(adbContext, stocksHistoryPos, storageLocalStocksHistoryPos);
+                    stocksHistoryFeign.saveStocksHistoryPos(stocksHistoryPos, storageLocalStocksHistoryPos);
 
                     AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 3, compareStorageLocalStocksBos);
                 }
 
-                // 库存历史记录事务提交
-                AdbTransactional.commit(adbContext);
             }else{
 
                 //库存不足, 恢复订单拣货状态为1(未分配库存)
@@ -210,7 +205,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
         catch (Exception e){
             log.error(MessageFormat.format("{0},  outOrderId: {1}", e.getMessage(), outOrderBo.getOrderId()));
 
-            AdbTransactional.rollback(adbContext);
             List<CompareStorageLocalStocksBo> listEmpty = new ArrayList<>();
             AllocaOutOrderStockCallBack(outOrderBo.getOrderId(), 0, listEmpty);
 

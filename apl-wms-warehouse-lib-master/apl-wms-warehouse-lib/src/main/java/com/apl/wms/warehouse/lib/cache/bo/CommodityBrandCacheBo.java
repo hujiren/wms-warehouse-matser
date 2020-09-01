@@ -7,7 +7,7 @@ import lombok.Data;
  * @author hjr start
  * @date 2020/8/1 - 10:46
  */
-@Data
+
 public class CommodityBrandCacheBo {
 
     // 商品品牌id
