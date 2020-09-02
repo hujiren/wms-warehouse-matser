@@ -26,6 +26,7 @@
             <artifactId>apl-wms-warehouse-service-impl</artifactId>
             <version>1.0.0</version>
         </dependency>
+
         <!-- 健康检查 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

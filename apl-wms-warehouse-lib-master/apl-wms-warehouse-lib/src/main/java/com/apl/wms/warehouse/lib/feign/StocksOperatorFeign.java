@@ -32,6 +32,7 @@ public class StocksOperatorFeign {
         Integer integer1 = adbHelper.updateBatch(newStocksPoList, "stocks", "commodity_id");
 
         return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , integer + integer1);
+
     }
     
     //根据库位ids查询库位对应实际库存
@@ -45,6 +46,7 @@ public class StocksOperatorFeign {
                 StorageLocalInfoVo.class);
 
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS.code, CommonStatusCode.GET_SUCCESS.msg, storageLocalList);
+
     }
 
 

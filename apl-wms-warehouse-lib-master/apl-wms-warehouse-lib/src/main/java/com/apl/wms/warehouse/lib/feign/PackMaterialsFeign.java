@@ -28,7 +28,8 @@ public class PackMaterialsFeign {
                         "color_name_en, use_way, use_way_en, capacity, remark from packaging_materials where sku =:sku",
                 paramMap, PackagingMaterialsInfoVo.class);
 
-
         return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , packagingMaterialsInfoVo);
+
+
     }
 }

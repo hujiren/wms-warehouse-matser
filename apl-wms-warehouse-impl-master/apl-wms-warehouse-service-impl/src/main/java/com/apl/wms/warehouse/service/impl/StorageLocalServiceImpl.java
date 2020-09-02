@@ -2,7 +2,6 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
-import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
@@ -20,7 +19,6 @@ import com.apl.wms.warehouse.po.StorageLocalPo;
 import com.apl.wms.warehouse.service.CommodityService;
 import com.apl.wms.warehouse.service.StorageLocalService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
-import com.apl.wms.warehouse.utils.JasperHelper;
 import com.apl.wms.warehouse.vo.StorageLocalListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -220,7 +217,7 @@ public class StorageLocalServiceImpl extends ServiceImpl<StorageLocalMapper, Sto
         String sysPath = System.getProperty("user.dir").replace("\\", "/");
         File reportFile = new File(sysPath + "/" + storageLocationReportPath);
 
-        JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
+        //JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
     }
 
     //分配库位计算

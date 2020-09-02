@@ -6,9 +6,11 @@ spring:
     include:
       common, apl-wms-warehouse-business-app
 
-feign:
-  httpclient:
-    enabled: true
+  main:
+    allow-bean-definition-overriding: true
+
+
+
 
 
 

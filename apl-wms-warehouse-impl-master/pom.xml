@@ -15,9 +15,8 @@
 
     </modules>
 
-    <build>
+    <!--<build>
         <plugins>
-            <!-- 使用Java8构建项目 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -28,6 +27,6 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>

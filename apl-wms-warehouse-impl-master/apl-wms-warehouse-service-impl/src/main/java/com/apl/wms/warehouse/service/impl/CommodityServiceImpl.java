@@ -23,7 +23,6 @@ import com.apl.wms.warehouse.po.CommodityPo;
 import com.apl.wms.warehouse.service.CacheService;
 import com.apl.wms.warehouse.service.CommodityCategoryService;
 import com.apl.wms.warehouse.service.CommodityService;
-import com.apl.wms.warehouse.utils.JasperHelper;
 import com.apl.wms.warehouse.utils.JoinLocalCommodityCategory;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
 import com.apl.wms.warehouse.vo.CommodityListVo;
@@ -292,7 +291,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         String sysPath = System.getProperty("user.dir").replace("\\","/");
         System.out.println(sysPath + "/" + commodityReportPath);
         File reportFile = new File(sysPath + "/" + commodityReportPath);
-        JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
+        //JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
     }
 
 
@@ -303,7 +302,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
         String sysPath = System.getProperty("user.dir").replace("\\","/");
         File reportFile = new File(sysPath + "/" + commodityReportPath);
-        JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
+        //JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
     }
 
 

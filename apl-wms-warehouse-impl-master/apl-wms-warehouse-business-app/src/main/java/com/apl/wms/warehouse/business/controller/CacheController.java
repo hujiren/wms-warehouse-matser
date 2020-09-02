@@ -31,7 +31,7 @@ public class CacheController {
         return cacheService.addPackMaterialsCache(keys, minKey, maxKey);
     }
 
-    @PostMapping("//add-commodity-brand-cache")
+    @PostMapping("/add-commodity-brand-cache")
     @ApiOperation(value = "添加商品品牌缓存")
     public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey){
 

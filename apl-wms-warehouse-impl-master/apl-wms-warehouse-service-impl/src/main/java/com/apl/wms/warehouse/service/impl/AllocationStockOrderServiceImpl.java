@@ -1,7 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.adb.AdbHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -84,8 +83,6 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     @Autowired
     StocksHistoryFeign stocksHistoryFeign;
 
-    @Autowired
-    AdbHelper adbHelper;
     /**
      * 根据订单<手动>分配仓库
      * 手动分配, 队列分配都是取单个订单进行分配

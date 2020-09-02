@@ -22,13 +22,12 @@ public class StocksHistoryFeign {
     //批量保存库存记录
     public ResultUtil<Integer> saveStocksHistoryPos(List<StocksHistoryPo> stocksHistoryPos, List<StorageLocalStocksHistoryPo> storageLocalStocksHistoryPos) throws Exception
     {
-
-
-        adbHelper.insertBatch( stocksHistoryPos, "stocks_history");
+        adbHelper.insertBatch(stocksHistoryPos, "stocks_history");
 
         adbHelper.insertBatch(stocksHistoryPos, "storage_local_stocks_history");
 
          return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , stocksHistoryPos.size());
+
     }
 
 

@@ -1,11 +1,10 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.abatis.MyBatisPlusConfig;
-import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
+import com.apl.tenant.AplTenantConfig;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.service.CancelAllocStockOrderService;
 import com.rabbitmq.client.Channel;
@@ -48,10 +47,10 @@ public class CancelAllocWarehouseForOrderQueueCustomer {
             CommonContextHolder.tokenContextHolder.set(token);
 
             //多数据源切换
-            DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
+            //DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
 
             // 多租户ID值
-            MyBatisPlusConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
+            AplTenantConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
 
             //订单来源  1自动同步平台订单
             cancelAllocStockOrderService.cancelAllocationByQueue(outOrderBo);
@@ -61,7 +60,7 @@ public class CancelAllocWarehouseForOrderQueueCustomer {
 
             CommonContextHolder.tokenContextHolder.remove();
             CommonContextHolder.securityUserContextHolder.remove();
-            MyBatisPlusConfig.tenantIdContextHolder.remove();
+            AplTenantConfig.tenantIdContextHolder.remove();
 
             //手工ACK
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);

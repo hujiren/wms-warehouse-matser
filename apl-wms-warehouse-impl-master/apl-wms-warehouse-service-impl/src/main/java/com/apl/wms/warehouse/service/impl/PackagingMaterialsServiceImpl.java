@@ -24,7 +24,6 @@ import com.apl.wms.warehouse.service.PackagingMaterialsService;
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;
 import com.apl.wms.warehouse.po.PackagingMaterialsPo;
-import com.apl.wms.warehouse.utils.JasperHelper;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
 import com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo;
 import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;
@@ -238,7 +237,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         String sysPath = System.getProperty("user.dir").replace("\\","/");
         System.out.println(sysPath + "/" + commodityReportPath);
         File reportFile = new File(sysPath + "/" + commodityReportPath);
-        JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
+        //JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
     }
 
 

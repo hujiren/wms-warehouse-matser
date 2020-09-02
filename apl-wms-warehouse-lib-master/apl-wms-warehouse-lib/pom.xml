@@ -20,6 +20,7 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.apl</groupId>
             <artifactId>apl-wms-warehouse-pojo</artifactId>

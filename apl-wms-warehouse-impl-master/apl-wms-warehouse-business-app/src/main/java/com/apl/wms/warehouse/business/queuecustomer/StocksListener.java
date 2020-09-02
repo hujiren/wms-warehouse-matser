@@ -1,12 +1,11 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
 import com.apl.cache.AplCacheUtil;
-import com.apl.db.abatis.MyBatisPlusConfig;
-import com.apl.db.datasource.DataSourceContextHolder;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
 import com.apl.sys.lib.feign.OuterFeign;
+import com.apl.tenant.AplTenantConfig;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.bo.StockUpdListBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
@@ -61,10 +60,10 @@ public class StocksListener {
              CommonContextHolder.tokenContextHolder.set(token);
 
              //多数据源切换
-             DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
+             //DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
 
              // 多租户ID值
-             MyBatisPlusConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
+             AplTenantConfig.tenantIdContextHolder.set(securityUser.getInnerOrgId());
 
              //加库存
             stocksService.updateStocks(stockUpdBo);
@@ -194,6 +193,6 @@ public class StocksListener {
         CommonContextHolder.tokenContextHolder.set(token);
 
         //多租户切换数据源
-        DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
+        //DataSourceContextHolder.set(securityUser.getTenantGroup(), securityUser.getInnerOrgCode(), securityUser.getInnerOrgId());
     }
 }

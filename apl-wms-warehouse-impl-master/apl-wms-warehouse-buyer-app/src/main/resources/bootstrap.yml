@@ -5,3 +5,20 @@ spring:
   profiles:
     include:
       common, apl-wms-warehouse-buyer-app
+
+  main:
+    allow-bean-definition-overriding: true
+
+  shardingsphere:
+    datasource:
+      names: wmswh
+
+      wmswh:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.1.185:3307/pgs_wms_wh?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: 123456
+
+    sharding:
+      default-data-source-name: wmswh
