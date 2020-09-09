@@ -8,7 +8,7 @@ import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
-import com.apl.wms.warehouse.dao.CommodityBrandMapper;
+import com.apl.wms.warehouse.mapper.CommodityBrandMapper;
 import com.apl.wms.warehouse.dto.CommodityBrandKeyDto;
 import com.apl.wms.warehouse.po.CommodityBrandPo;
 import com.apl.wms.warehouse.service.CommodityBrandService;

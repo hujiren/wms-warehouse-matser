@@ -5,14 +5,13 @@
  * All rights reserved.
  */
 
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
 
 import com.apl.wms.warehouse.lib.cache.bo.*;
 import com.apl.wms.warehouse.lib.pojo.bo.CommodityCategoryCacheVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

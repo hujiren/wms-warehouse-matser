@@ -1,7 +1,6 @@
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
 
-import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.bo.StockUpdBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;

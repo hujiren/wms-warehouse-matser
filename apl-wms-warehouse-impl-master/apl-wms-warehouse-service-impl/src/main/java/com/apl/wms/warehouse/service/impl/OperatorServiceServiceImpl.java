@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.wms.warehouse.dao.OperatorServiceMapper;
+import com.apl.wms.warehouse.mapper.OperatorServiceMapper;
 import com.apl.wms.warehouse.dto.OperatorServiceKeyDto;
 import com.apl.wms.warehouse.po.OperatorServicePo;
 import com.apl.wms.warehouse.service.OperatorServiceService;

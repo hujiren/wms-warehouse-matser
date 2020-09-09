@@ -1,5 +1,6 @@
 package com.apl.wms.warehouse.po;
 
+import com.apl.lib.validate.TypeValidator;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -94,6 +95,10 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "可以存放最大的商品数量", hidden = true)
     private Integer thresholdCount;
+
+    @ApiModelProperty(value = "是否锁定 1锁定 2未锁定")
+    @TypeValidator(value = {"1", "2"}, message = "是否锁定的值为1或2")
+    private Integer isLock;
 
     @Override
     protected Serializable pkVal() {

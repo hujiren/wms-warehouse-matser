@@ -2,13 +2,13 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.wms.warehouse.dao.WarehouseMapper;
+import com.apl.wms.warehouse.mapper.WarehouseMapper;
 import com.apl.wms.warehouse.po.WarehousePo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import com.apl.wms.warehouse.dao.WhDetailsMapper;
+import com.apl.wms.warehouse.mapper.WhDetailsMapper;
 import com.apl.wms.warehouse.service.WhDetailsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 

@@ -10,7 +10,7 @@ import com.apl.wms.outstorage.order.lib.feign.OutStorageOrderOperatorFeign;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOrderCommodityBo;
 import com.apl.wms.outstorage.order.lib.pojo.bo.AllocationWarehouseOutOrderBo;
 import com.apl.wms.warehouse.bo.StocksBo;
-import com.apl.wms.warehouse.dao.CancelAllocStockOrderMapper;
+import com.apl.wms.warehouse.mapper.CancelAllocStockOrderMapper;
 import com.apl.wms.warehouse.lib.feign.StocksHistoryFeign;
 import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.po.StocksHistoryPo;

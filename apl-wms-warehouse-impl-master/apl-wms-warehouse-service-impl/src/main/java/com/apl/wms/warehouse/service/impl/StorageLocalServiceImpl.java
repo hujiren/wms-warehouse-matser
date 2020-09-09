@@ -3,14 +3,13 @@ package com.apl.wms.warehouse.service.impl;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 
 import com.apl.wms.warehouse.lib.constants.WmsWarehouseAplConstants;
 import com.apl.wms.warehouse.lib.pojo.bo.StorageLocationBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalInfoVo;
-import com.apl.wms.warehouse.dao.StorageLocalMapper;
+import com.apl.wms.warehouse.mapper.StorageLocalMapper;
 import com.apl.wms.warehouse.dto.StorageLocationAddDto;
 import com.apl.wms.warehouse.dto.StorageLocationBatchUpdDto;
 import com.apl.wms.warehouse.dto.StorageLocationKeyDto;

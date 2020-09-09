@@ -4,7 +4,7 @@ import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.dto.CommodityPicAddDto;
 import com.apl.wms.warehouse.dto.PicItemDto;
-import com.apl.wms.warehouse.dao.CommodityPicMapper;
+import com.apl.wms.warehouse.mapper.CommodityPicMapper;
 import com.apl.wms.warehouse.po.CommodityPicPo;
 import com.apl.wms.warehouse.service.CommodityPicService;
 import com.apl.wms.warehouse.service.CommodityService;

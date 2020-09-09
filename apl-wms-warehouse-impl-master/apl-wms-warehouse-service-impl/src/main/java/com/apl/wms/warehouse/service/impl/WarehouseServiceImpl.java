@@ -7,7 +7,7 @@ import com.apl.wms.warehouse.vo.WarehouseInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import com.apl.wms.warehouse.dao.WarehouseMapper;
+import com.apl.wms.warehouse.mapper.WarehouseMapper;
 import com.apl.wms.warehouse.service.WarehouseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 

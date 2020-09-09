@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apl.wms.warehouse.dao.StoreMapper">
+<mapper namespace="com.apl.wms.warehouse.mapper.StoreMapper">
 
     <!-- 查找详情 2019-12-23-->
     <select id="getById" resultType="com.apl.wms.warehouse.vo.StoreInfoVo">

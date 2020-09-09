@@ -1,7 +1,6 @@
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
 import com.apl.wms.warehouse.bo.StocksBo;
-import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.po.StocksPo;
 import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

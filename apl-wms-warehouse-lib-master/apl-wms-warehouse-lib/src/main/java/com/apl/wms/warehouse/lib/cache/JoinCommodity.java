@@ -9,8 +9,6 @@ import com.apl.tenant.AplTenantConfig;
 import com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
 
-
-
 /**
    * @Description : 缓存商品
    * @Author : arran

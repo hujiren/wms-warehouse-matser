@@ -2,7 +2,7 @@ package com.apl.wms.warehouse.service.impl;
 
 import com.apl.lib.exception.AplException;
 import com.apl.lib.utils.ResultUtil;
-import com.apl.wms.warehouse.dao.ShelvesSpecMapper;
+import com.apl.wms.warehouse.mapper.ShelvesSpecMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;

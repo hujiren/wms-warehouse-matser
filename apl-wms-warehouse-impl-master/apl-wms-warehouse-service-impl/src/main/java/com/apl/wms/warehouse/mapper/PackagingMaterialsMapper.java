@@ -1,4 +1,4 @@
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.PackagingMaterialsKeyDto;

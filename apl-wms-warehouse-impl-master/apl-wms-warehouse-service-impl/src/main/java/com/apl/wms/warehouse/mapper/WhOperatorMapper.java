@@ -1,4 +1,4 @@
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
 import com.apl.wms.warehouse.po.WhOperatorPo;
 import com.apl.wms.warehouse.vo.WhOperatorListVo;

@@ -21,9 +21,6 @@ public class JoinPackMaterials extends JoinBase<PackingMaterialsCacheBo> {
         this.cacheUtil = cacheUtil;
         this.tabName = "packaging_materials";
         this.joinStyle = joinStyle;
-
-
-
         this.innerOrgId = AplTenantConfig.tenantIdContextHolder.get();
         this.cacheKeyNamePrefix = "JOIN_CACHE:"+this.tabName+"_"+this.innerOrgId.toString()+"_";
     }

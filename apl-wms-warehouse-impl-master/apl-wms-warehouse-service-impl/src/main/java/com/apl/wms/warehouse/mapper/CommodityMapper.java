@@ -1,4 +1,4 @@
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.CommodityKeyDto;
@@ -57,4 +57,5 @@ public interface CommodityMapper extends BaseMapper<CommodityPo> {
      * @Date: 2019/12/20 17:27
      */
     List<CommodityReportBo> getCommodityReportBarcode(@Param("ids") List<Long> ids, @Param("customerId")  Long customerId);
+
 }

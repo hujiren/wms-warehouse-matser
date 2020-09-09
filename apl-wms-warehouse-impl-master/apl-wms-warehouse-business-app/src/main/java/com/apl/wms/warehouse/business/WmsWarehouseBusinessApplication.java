@@ -16,9 +16,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
                 //"com.apl.abatis", // sqlSession封装
                 "com.apl.db.adb", // adb数据库操作助手
                 //"com.apl.db.dynamicdb", //动态数据源
+                "com.apl.shardingjdbc", // 分库
                 "com.apl.cache", // redis代理
                 //"com.apl.amqp", //消息队列代理
-
                 "com.apl.sys.lib",
                 "com.apl.wms.warehouse"
         },
@@ -28,12 +28,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
                 "com.apl.wms.warehouse.lib.feign",
                 "com.apl.sys.lib.feign",
                 "com.apl.wms.outstorage.order.lib.feign"})
-@MapperScan("com.apl.wms.warehouse.dao")
+//@MapperScan("com.apl.wms.warehouse.mapper")
+@MapperScan(basePackages = "com.apl.wms.warehouse.mapper", sqlSessionFactoryRef = "sqlSessionFactoryForShardingjdbc")
 @EnableDiscoveryClient
 @EnableSwagger2
 public class WmsWarehouseBusinessApplication {
 
     public static void main(String[] args) throws Exception {
+
+//        com.apl.shardingjdbc.mybatis.
 
         SpringApplication.run(WmsWarehouseBusinessApplication.class , args);
 

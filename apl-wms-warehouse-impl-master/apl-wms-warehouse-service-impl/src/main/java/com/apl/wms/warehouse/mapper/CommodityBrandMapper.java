@@ -1,19 +1,13 @@
-package com.apl.wms.warehouse.dao;
+package com.apl.wms.warehouse.mapper;
 
-import com.apl.wms.warehouse.bo.StocksBo;
 import com.apl.wms.warehouse.dto.CommodityBrandKeyDto;
-import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.po.CommodityBrandPo;
-import com.apl.wms.warehouse.po.StocksPo;
-import com.apl.wms.warehouse.po.StorageLocalStocksPo;
 import com.apl.wms.warehouse.vo.CommodityBrandInfoVo;
 import com.apl.wms.warehouse.vo.CommodityBrandListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

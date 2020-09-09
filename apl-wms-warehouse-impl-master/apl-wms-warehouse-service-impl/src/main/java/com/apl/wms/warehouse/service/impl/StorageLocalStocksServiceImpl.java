@@ -11,7 +11,7 @@ import com.apl.wms.warehouse.lib.pojo.bo.CompareStorageLocalStocksBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.bo.PullBatchOrderItemBo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
-import com.apl.wms.warehouse.dao.StorageLocalStocksMapper;
+import com.apl.wms.warehouse.mapper.StorageLocalStocksMapper;
 import com.apl.wms.warehouse.dto.StorageCommodityKeyDto;
 import com.apl.wms.warehouse.po.CommodityPo;
 import com.apl.wms.warehouse.po.StorageLocalPo;

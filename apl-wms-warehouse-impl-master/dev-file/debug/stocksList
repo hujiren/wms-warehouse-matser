@@ -1,7 +1,7 @@
 2020-07-09 17:44:46.467 ERROR 4380 --- [ntContainer#2-1] c.a.w.w.b.queuecustomer.StocksListener   : com.apl.wms.warehouse.business.queuecustomer.StocksListener, ERROR：nested exception is org.apache.ibatis.exceptions.PersistenceException:
 ### Error querying database.  Cause: java.lang.NullPointerException
 ### The error may exist in file [G:\java\apl-wms-warehouse\apl-wms-warehouse-impl-master\apl-wms-warehouse-service-impl\src\main\resources\mapper\StocksMapper.xml]
-### The error may involve com.apl.wms.warehouse.dao.StocksMapper.getCommodityStock
+### The error may involve com.apl.wms.warehouse.mapper.StocksMapper.getCommodityStock
 ### The error occurred while executing a query
 ### Cause: java.lang.NullPointerException
 Creating a new SqlSession

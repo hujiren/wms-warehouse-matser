@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.apl.lib.constants.CommonStatusCode;
 
-import com.apl.wms.warehouse.dao.WhOperatorMapper;
+import com.apl.wms.warehouse.mapper.WhOperatorMapper;
 import com.apl.wms.warehouse.service.WhOperatorService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 

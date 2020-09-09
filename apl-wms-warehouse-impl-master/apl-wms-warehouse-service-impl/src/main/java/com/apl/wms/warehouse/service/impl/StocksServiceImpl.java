@@ -14,7 +14,7 @@ import com.apl.wms.warehouse.lib.pojo.bo.PlatformOutOrderStockBo;
 import com.apl.wms.warehouse.lib.pojo.vo.CheckOrderStockDetailsVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StocksVo;
 import com.apl.wms.warehouse.lib.pojo.vo.StorageLocalStock;
-import com.apl.wms.warehouse.dao.StocksMapper;
+import com.apl.wms.warehouse.mapper.StocksMapper;
 import com.apl.wms.warehouse.service.StocksService;
 import com.apl.wms.warehouse.service.StorageLocalStocksService;
 import com.apl.wms.warehouse.po.StocksPo;

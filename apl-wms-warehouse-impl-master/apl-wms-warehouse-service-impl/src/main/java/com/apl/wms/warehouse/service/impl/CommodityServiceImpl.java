@@ -7,15 +7,14 @@ import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinFieldInfo;
 import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
-import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
 import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
 import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.sys.lib.feign.OuterFeign;
-import com.apl.wms.warehouse.dao.CommodityMapper;
-import com.apl.wms.warehouse.dao.CommodityPicMapper;
+import com.apl.wms.warehouse.mapper.CommodityMapper;
+import com.apl.wms.warehouse.mapper.CommodityPicMapper;
 import com.apl.wms.warehouse.bo.CommodityReportBo;
 import com.apl.wms.warehouse.dto.CommodityKeyDto;
 import com.apl.wms.warehouse.po.CommodityCategoryPo;
@@ -37,7 +36,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
