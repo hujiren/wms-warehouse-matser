@@ -2,6 +2,7 @@ package com.apl.wms.warehouse.lib.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="StorageLocalStocksHistory对象", description="库位库存记录")
+@TableName("storage_local_stocks_history")
 public class StorageLocalStocksHistoryPo implements Serializable {
 
     @TableId(value = "id", type = IdType.INPUT)

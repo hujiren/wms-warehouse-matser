@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,6 +25,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("stocks_history")
 @ApiModel(value="StocksHistory对象", description="总库存记录")
 public class StocksHistoryPo implements Serializable { //extends Model<StocksHistoryPo>
 
