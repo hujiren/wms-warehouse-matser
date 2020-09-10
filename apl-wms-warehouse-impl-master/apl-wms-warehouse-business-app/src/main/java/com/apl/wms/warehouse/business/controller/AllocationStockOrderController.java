@@ -38,7 +38,7 @@ public class AllocationStockOrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outOrderId" , value = "订单id",paramType = "query")
     })
-    public ResultUtil<Boolean> allocationManual(@NotNull(message = "outOrderId不能为空") @Min(value = 0, message = "id不能为负数") Long outOrderId) {
+    public ResultUtil<Boolean> allocationManual(@NotNull(message = "outOrderId不能为空") @Min(value = 0, message = "id不能为小于0") Long outOrderId) {
          return allocationStockOrderService.allocationManual(outOrderId);
     }
 

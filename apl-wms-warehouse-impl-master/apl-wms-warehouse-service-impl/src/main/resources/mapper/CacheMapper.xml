@@ -17,7 +17,7 @@
             id = #{keys}
         </if>
         <if test="minKey!=maxKey">
-            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -51,7 +51,7 @@
             c.id = #{ids}
         </if>
         <if test="minKey != maxKey">
-            c.id BETWEEN #{minKey} AND #{maxKey} AND c.id in(#{ids})
+            c.id BETWEEN #{minKey} AND #{maxKey} AND c.id in(${ids})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -81,7 +81,7 @@
         LEFT JOIN commodity_brand cb ON c.brand_id = cb.id
         WHERE
         <if test="skus!=null and skus.length>0">
-            c.sku in (#{skus})
+            c.sku in (${skus})
         </if>
         <if test="customerId!=null and customerId>0">
             c.customer_id = #{customerId}
@@ -124,7 +124,7 @@
             id = #{minKey}
         </if>
         <if test="minKey!=maxKey">
-            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -148,7 +148,7 @@
             id = #{keys}
         </if>
         <if test="minKey!=maxKey">
-            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -169,7 +169,7 @@
             id = #{keys}
         </if>
         <if test="minKey!=maxKey">
-            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -193,7 +193,7 @@
             sl.id = #{keys}
         </if>
         <if test="minKey!=maxKey">
-            sl.id BETWEEN #{minKey} AND #{maxKey} AND sl.id in(#{keys})
+            sl.id BETWEEN #{minKey} AND #{maxKey} AND sl.id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -213,7 +213,7 @@
             id = #{keys}
         </if>
         <if test="minKey!=maxKey">
-            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
@@ -235,7 +235,7 @@
             id = #{keys}
         </if>
         <if test="minKey!=maxKey">
-            id BETWEEN #{minKey} AND #{maxKey} AND id in(#{keys})
+            id BETWEEN #{minKey} AND #{maxKey} AND id in(${keys})
         </if>
         <if test="(minKey == null or minKey&lt;=0) and (maxKey == null or maxKey&gt;=0)">
             1 = 2
