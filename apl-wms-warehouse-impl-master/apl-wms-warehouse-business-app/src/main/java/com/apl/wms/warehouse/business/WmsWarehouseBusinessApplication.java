@@ -30,7 +30,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
                 "com.apl.sys.lib.feign",
                 "com.apl.wms.outstorage.order.lib.feign"})
 //@MapperScan("com.apl.wms.warehouse.mapper")
-@MapperScan(basePackages = "com.apl.wms.warehouse.mapper", sqlSessionFactoryRef = "sqlSessionFactoryForShardingjdbc")
+@MapperScan(basePackages = {"com.apl.wms.warehouse.mapper"}, sqlSessionFactoryRef = "sqlSessionFactoryForShardingjdbc")
 @EnableDiscoveryClient
 @EnableSwagger2
 public class WmsWarehouseBusinessApplication {
