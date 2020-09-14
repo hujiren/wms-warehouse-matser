@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.business;
 
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
                 "com.apl.sys.lib",
                 "com.apl.wms.warehouse"
         },
-        exclude = {DataSourceAutoConfiguration.class})
+        exclude = {DruidDataSourceAutoConfigure.class})
 @EnableFeignClients(
         basePackages = {
                 "com.apl.wms.warehouse.lib.feign",
