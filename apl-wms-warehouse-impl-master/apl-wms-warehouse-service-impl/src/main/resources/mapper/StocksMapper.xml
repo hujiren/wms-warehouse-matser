@@ -34,7 +34,7 @@
 
     <select id="listStocks" resultType="com.apl.wms.warehouse.vo.StocksListVo">
         select
-        c.id as commodity_id,
+        c.id as commodityId,
         c.sku,
         c.commodity_name,
         c.commodity_name_en,
@@ -49,13 +49,15 @@
         s.wh_id
         from stocks s left join commodity c on s.commodity_id = c.id
         where
-        c.customer_id = #{customerId}
-        and s.wh_id = #{whId}
-        <if test="isCorrespondence == 1 or isCorrespondence == 2">
+        s.wh_id = #{whId}
+        and c.customer_id = #{customerId}
+        <if test="isCorrespondence > 0">
             and c.is_correspondence = #{isCorrespondence}
         </if>
         <if test="keyword != '' and keyword != null">
-            and (c.sku like concat("%" , #{keyword} , "%") or c.commodity_name like concat("%" , #{keyword} , "%") or c.commodity_name_en like concat("%" , #{keyword} , "%"))
+            and (c.sku like concat('%' , #{keyword} , '%')
+            or c.commodity_name like concat('%' , #{keyword} , '%')
+            or c.commodity_name_en like concat('%' , #{keyword} , '%'))
         </if>
 
     </select>

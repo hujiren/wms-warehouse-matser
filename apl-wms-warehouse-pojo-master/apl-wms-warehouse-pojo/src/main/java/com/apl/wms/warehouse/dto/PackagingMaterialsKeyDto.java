@@ -26,14 +26,14 @@ public class PackagingMaterialsKeyDto implements Serializable {
     private static final long serialVersionUID=1L;
 
 
-    @ApiModelProperty(name = "saleStatus" , value = "销售状态 1:上架   2：下架", required = true)
+    @ApiModelProperty(name = "saleStatus" , value = "销售状态 0:全部 1:上架   2：下架", required = true)
     @NotNull(message = "销售状态不能为空")
-    @Range(min = 1, max = 2, message = "销售状态值不合法")
+    @Range(min = 0, max = 2, message = "销售状态值不合法")
     private Integer saleStatus;
 
 
-    @ApiModelProperty(name = "reviewStatus" , value = "审核状态 1：已审核   2：未审核")
-    @Range(min = 1, max = 2 , message = "审核状态值不合法")
+    @ApiModelProperty(name = "reviewStatus" , value = "审核状态 0:全部 1：已审核   2：未审核")
+    @Range(min = 0, max = 2 , message = "审核状态值不合法")
     private Integer reviewStatus;
 
 

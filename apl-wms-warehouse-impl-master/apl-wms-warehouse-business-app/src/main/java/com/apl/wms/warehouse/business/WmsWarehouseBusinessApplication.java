@@ -1,6 +1,5 @@
 package com.apl.wms.warehouse.business;
 
-
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

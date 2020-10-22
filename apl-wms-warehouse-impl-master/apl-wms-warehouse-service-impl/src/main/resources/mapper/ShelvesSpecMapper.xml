@@ -15,8 +15,7 @@
           layers_count, 
           single_layer_support_weight, 
           remark,
-          img_url, 
-          inner_org_id
+          img_url
         FROM
           shelves_spec
         where
@@ -34,12 +33,15 @@
            layers_count, 
            single_layer_support_weight, 
            remark,
-           img_url, 
-           inner_org_id
+           img_url
         FROM
            shelves_spec
         where
         1 = 1
+        <if test="kd.keyword != null">
+            and (spec_no like concat('%', #{kd.keyword}, '%')
+            or remark like concat('%', #{kd.keyword}, '%'))
+        </if>
         order by spec_no
     </select>
 
@@ -51,7 +53,7 @@
         FROM
            shelves_spec
         WHERE
-           (spec_no = #{specNo})
+           spec_no = #{specNo}
         <if test="id != null and id>0">
             AND id !=  #{id}
         </if>

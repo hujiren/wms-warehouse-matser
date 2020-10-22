@@ -46,10 +46,10 @@
         <if test="kd.categoryId != null and kd.categoryId >0">
             and cnl.category_id = #{kd.categoryId}
         </if>
-        <if test="kd.isCategory != null and kd.isCategory==0">
+        <if test="kd.isCategory != null and kd.isCategory==1">
             and cnl.category_id=0
         </if>
-        <if test="kd.isCategory != null and kd.isCategory==1">
+        <if test="kd.isCategory != null and kd.isCategory==2">
             and cnl.category_id>0
         </if>
         <if test="kd.keyword != null and kd.keyword.length>0">

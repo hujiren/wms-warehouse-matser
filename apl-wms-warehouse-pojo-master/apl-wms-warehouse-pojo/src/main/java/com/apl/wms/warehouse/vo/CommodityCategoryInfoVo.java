@@ -15,7 +15,6 @@ import java.io.Serializable;
  * @since 2019-12-12
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class CommodityCategoryInfoVo implements Serializable {
 
 

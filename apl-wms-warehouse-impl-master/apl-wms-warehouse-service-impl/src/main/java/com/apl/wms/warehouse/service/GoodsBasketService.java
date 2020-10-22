@@ -55,6 +55,6 @@ public interface GoodsBasketService extends IService<GoodsBasketPo> {
          * @author cy
          * @since 2019-12-21
          */
-        ResultUtil<Page<GoodsBasketListVo>>getList(PageDto pageDto, GoodsBasketKeyDto keyDto);
+        ResultUtil<Page<GoodsBasketInfoVo>> getList(PageDto pageDto, GoodsBasketKeyDto keyDto);
 
 }

@@ -58,12 +58,12 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
     AplCacheUtil redisTemplate;
 
     @Override
-    public ResultUtil<Integer> add(Long parentId , String categoryName , String categoryEnName){
+    public ResultUtil<Integer> add(Long parentId , String categoryName , String categoryNameEn){
 
         Integer numberOfPlies = 0;
 
         //判断是否重复添加
-        checkCategory(null  , categoryName , categoryEnName);
+        checkCategory(null  , categoryName , categoryNameEn);
 
         if(!parentId.equals(0)){
             //查找 父级 分类
@@ -84,7 +84,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
         }
         CommodityCategoryPo commodityCategory = new CommodityCategoryPo();
         commodityCategory.setCategoryName(categoryName);
-        commodityCategory.setCategoryNameEn(categoryEnName);
+        commodityCategory.setCategoryNameEn(categoryNameEn);
         commodityCategory.setParentId(parentId);
         //层数加一
         commodityCategory.setNumberOfPlies(numberOfPlies + 1);
@@ -99,15 +99,15 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
 
 
     @Override
-    public ResultUtil<Boolean> updById(Long categoryId , String categoryName , String categoryEnName){
+    public ResultUtil<Boolean> updById(Long categoryId , String categoryName , String categoryNameEn){
 
         //判断是否重复添加
-        checkCategory(categoryId , categoryName , categoryEnName);
+        checkCategory(categoryId , categoryName , categoryNameEn);
 
         CommodityCategoryPo commodityCategory = new CommodityCategoryPo();
         commodityCategory.setId(categoryId);
         commodityCategory.setCategoryName(categoryName);
-        commodityCategory.setCategoryNameEn(categoryEnName);
+        commodityCategory.setCategoryNameEn(categoryNameEn);
 
         Integer flag = baseMapper.updateById(commodityCategory);
         if(flag.equals(1)){
@@ -164,7 +164,7 @@ public class CommodityCategoryServiceImpl extends ServiceImpl<CommodityCategoryM
     }
 
     @Override
-    public String getCategoryPid(Long categoryId) {
+    public CommodityCategoryInfoVo getCategoryPid(Long categoryId) {
         return baseMapper.getCategoryPid(categoryId);
     }
 

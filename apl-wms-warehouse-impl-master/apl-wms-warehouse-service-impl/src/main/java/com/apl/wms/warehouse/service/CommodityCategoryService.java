@@ -25,7 +25,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtil<Integer> add(Long parentId , String categoryName , String categoryEnName);
+        ResultUtil<Integer> add(Long parentId , String categoryName , String categoryNameEn);
 
 
         /**
@@ -33,7 +33,7 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @author cy
          * @since 2019-12-10
          */
-        ResultUtil<Boolean> updById(Long id , String categoryName , String categoryEnName);
+        ResultUtil<Boolean> updById(Long id , String categoryName , String categoryNameEn);
 
 
         /**
@@ -72,5 +72,5 @@ public interface CommodityCategoryService extends IService<CommodityCategoryPo> 
          * @Author: CY
          * @Date: 2019/12/14 12:13
          */
-        String getCategoryPid(Long categoryId);
+        CommodityCategoryInfoVo getCategoryPid(Long categoryId);
 }

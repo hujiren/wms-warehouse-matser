@@ -26,7 +26,7 @@ public interface CommodityMapper extends BaseMapper<CommodityPo> {
      * @Author: ${cfg.author}
      * @Date: 2019-12-11
      */
-    public CommodityInfoVo getById(@Param("id") Long id, @Param("customerId") Long customerId);
+    CommodityInfoVo getById(@Param("id") Long id, @Param("customerId") Long customerId);
 
     /**
      * @Desc: 查找列表

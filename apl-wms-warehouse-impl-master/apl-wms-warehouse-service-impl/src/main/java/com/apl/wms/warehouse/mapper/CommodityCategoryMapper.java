@@ -68,5 +68,5 @@ public interface CommodityCategoryMapper extends BaseMapper<CommodityCategoryPo>
      * @Author: CY
      * @Date: 2019/12/14 12:16
      */
-    String getCategoryPid(@Param("categoryId") Long categoryId);
+    CommodityCategoryInfoVo getCategoryPid(@Param("categoryId") Long categoryId);
 }

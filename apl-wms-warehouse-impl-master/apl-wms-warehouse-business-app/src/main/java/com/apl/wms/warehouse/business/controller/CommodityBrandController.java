@@ -55,15 +55,15 @@ public class CommodityBrandController {
     @PostMapping(value = "/upd")
     @ApiOperation(value =  "更新" , notes = "更新")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "brandId" , value = "brandId" , required = true , paramType = "query"),
+            @ApiImplicitParam(name = "id" , value = "id" , required = true , paramType = "query"),
             @ApiImplicitParam(name = "brandName" , value = "品牌名称",paramType = "query"),
             @ApiImplicitParam(name = "brandNameEn" , value = "品牌英文名称",paramType = "query")
     })
-    public ResultUtil<Boolean> updById(@NotNull(message = "brandId 不能为空") @Min(value = 0, message = "brandId不能为负数") Long brandId ,
+    public ResultUtil<Boolean> updById(@NotNull(message = "id 不能为空") @Min(value = 0, message = "brandId不能为负数") Long id ,
                                         @NotEmpty(message = "brandName 不能为空")String brandName ,
                                         @NotEmpty(message = "brandNameEn 不能为空") String brandNameEn) {
 
-        return commodityBrandService.updById(brandId ,brandName , brandNameEn);
+        return commodityBrandService.updById(id ,brandName , brandNameEn);
     }
 
 

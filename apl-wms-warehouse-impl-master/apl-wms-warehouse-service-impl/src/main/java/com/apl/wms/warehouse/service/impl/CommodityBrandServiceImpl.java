@@ -80,13 +80,13 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
 
 
     @Override
-    public ResultUtil<Boolean> updById(Long brandId , String brandName , String brandNameEn){
+    public ResultUtil<Boolean> updById(Long id , String brandName , String brandNameEn){
 
         //判断 名称是否重复
-        checkBrand(brandId , brandName , brandNameEn);
+        checkBrand(id , brandName , brandNameEn);
 
         CommodityBrandPo commodityBrand = new CommodityBrandPo();
-        commodityBrand.setId(brandId);
+        commodityBrand.setId(id);
         commodityBrand.setBrandName(brandName);
         commodityBrand.setBrandNameEn(brandNameEn);
 

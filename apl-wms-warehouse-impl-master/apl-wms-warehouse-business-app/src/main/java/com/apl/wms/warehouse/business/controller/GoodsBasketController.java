@@ -77,7 +77,7 @@ public class GoodsBasketController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtil<Page<GoodsBasketListVo>> getList(PageDto pageDto, @Validated GoodsBasketKeyDto keyDto) {
+    public ResultUtil<Page<GoodsBasketInfoVo>> getList(PageDto pageDto, @Validated GoodsBasketKeyDto keyDto) {
 
         return goodsBasketService.getList(pageDto , keyDto);
     }

@@ -27,11 +27,20 @@ public class StocksOperatorFeign {
                                                     List<StocksPo> newStocksPoList) throws Exception {
 
         //批量更新库位和总库存
-        Integer integer = adbHelper.updateBatch(newStorageLocalList, "storage_local", "id");
+        int[] intArray = adbHelper.updateBatch(newStorageLocalList, "storage_local", "id");
 
-        Integer integer1 = adbHelper.updateBatch(newStocksPoList, "stocks", "commodity_id");
+        int[] intArray2 = adbHelper.updateBatch(newStocksPoList, "stocks", "commodity_id");
 
-        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , integer + integer1);
+        int sum = 0;
+        for (int i : intArray) {
+            sum += i;
+        }
+
+        int sum2 = 0;
+        for (int i : intArray2) {
+            sum2 += i;
+        }
+        return ResultUtil.APPRESULT(CommonStatusCode.SAVE_SUCCESS.getCode() , CommonStatusCode.SAVE_SUCCESS.getMsg() , sum + sum2);
 
     }
     

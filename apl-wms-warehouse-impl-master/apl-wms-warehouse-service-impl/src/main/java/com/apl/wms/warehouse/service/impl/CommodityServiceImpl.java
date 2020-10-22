@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
 import com.apl.cache.AplCacheUtil;
+import com.apl.lib.cachebase.BaseCacheUtil;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinBase;
@@ -9,8 +10,8 @@ import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
-import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
+import com.apl.sys.lib.cache.bo.CustomerCacheBo;
 import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.sys.lib.feign.OuterFeign;
 import com.apl.wms.warehouse.mapper.CommodityMapper;
@@ -23,6 +24,7 @@ import com.apl.wms.warehouse.service.CacheService;
 import com.apl.wms.warehouse.service.CommodityCategoryService;
 import com.apl.wms.warehouse.service.CommodityService;
 import com.apl.wms.warehouse.utils.JoinLocalCommodityCategory;
+import com.apl.wms.warehouse.vo.CommodityCategoryInfoVo;
 import com.apl.wms.warehouse.vo.CommodityInfoVo;
 import com.apl.wms.warehouse.vo.CommodityListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -55,7 +57,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
         COMMODITY_IS_NOT_EXIST("COMMODITY_IS_NOT_EXIST","商品不存在"),
         CUSTOMER_IS_NOT_EXIST("CUSTOMER_IS_NOT_EXIST","客户不存在"),
-        COMMODITY_CATEGORY_NOT_EXIST("COMMODITY_CATEGORY_NOT_EXIST","商品分类不存在")
+        COMMODITY_CATEGORY_NOT_EXIST("COMMODITY_CATEGORY_NOT_EXIST","商品分类不存在"),
+        THE_SKU_IS_EXIST("THE_SKU_IS_EXIST", "商品SKU已经存在"),
+        THE_COMMODITY_NAME_IS_EXIST("THE_COMMODITY_NAME_IS_EXIST", "商品名已经存在"),
+        THE_COMMODITY_NAME_EN_IS_EXIST("THE_COMMODITY_NAME_EN_IS_EXIST", "商品英文名已经存在"),
         ;
 
         private String code;
@@ -71,6 +76,8 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Autowired
     OuterFeign outerFeign;
 
+    @Autowired
+    BaseCacheUtil baseCacheUtil;
 
     @Autowired
     CommodityPicMapper commodityPicMapper;
@@ -79,7 +86,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     CommodityCategoryService commodityCategoryService;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheUtil aplCacheUtil;
 
     @Autowired
     CacheService cacheService;
@@ -97,7 +104,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
         commodity.setReviewStatus(2);// 审核状态 1已审核  2未审核
         //判断商品是否已经添加
-        this.exists(0L, commodity.getSku(),  commodity.getCommodityName(),  commodity.getCommodityNameEn() );
+        ResultUtil<Long> exists = this.exists(0L, commodity.getSku(), commodity.getCommodityName(), commodity.getCommodityNameEn());
+        if(exists.getData() < 1L){
+            return exists;
+        }
 
         CommodityCategoryPo categoryPo = commodityCategoryService.getById(commodity.getCategory1Id());
         //判断商品分类是否存在
@@ -106,10 +116,23 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
 
         //查找分类的父id
-        String pId = commodityCategoryService.getCategoryPid(commodity.getCategory1Id());
-        //给商品分类 赋值
-        setCategoryId(commodity , pId);
+        StringBuffer sbPid = new StringBuffer();
+        StringBuffer sbCategoryName = new StringBuffer();
+        Long temporaryId = commodity.getCategory1Id();
+        while (true){
+            CommodityCategoryInfoVo commodityCategoryInfoVo = commodityCategoryService.getCategoryPid(temporaryId);
+            temporaryId = commodityCategoryInfoVo.getParentId();
+            sbPid.append(commodityCategoryInfoVo.getParentId());
+            if(commodityCategoryInfoVo.getParentId() > 0)
+                sbPid.append(",");
+            sbCategoryName.append(commodityCategoryInfoVo.getCategoryName());
+            if(temporaryId < 1) {
+                break;
+            }
+        }
 
+        //给商品分类 赋值
+        setCategoryId(commodity , sbPid.toString());
 
         ResultUtil<Integer> result = outerFeign.existOuterOrg(commodity.getCustomerId());
 
@@ -140,8 +163,8 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
      */
     private void setCategoryId(CommodityPo commodity, String pId) {
 
-        String ids = pId.substring(2);
-        List<Long> longs = StringUtil.stringToLongList(ids);
+//        String ids = pId.substring(2);
+        List<Long> longs = StringUtil.stringToLongList(pId);
 
         commodity.setCategory1Id(longs.get(0));
         if (longs.size() == 2) {
@@ -172,7 +195,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
             return ResultUtil.APPRESULT(CommodityServiceCode.COMMODITY_IS_NOT_EXIST.code , CommodityServiceCode.COMMODITY_IS_NOT_EXIST.msg , false);
         }
 
-        this.exists(commodity.getId() , commodity.getSku(),  commodity.getCommodityName(),  commodity.getCommodityNameEn() );
+        ResultUtil<Long> exists = this.exists(commodity.getId(), commodity.getSku(), commodity.getCommodityName(), commodity.getCommodityNameEn());
+        if(exists.getData() < 1L){
+            return ResultUtil.APPRESULT(exists.getCode(),exists.getMsg(),false);
+        }
 
         Integer flag = baseMapper.updateById(commodity);
         if(flag.equals(1)){
@@ -209,7 +235,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         //将商品赋值给 info
         CommodityInfoVo commodityInfoVo = baseMapper.getById(id, customerId);
         if(null!=commodityInfoVo) {
-            JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+            JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
             CustomerCacheBo customerCacheBo = joinCustomer.getEntity(commodityInfoVo.getCustomerId());
             if (customerCacheBo != null)
                 commodityInfoVo.setCustomerName(customerCacheBo.getCustomerName());
@@ -224,6 +250,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Override
     public ResultUtil<Page<CommodityListVo>> getList(PageDto pageDto, CommodityKeyDto keyDto)  throws Exception{
 
+
         Page<CommodityListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
         page.setSize(pageDto.getPageSize());
@@ -231,7 +258,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         List<CommodityListVo> list = baseMapper.getList(page , keyDto);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
         if(null!=joinCommodityFieldInfo) {
             //已经缓存客户反射字段
             joinCustomer.setJoinFieldInfo(joinCommodityFieldInfo);
@@ -243,7 +270,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         joinTabs.add(joinCustomer);
 
-        JoinLocalCommodityCategory joinLocalCommodityCategory = new JoinLocalCommodityCategory(1, cacheService, redisTemplate);
+        JoinLocalCommodityCategory joinLocalCommodityCategory = new JoinLocalCommodityCategory(1, cacheService, aplCacheUtil);
         if(null!=joinCommodityCategoryFieldInfo) {
             //已经缓存品类反射字段
             joinLocalCommodityCategory.setJoinFieldInfo(joinCommodityCategoryFieldInfo);
@@ -272,7 +299,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         List<CommodityReportBo> list = baseMapper.getCommodityReportBarcode(ids, customerId);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
         if(null!=joinCommodityReportBo) {
             //已经缓存字段
             joinCustomer.setJoinFieldInfo(joinCommodityReportBo);
@@ -303,20 +330,22 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         //JasperHelper.export("pdf", "print.pdf", reportFile, CommonContextHolder.getRequest(), CommonContextHolder.httpServletResponse(), new HashMap(), list);
     }
 
+    ResultUtil<Long> exists(Long id,  String sku,   String commodityName,   String commodityNameEn) {
 
-
-    void exists(Long id,  String sku,   String commodityName,   String commodityNameEn ) {
-
-        List<CommodityInfoVo> list = baseMapper.exists(id, sku,  commodityName,  commodityNameEn );
+        List<CommodityInfoVo> list = baseMapper.exists(id, sku,  commodityName,  commodityNameEn);
         if (!CollectionUtils.isEmpty(list)) {
             for(CommodityInfoVo  commodityInfoVo : list) {
                 if(commodityInfoVo.getSku().equals(sku))
-                    throw new AplException("SKU_EXIST", "sku已经存在");
+                    return ResultUtil.APPRESULT(CommodityServiceCode.THE_SKU_IS_EXIST.code,
+                            CommodityServiceCode.THE_SKU_IS_EXIST.msg, 0L);
                 if(commodityInfoVo.getCommodityName().equals(commodityName))
-                    throw new AplException("COMMODITY_NAME_EXIST", "commodityName已经存在");
+                    return ResultUtil.APPRESULT(CommodityServiceCode.THE_COMMODITY_NAME_IS_EXIST.code,
+                            CommodityServiceCode.THE_COMMODITY_NAME_IS_EXIST.msg, 0L);
                 if(commodityInfoVo.getCommodityNameEn().equals(commodityNameEn))
-                    throw new AplException("COMMODITY_NAME_EN_EXIST", "commodityNameEn已经存在");
+                    return ResultUtil.APPRESULT(CommodityServiceCode.THE_COMMODITY_NAME_EN_IS_EXIST.code,
+                            CommodityServiceCode.THE_COMMODITY_NAME_EN_IS_EXIST.msg, 0L);
             }
         }
+        return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS.code,CommonStatusCode.SYSTEM_SUCCESS.msg, 1L);
     }
 }

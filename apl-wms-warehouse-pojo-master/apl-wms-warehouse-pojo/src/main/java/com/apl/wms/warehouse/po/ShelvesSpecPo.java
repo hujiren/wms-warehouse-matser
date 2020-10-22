@@ -30,7 +30,6 @@ import lombok.EqualsAndHashCode;
  * @since 2019-12-19
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @TableName("shelves_spec")
 @ApiModel(value = "货架规格 持久化对象", description = "货架规格 持久化对象")
 public class ShelvesSpecPo extends Model<ShelvesSpecPo> {
@@ -67,17 +66,13 @@ public class ShelvesSpecPo extends Model<ShelvesSpecPo> {
     @ApiModelProperty(name = "singleLayerSupportWeight", value = "每层承受重量", required = true)
     private Double singleLayerSupportWeight;
 
-    @ApiModelProperty(name = "remark", value = "描述")//required = true
-//    @NotEmpty(message = "描述不能为空")
+    @ApiModelProperty(name = "remark", value = "描述")
     private String remark;
 
-    @ApiModelProperty(name = "imgUrl", value = "货架规格图片url")// required = true
-//    @NotEmpty(message = "货架规格图片url不能为空")
+    @ApiModelProperty(name = "imgUrl", value = "货架规格图片url")
     private String imgUrl;
 
-
     private static final long serialVersionUID = 1L;
-
 
     @Override
     protected Serializable pkVal() {

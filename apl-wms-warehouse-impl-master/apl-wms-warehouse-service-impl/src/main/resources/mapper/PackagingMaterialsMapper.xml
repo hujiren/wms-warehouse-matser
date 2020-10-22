@@ -47,51 +47,52 @@
             use_way,
             use_way_en
         FROM
-            commodity c
+            packaging_materials
         WHERE
-            c.id = #{id}
+            id = #{id}
     </select>
 
     <!-- 查找列表 2019-12-09-->
     <select id="getList" resultType="com.apl.wms.warehouse.vo.PackagingMaterialsListVo">
         SELECT
-            id,
-            sku,
-            commodity_name,
-            commodity_name_en,
-            sale_status,
-            review_status,
-            spec_name,
-            spec_name_en,
-            color_name,
-            color_name_en,
-            img_url
-        FROM
-            commodity
-        where
-            sale_status = #{kd.saleStatus}
-        <if test="kd.saleStatus != null and kd.saleStatus > 0">
-            and sale_status = #{kd.saleStatus}
-        </if>
-        <if test="kd.reviewStatus != null and kd.reviewStatus > 0">
-            and review_status = #{kd.reviewStatus}
-        </if>
-        <if test="kd.keyword != null and kd.keyword.length>0">
-            and (locate(#{kd.keyword}, sku)>0
-            or locate(#{kd.keyword}, commodity_name)>0
-            or locate(#{kd.keyword}, commodity_name_en)>0)
-        </if>
+        p.id,
+        p.sku,
+        p.commodity_name,
+        p.commodity_name_en,
+        p.sale_status,
+        p.review_status,
+        p.spec_name,
+        p.spec_name_en,
+        p.color_name,
+        p.color_name_en,
+        p.img_url,
+        c.customer_id
+        from packaging_materials p left join commodity c on p.commodity_id = c.id
+
+        <where>
+            <if test="kd.saleStatus > 0">
+                sale_status = #{kd.saleStatus}
+            </if>
+            <if test="kd.reviewStatus != null and kd.reviewStatus > 0">
+                and review_status = #{kd.reviewStatus}
+            </if>
+            <if test="kd.keyword != null and kd.keyword.length>0">
+                and (locate(#{kd.keyword}, sku)>0
+                or locate(#{kd.keyword}, commodity_name)>0
+                or locate(#{kd.keyword}, commodity_name_en)>0)
+            </if>
+        </where>
     </select>
 
 
     <select id="getCommodityReportBarcode" resultType="com.apl.wms.warehouse.bo.CommodityReportBo">
         SELECT
-            c.sku,
-            c.commodity_name,
-            c.commodity_name_en,
-            c.remark
+        c.sku,
+        c.commodity_name,
+        c.commodity_name_en,
+        c.remark
         FROM
-            commodity c
+        commodity c
         left join commodity_brand cb on c.brand_id = cb.id
         <foreach collection="ids" open=" where c.id in (" separator="," close=")" item="id">
             #{id}
@@ -101,16 +102,16 @@
     <!-- 检查记录是否重复 -->
     <select id="exists" resultType="com.apl.wms.warehouse.lib.pojo.vo.PackagingMaterialsInfoVo">
         SELECT
-            id,
-            sku,
-            commodity_name,
-            commodity_name_en
+        id,
+        sku,
+        commodity_name,
+        commodity_name_en
         FROM
-            commodity
+        commodity
         WHERE
-            (sku = #{sku} or commodity_name = #{commodityName} or commodity_name_en = #{commodityNameEn})
+        (sku = #{sku} or commodity_name = #{commodityName} or commodity_name_en = #{commodityNameEn})
         <if test="id != null and id>0">
-            AND id !=  #{id}
+            AND id != #{id}
         </if>
     </select>
 

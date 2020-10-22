@@ -44,13 +44,13 @@ public class CommodityCategoryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "parentId" , value = "分类 父id" , paramType = "query"),
             @ApiImplicitParam(name = "categoryName" , value = "分类名称", paramType = "query"),
-            @ApiImplicitParam(name = "categoryEnName" , value = "分类英文名称", paramType = "query")
+            @ApiImplicitParam(name = "categoryNameEn" , value = "分类英文名称", paramType = "query")
     })
     public ResultUtil<Integer> add(@Min(value = 0 , message = "parentId不能小于零") Long parentId ,
                                     @NotEmpty(message = "categoryName 不能为空") String categoryName ,
-                                    @NotEmpty(message = "categoryEnName 不能为空") String categoryEnName) {
+                                    @NotEmpty(message = "categoryNameEn 不能为空") String categoryNameEn) {
 
-        return commodityCategoryService.add(parentId , categoryName , categoryEnName);
+        return commodityCategoryService.add(parentId , categoryName , categoryNameEn);
     }
 
 
@@ -59,13 +59,13 @@ public class CommodityCategoryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id" , value = "分类id" , required = true , paramType = "query"),
             @ApiImplicitParam(name = "categoryName" , value = "分类名称", paramType = "query"),
-            @ApiImplicitParam(name = "categoryEnName" , value = "分类英文名称", paramType = "query")
+            @ApiImplicitParam(name = "categoryNameEn" , value = "分类英文名称", paramType = "query")
     })
     public ResultUtil<Boolean> updById(@NotNull(message = "id 不能为空") @Min(value = 0, message = "id不能小于0") Long id ,
                                         @NotEmpty(message = "categoryName 不能为空") String categoryName ,
-                                        @NotEmpty(message = "categoryEnName 不能为空") String categoryEnName) {
+                                        @NotEmpty(message = "categoryNameEn 不能为空") String categoryNameEn) {
 
-        return commodityCategoryService.updById(id , categoryName ,categoryEnName);
+        return commodityCategoryService.updById(id , categoryName ,categoryNameEn);
     }
 
 

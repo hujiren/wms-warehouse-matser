@@ -32,7 +32,7 @@ public interface CommodityBrandService extends IService<CommodityBrandPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtil<Boolean> updById(Long brandId , String brandName , String brandNameEn);
+        ResultUtil<Boolean> updById(Long id , String brandName , String brandNameEn);
 
 
         /**

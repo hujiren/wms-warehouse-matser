@@ -77,12 +77,17 @@
     </select>
 
     <select id="getCategoryNames" statementType="CALLABLE" resultType="string">
-        select getCategoryName(#{categoryId}) from dual
+        select getCategoryName(#{categoryId}) from commodity_category
+    </select>
+
+    <!--查询父id-->
+    <select id="getCategoryPid" resultType="com.apl.wms.warehouse.vo.CommodityCategoryInfoVo">
+        select category_name, parent_id from commodity_category where id = #{categoryId}
     </select>
 
 
-    <select id="getCategoryPid" statementType="CALLABLE" resultType="string">
-        select getCategoryId(#{categoryId}) from dual
-    </select>
+    <!--<select id="getCategoryPid" statementType="CALLABLE" resultType="string">
+        select getCategoryId(#{categoryId}) from commodity_category
+    </select>-->
 
 </mapper>

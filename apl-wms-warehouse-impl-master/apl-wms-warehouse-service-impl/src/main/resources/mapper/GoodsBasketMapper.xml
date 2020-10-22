@@ -9,8 +9,7 @@
         SELECT
           id, 
           basket_sn, 
-          remark, 
-          inner_org_id
+          remark
         FROM
           goods_basket
         where
@@ -18,17 +17,19 @@
     </select>
 
     <!-- 查找列表 2019-12-21-->
-    <select id="getList" resultType="com.apl.wms.warehouse.vo.GoodsBasketListVo">
+    <select id="getList" resultType="com.apl.wms.warehouse.vo.GoodsBasketInfoVo">
         SELECT
            id, 
            basket_sn, 
-           remark, 
-           inner_org_id
+           remark
         FROM
            goods_basket
         where
         1 = 1
-        order by basket_sn
+        <if test="kd.keyword != null">
+            and (basket_sn like concat('%', #{kd.keyword}, '%')
+                or remark like concat('%', #{kd.keyword}, '%'))
+        </if>
     </select>
 
     <!-- 检查记录是否重复 -->
@@ -39,10 +40,11 @@
         FROM
            goods_basket
         WHERE
-           (basket_sn = #{basketSn})
+           basket_sn = #{basketNo}
         <if test="id != null and id>0">
             AND id !=  #{id}
         </if>
     </select>
+
 
 </mapper>

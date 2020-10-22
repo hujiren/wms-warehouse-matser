@@ -26,7 +26,7 @@ import java.util.Map;
  * @createTime 2019年07月24日 17:51:00
  */
 @Component
-@FeignClient(value = "apl-wms-warehouse-business-app" , fallback = WarehouseFeignImpl.class)
+@FeignClient(name = "apl-wms-warehouse-business-app" , path = "wms-warehouse-business", fallback = WarehouseFeignImpl.class)
 public interface WarehouseFeign {
 
     /**

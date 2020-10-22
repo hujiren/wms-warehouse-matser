@@ -7,8 +7,8 @@ import com.apl.lib.join.JoinUtil;
 import com.apl.lib.pojo.dto.PageDto;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.lib.utils.StringUtil;
-import com.apl.sys.lib.cache.CustomerCacheBo;
 import com.apl.sys.lib.cache.JoinCustomer;
+import com.apl.sys.lib.cache.bo.CustomerCacheBo;
 import com.apl.sys.lib.feign.InnerFeign;
 import com.apl.wms.warehouse.dto.CommodityNameLibKeyDto;
 import com.apl.wms.warehouse.mapper.CommodityNameLibMapper;
@@ -123,7 +123,7 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
         Page<CommodityNameLibListVo> page = new Page();
         page.setCurrent(pageDto.getPageIndex());
         page.setSize(pageDto.getPageSize());
-
+        
         List<CommodityNameLibListVo> list = baseMapper.getList(page , keyDto);
 
         List<JoinBase> joinTabs = new ArrayList<>();

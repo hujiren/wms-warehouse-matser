@@ -31,6 +31,7 @@ public class GoodsBasketPo extends Model<GoodsBasketPo> {
 
     @TableId(value = "id", type = IdType.AUTO)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @ApiModelProperty(name = "id" , value = "货篮id" , required = true)
     private Long id;
 
     @ApiModelProperty(name = "basketSn" , value = "篮子编号" , required = true)

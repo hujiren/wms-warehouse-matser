@@ -25,9 +25,8 @@ import java.io.Serializable;
  * @since 2019-12-11
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @TableName("commodity")
-@ApiModel(value="CommodityPo对象", description="商品")
+@ApiModel(value="商品-持久化对象", description="商品-持久化对象")
 public class CommodityPo extends Model<CommodityPo> {
 
 private static final long serialVersionUID=1L;

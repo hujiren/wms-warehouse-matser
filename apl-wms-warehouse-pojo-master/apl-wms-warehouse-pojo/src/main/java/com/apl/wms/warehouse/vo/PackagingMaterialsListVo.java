@@ -26,6 +26,7 @@ private static final long serialVersionUID=1L;
     // sku
     private String sku;
 
+    private Long customerId;
     // 客户名称
     private String customerName;
 

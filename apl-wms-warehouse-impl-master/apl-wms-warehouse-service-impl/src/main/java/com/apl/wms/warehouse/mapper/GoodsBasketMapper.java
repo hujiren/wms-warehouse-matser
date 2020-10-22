@@ -25,14 +25,14 @@ public interface GoodsBasketMapper extends BaseMapper<GoodsBasketPo> {
      * @Author: ${cfg.author}
      * @Date: 2019-12-17
      */
-    public GoodsBasketInfoVo getById(@Param("id" ) Long id);
+    GoodsBasketInfoVo getById(@Param("id" ) Long id);
 
     /**
      * @Desc: 查找列表
      * @Author: ${cfg.author}
      * @Date: 2019-12-17
      */
-    List<GoodsBasketListVo> getList(Page page, @Param("kd" ) GoodsBasketKeyDto keyDto);
+    List<GoodsBasketInfoVo> getList(Page page, @Param("kd") GoodsBasketKeyDto keyDto);
 
 
     /**
@@ -41,5 +41,4 @@ public interface GoodsBasketMapper extends BaseMapper<GoodsBasketPo> {
      * @Date: 2019-12-17
      */
     List<GoodsBasketInfoVo> exists(@Param("id" ) Long id, @Param("basketNo" ) String basketNo);
-
 }

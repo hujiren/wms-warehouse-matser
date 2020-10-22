@@ -103,13 +103,13 @@ public class StocksController {
     @ApiOperation(value =  "获取库存列表" , notes = "获取库存列表 ， 进行再分配")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "whId",value = "仓库id",required = true  , paramType = "query"),
-            @ApiImplicitParam(name = "customerId",value = "客户id",required = true  , paramType = "query"),
+            @ApiImplicitParam(name = "customerId",value = "客户id", paramType = "query", required = true),
             @ApiImplicitParam(name = "isCorrespondence",value = "是否带电",required = true  , paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键字" , paramType = "query")
     })
     public ResultUtil<Page<StocksListVo>> listStocks(PageDto pageDto,
               @NotNull(message = "whId不能为空") @Min(value = 1 , message = "whId不能小于1")Long whId ,
-              @NotNull(message = "customerId不能为空") @Min(value = 1 , message = "customerId不能小于1")Long customerId ,
+             @NotNull(message = "客户id不能为空") @Min(value = 1 , message = "客户id不能小于1")Long customerId ,
               @NotNull(message = "是否带电不能为空") @Min(value = 0, message = "是否带电最小值为0") @Max(value = 2, message = "是否带电最大值为2") Integer isCorrespondence ,
               String keyword) {
 
