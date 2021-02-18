@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author hjr start
  * @date 2020/8/1 - 10:20
  */
 @Data
-public class PackingMaterialsCacheBo {
+public class PackingMaterialsCacheBo implements Serializable {
 
     private static final long serialVersionUID=1L;
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 /**
  *
@@ -74,7 +75,7 @@ public class WhOperatorController {
 
     @PostMapping("/get-list")
     @ApiOperation(value =  "分页查找" , notes = "分页查找")
-    public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, @Validated WhOperatorKeyDto keyDto) {
+    public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, @Validated WhOperatorKeyDto keyDto) throws IOException {
 
 
         return whOperatorService.getList(pageDto , keyDto);

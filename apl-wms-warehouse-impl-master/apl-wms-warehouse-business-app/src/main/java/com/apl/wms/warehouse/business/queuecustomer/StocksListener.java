@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -33,7 +35,7 @@ public class StocksListener {
     StorageLocalStocksService storageLocalStocksService;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper AplCacheHelper;
 
     @Autowired
     OuterFeign outerFeign;
@@ -54,8 +56,10 @@ public class StocksListener {
              SecurityUser securityUser  = stockUpdListBo.getSecurityUser();
 
              //创建临时token，并把securityUser放入redis中，供微服务调用
-             String token = CommonContextHolder.setSecurityUser(redisTemplate, securityUser);
-
+//             String token = CommonContextHolder.setSecurityUser(aplCacheHelper, securityUser);
+             String token = UUID.randomUUID().toString().replaceAll("-", "").replaceAll("_", "");
+             token = securityUser.getTenantGroup() + "_" + securityUser.getInnerOrgCode() + "_" + securityUser.getInnerOrgId() + "_" + token;
+             AplCacheHelper.opsForValue("wareHouse").set(token, token);
              //把临时token放入线程安全变量中, feign会用到
              CommonContextHolder.tokenContextHolder.set(token);
 
@@ -184,11 +188,13 @@ public class StocksListener {
         }
     }
 
-    private void changeDb(SecurityUser securityUser) {
+    private void changeDb(SecurityUser securityUser) throws IOException {
 
         //创建临时token，并把securityUser放入redis中，供微服务调用
-        String token = CommonContextHolder.setSecurityUser(redisTemplate, securityUser);
-
+//        String token = CommonContextHolder.setSecurityUser(aplCacheHelper, securityUser);
+        String token = UUID.randomUUID().toString().replaceAll("-", "").replaceAll("_", "");
+        token = securityUser.getTenantGroup() + "_" + securityUser.getInnerOrgCode() + "_" + securityUser.getInnerOrgId() + "_" + token;
+        AplCacheHelper.opsForValue("wareHouse").set(token, token);
         //把临时token放入线程安全变量中, feign会用到
         CommonContextHolder.tokenContextHolder.set(token);
 

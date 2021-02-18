@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -78,7 +78,7 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
     }
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     StocksHistoryFeign stocksHistoryFeign;
@@ -411,12 +411,12 @@ public class AllocationStockOrderServiceImpl extends ServiceImpl<AllocationStock
         String tranId ="tranId:"+ StringUtil.generateUuid();
         ResultUtil<Integer> result = outStorageOrderOperatorFeign.AllocOutOrderStockCallBack(tranId, outOrderId, pullStatus,compareStorageLocalStocksBos);
 
-        if(!redisTemplate.hasKey(tranId)){
+        if(!aplCacheHelper.opsForKey("wareHouse").hasKey(tranId)){
             //如果远程调用失败, redis中key(事务id)将为空
             throw new AplException(AllocationWarehouseServiceCode.INSERT_PULL_FAIL.code, AllocationWarehouseServiceCode.INSERT_PULL_FAIL.msg);
         }
 
-        redisTemplate.delete(tranId);
+        aplCacheHelper.opsForKey("wareHouse").delByKey(tranId);
         return  result.getData();
     }
 }

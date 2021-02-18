@@ -9,6 +9,8 @@ import com.apl.wms.warehouse.vo.CommodityListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.io.IOException;
+
 /**
  * <p>
  * 商品 服务类
@@ -48,7 +50,7 @@ public interface CommodityService extends IService<CommodityPo> {
          * @author cy
          * @since 2019-12-11
          */
-        ResultUtil<CommodityInfoVo> selectById(Long id, Long customerId);
+        ResultUtil<CommodityInfoVo> selectById(Long id, Long customerId) throws IOException;
 
 
         /**

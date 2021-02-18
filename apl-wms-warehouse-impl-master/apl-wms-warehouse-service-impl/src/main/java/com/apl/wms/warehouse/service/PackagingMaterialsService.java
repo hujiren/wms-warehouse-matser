@@ -11,6 +11,7 @@ import com.apl.wms.warehouse.vo.PackagingMaterialsListVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -85,5 +86,5 @@ public interface PackagingMaterialsService extends IService<PackagingMaterialsPo
           * @param commodityIds
          * @return
          */
-    ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds);
+    ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds) throws IOException;
 }

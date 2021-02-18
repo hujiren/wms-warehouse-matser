@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,21 +48,21 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     CacheMapper cacheMapper;
 
 
     //添加仓库缓存
-    public ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, WarehouseCacheBo> maps = cacheMapper.addWarehouseCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
             //String cacheKey = "JOIN_CACHE:"+securityUser.getInnerOrgId().toString()+"_customer";
-            //redisTemplate.opsForHash().putAll(cacheKey, maps);
-            redisTemplate.opsForValue().multiSet(maps);
+            //aplCacheHelper.opsForHash().putAll(cacheKey, maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -70,12 +72,12 @@ public class CacheServiceImpl implements CacheService {
 
     //添加仓库服务名称缓存
     @Override
-    public ResultUtil<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey) {
+    public ResultUtil<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, OperatorServiceBo> maps = cacheMapper.addOperatorServiceCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -85,12 +87,12 @@ public class CacheServiceImpl implements CacheService {
 
     //添加仓库操作员缓存
     @Override
-    public ResultUtil<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey) {
+    public ResultUtil<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, OperatorServiceBo> maps = cacheMapper.addOperatorCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -99,12 +101,12 @@ public class CacheServiceImpl implements CacheService {
 
 
     //添加商品缓存(根据id)
-    public ResultUtil<Boolean> addCommodityCacheById(String ids, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addCommodityCacheById(String ids, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, CommodityCacheBo> maps = cacheMapper.addCommodityCacheById(ids, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
 
             String key;
             Map<String, String> skuMaps = new HashMap<>();
@@ -112,7 +114,7 @@ public class CacheServiceImpl implements CacheService {
                 key = "JOIN_CACHE:commodity_sku_" +securityUser.getInnerOrgId().toString()+"_"+ commodityCacheBo.getSku();
                 skuMaps.put(key, commodityCacheBo.getId().toString());
             }
-            redisTemplate.opsForValue().multiSet(skuMaps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
 
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
@@ -121,7 +123,7 @@ public class CacheServiceImpl implements CacheService {
     }
 
     //添加商品缓存(根据sku)
-    public ResultUtil<Boolean> addCommodityCacheBySku(String skus, Long customerId){
+    public ResultUtil<Boolean> addCommodityCacheBySku(String skus, Long customerId) throws IOException {
         if(StringUtil.isEmpty(skus) && (customerId==null || customerId<1)){
             ResultUtil.APPRESULT(CacheServiceServiceCode.SKU_AND_CUSTOMERID_IS_NULL.code, CacheServiceServiceCode.SKU_AND_CUSTOMERID_IS_NULL.msg, false);
         }
@@ -129,7 +131,7 @@ public class CacheServiceImpl implements CacheService {
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, CommodityCacheBo> maps = cacheMapper.addCommodityCacheBySku(skus,  customerId, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
 
             String key;
             Map<String, String> skuMaps = new HashMap<>();
@@ -137,7 +139,7 @@ public class CacheServiceImpl implements CacheService {
                 key = "JOIN_CACHE:commodity_sku_" +securityUser.getInnerOrgId().toString()+"_"+ commodityCacheBo.getSku();
                 skuMaps.put(key, commodityCacheBo.getId().toString());
             }
-            redisTemplate.opsForValue().multiSet(skuMaps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
 
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
@@ -147,12 +149,12 @@ public class CacheServiceImpl implements CacheService {
 
 
     //添加商品品类缓存
-    public ResultUtil<Boolean> addCommodityCategoryCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addCommodityCategoryCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, CommodityCategoryCacheVo> maps = cacheMapper.addCommodityCategoryCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -160,12 +162,12 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public ResultUtil<Boolean> addStoreCache(String keys, Long minKey, Long maxKey) {
+    public ResultUtil<Boolean> addStoreCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, StoreCacheBo> maps = cacheMapper.addStoreCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -173,12 +175,12 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey) {
+    public ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, StorageLocalCacheBo> maps = cacheMapper.addStorageLocalCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -187,11 +189,11 @@ public class CacheServiceImpl implements CacheService {
 
 
     @Override
-    public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey) {
+    public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey) throws IOException {
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, PackingMaterialsCacheBo> maps = cacheMapper.addPackMaterialsCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 
@@ -199,11 +201,11 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey) {
+    public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey) throws IOException {
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
         Map<String, CommodityBrandCacheBo> maps = cacheMapper.addCommodityBrandCache(keys, minKey, maxKey, securityUser.getInnerOrgId());
         if(null != maps && maps.size()>0) {
-            redisTemplate.opsForValue().multiSet(maps);
+            aplCacheHelper.opsForValue("wareHouse").set(maps);
             return ResultUtil.APPRESULT(CommonStatusCode.SYSTEM_SUCCESS, true);
         }
 

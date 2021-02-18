@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.lib.cache;
 
-import com.apl.lib.cachebase.BaseCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
@@ -8,6 +8,8 @@ import com.apl.lib.utils.StringUtil;
 import com.apl.tenant.AplTenantConfig;
 import com.apl.wms.warehouse.lib.cache.bo.CommodityCacheBo;
 import com.apl.wms.warehouse.lib.feign.WarehouseFeign;
+
+import java.io.IOException;
 
 /**
    * @Description : 缓存商品
@@ -23,7 +25,7 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
 
     private Integer keyType=1;  //  1:产品id  2:SKU
 
-    public JoinCommodity(int joinStyle, WarehouseFeign warehouseFeign, BaseCacheUtil cacheUtil){
+    public JoinCommodity(int joinStyle, WarehouseFeign warehouseFeign, AplCacheHelper cacheUtil){
         this.warehouseFeign = warehouseFeign;
         this.cacheUtil = cacheUtil;
         this.tabName = "commodity";
@@ -50,25 +52,25 @@ public class JoinCommodity extends JoinBase<CommodityCacheBo> {
     }
 
     //根据sku获取商品对象
-    public CommodityCacheBo getEntityBySku(String sku) {
+    public CommodityCacheBo getEntityBySku(String sku) throws IOException {
         String cacheKey = "JOIN_CACHE:"+this.tabName+"_sku_"+this.innerOrgId.toString()+"_" + sku;
-        String strVal =  (String)this.cacheUtil.opsForValue().get(cacheKey);
+        String strVal =  (String)this.cacheUtil.opsForValue("wareHouse").get(cacheKey);
         if(StringUtil.isEmpty(strVal))
             return  null;
 
         Long commodityId = Long.parseLong(strVal);
         if (commodityId == null) {
             this.addCache(sku, 0l, 0l);
-            commodityId = (Long)this.cacheUtil.opsForValue().get(cacheKey);
+            commodityId = (Long)this.cacheUtil.opsForValue("wareHouse").get(cacheKey);
         }
         if(commodityId==null)
             return null;
 
         cacheKey = "JOIN_CACHE:"+this.tabName+"_"+this.innerOrgId.toString()+"_" + commodityId.toString();
-        CommodityCacheBo entity = (CommodityCacheBo)this.cacheUtil.opsForValue().get(cacheKey);
+        CommodityCacheBo entity = (CommodityCacheBo)this.cacheUtil.opsForValue("wareHouse").get(cacheKey);
         if (entity == null) {
             this.addCache(commodityId.toString(), commodityId, commodityId);
-            entity = (CommodityCacheBo)this.cacheUtil.opsForValue().get(cacheKey);
+            entity = (CommodityCacheBo)this.cacheUtil.opsForValue("wareHouse").get(cacheKey);
         }
 
         return entity;

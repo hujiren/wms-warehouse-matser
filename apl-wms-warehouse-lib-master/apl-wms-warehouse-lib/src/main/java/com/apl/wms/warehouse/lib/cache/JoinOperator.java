@@ -1,7 +1,7 @@
 package com.apl.wms.warehouse.lib.cache;
 
 
-import com.apl.lib.cachebase.BaseCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
@@ -22,7 +22,7 @@ public class JoinOperator extends JoinBase<OperatorCacheBo> {
 
     public WarehouseFeign warehouseFeign;
 
-    public JoinOperator(int joinStyle, WarehouseFeign warehouseFeign, BaseCacheUtil cacheUtil){
+    public JoinOperator(int joinStyle, WarehouseFeign warehouseFeign, AplCacheHelper cacheUtil){
         this.warehouseFeign = warehouseFeign;
         this.cacheUtil = cacheUtil;
         this.tabName = "operator";

@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
@@ -28,7 +29,7 @@ public class CancelAllocWarehouseForOrderQueueCustomer {
     CancelAllocStockOrderService cancelAllocStockOrderService;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @RabbitHandler
     @RabbitListener(queues = "cancelAllocWarehouseForOrderQueue")
@@ -41,7 +42,7 @@ public class CancelAllocWarehouseForOrderQueueCustomer {
             SecurityUser securityUser  = outOrderBo.getSecurityUser();
 
             //创建临时token，并把securityUser放入redis中，供微服务调用
-            String token = CommonContextHolder.setSecurityUser(redisTemplate, securityUser);
+            String token = CommonContextHolder.setSecurityUser(aplCacheHelper, securityUser);
 
             //把临时token放入线程安全变量中, feign会用到
             CommonContextHolder.tokenContextHolder.set(token);
@@ -56,7 +57,7 @@ public class CancelAllocWarehouseForOrderQueueCustomer {
             cancelAllocStockOrderService.cancelAllocationByQueue(outOrderBo);
 
             //删除临时token
-            redisTemplate.delete(token);
+            aplCacheHelper.opsForKey("wareHouse").delByKey(token);
 
             CommonContextHolder.tokenContextHolder.remove();
             CommonContextHolder.securityUserContextHolder.remove();

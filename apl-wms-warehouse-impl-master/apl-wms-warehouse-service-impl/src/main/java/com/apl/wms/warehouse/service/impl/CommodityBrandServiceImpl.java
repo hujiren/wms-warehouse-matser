@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.pojo.dto.PageDto;
@@ -54,7 +54,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
 
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Override
     public ResultUtil<Integer> add(String brandName , String brandNameEn){
@@ -62,7 +62,7 @@ public class CommodityBrandServiceImpl extends ServiceImpl<CommodityBrandMapper,
         //检查添加是否重复
         checkBrand(null , brandName , brandNameEn);
 
-        SecurityUser securityUser = CommonContextHolder.getSecurityUser(redisTemplate);
+        SecurityUser securityUser = CommonContextHolder.getSecurityUser(aplCacheHelper);
 
         CommodityBrandPo commodityBrand = new CommodityBrandPo();
         commodityBrand.setBrandName(brandName);

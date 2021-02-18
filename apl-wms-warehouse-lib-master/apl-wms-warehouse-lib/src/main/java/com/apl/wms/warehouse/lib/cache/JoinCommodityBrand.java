@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.lib.cache;
 
-import com.apl.lib.cachebase.BaseCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.utils.ResultUtil;
@@ -17,7 +17,7 @@ public class JoinCommodityBrand extends JoinBase<CommodityBrandCacheBo> {
 
     public WarehouseFeign warehouseFeign;
 
-    public JoinCommodityBrand(int joinStyle, WarehouseFeign warehouseFeign, BaseCacheUtil cacheUtil){
+    public JoinCommodityBrand(int joinStyle, WarehouseFeign warehouseFeign, AplCacheHelper cacheUtil){
         this.warehouseFeign = warehouseFeign;
         this.cacheUtil = cacheUtil;
         this.tabName = "commodity_brand";

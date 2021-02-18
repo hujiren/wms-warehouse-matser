@@ -1,9 +1,7 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
-import com.apl.lib.cachebase.BaseCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
-import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinFieldInfo;
 import com.apl.lib.join.JoinUtil;
@@ -37,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,16 +76,13 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     OuterFeign outerFeign;
 
     @Autowired
-    BaseCacheUtil baseCacheUtil;
-
-    @Autowired
     CommodityPicMapper commodityPicMapper;
 
     @Autowired
     CommodityCategoryService commodityCategoryService;
 
     @Autowired
-    AplCacheUtil aplCacheUtil;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     CacheService cacheService;
@@ -230,12 +226,12 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
 
     @Override
-    public ResultUtil<CommodityInfoVo> selectById(Long id, Long customerId){
+    public ResultUtil<CommodityInfoVo> selectById(Long id, Long customerId) throws IOException {
 
         //将商品赋值给 info
         CommodityInfoVo commodityInfoVo = baseMapper.getById(id, customerId);
         if(null!=commodityInfoVo) {
-            JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
+            JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheHelper);
             CustomerCacheBo customerCacheBo = joinCustomer.getEntity(commodityInfoVo.getCustomerId());
             if (customerCacheBo != null)
                 commodityInfoVo.setCustomerName(customerCacheBo.getCustomerName());
@@ -258,7 +254,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         List<CommodityListVo> list = baseMapper.getList(page , keyDto);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheHelper);
         if(null!=joinCommodityFieldInfo) {
             //已经缓存客户反射字段
             joinCustomer.setJoinFieldInfo(joinCommodityFieldInfo);
@@ -270,7 +266,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         joinTabs.add(joinCustomer);
 
-        JoinLocalCommodityCategory joinLocalCommodityCategory = new JoinLocalCommodityCategory(1, cacheService, aplCacheUtil);
+        JoinLocalCommodityCategory joinLocalCommodityCategory = new JoinLocalCommodityCategory(1, cacheService, aplCacheHelper);
         if(null!=joinCommodityCategoryFieldInfo) {
             //已经缓存品类反射字段
             joinLocalCommodityCategory.setJoinFieldInfo(joinCommodityCategoryFieldInfo);
@@ -299,7 +295,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         List<CommodityReportBo> list = baseMapper.getCommodityReportBarcode(ids, customerId);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheHelper);
         if(null!=joinCommodityReportBo) {
             //已经缓存字段
             joinCustomer.setJoinFieldInfo(joinCommodityReportBo);

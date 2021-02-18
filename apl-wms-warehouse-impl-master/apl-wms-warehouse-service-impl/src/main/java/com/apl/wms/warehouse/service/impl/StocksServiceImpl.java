@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinUtil;
@@ -70,7 +70,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
     CommodityServiceImpl commodityService;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     OutstorageOrderBusinessFeign outstorageOrderBusinessFeign;
@@ -173,7 +173,7 @@ public class StocksServiceImpl extends ServiceImpl<StocksMapper, StocksPo> imple
         }
         finally {
             String lockKey = "lock-stocks-" + platformOutOrderStockBo.getCustomerId();
-            RedisLock.unlock(redisTemplate , lockKey);
+            RedisLock.unlock(aplCacheHelper , lockKey);
         }
 
 

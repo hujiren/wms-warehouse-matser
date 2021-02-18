@@ -1,5 +1,5 @@
 package com.apl.wms.warehouse.service.impl;
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinKeyValues;
@@ -68,7 +68,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
     private OutStorageOrderOperatorFeign outStorageOrderOperatorFeign;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     StocksHistoryFeign stocksHistoryFeign;
@@ -359,7 +359,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
         ResultUtil<Integer> result = outStorageOrderOperatorFeign.deleteOrderAllocationItem(outOrderId, tranId);
 
 
-        if (!redisTemplate.hasKey(tranId)) {
+        if (!aplCacheHelper.opsForKey("wareHouse").hasKey(tranId)) {
 
             //如果远程调用失败, redis中key(事务id)将为空
             throw new AplException(CancelAllocationWarehouseServiceCode.REDIS_DOES_NOT_HAS_KEY.code,
@@ -367,7 +367,7 @@ public class CancelAllocStockAllocStockOrderServiceImpl extends ServiceImpl<Canc
 
         }
 
-        redisTemplate.delete(tranId);
+        aplCacheHelper.opsForKey("wareHouse").delByKey(tranId);
 
         return result.getData();
     }

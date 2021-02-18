@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.join.JoinBase;
@@ -35,6 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -76,7 +77,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
     CommodityCategoryService commodityCategoryService;
 
     @Autowired
-    AplCacheUtil aplCacheUtil;
+    AplCacheHelper AplCacheHelper;
 
     @Autowired
     InnerFeign innerFeign;
@@ -91,7 +92,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
     @Override
     public ResultUtil<Map<String , List<PackagingMaterialsCountBo>>> getCommodityPackMaterials(Long orderId) throws Exception {
 
-        OrderCountVo orderCountVo = (OrderCountVo) aplCacheUtil.opsForValue().get("packaging:" + orderId);
+        OrderCountVo orderCountVo = (OrderCountVo) AplCacheHelper.opsForValue("wareHouse").get("packaging:" + orderId);
 
         Map<String , List<PackagingMaterialsCountBo>> commodityPackMap = new HashMap<>();
         if(orderCountVo != null){
@@ -114,7 +115,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
 
                 commodityPackMap.put(orderCountEntry.getKey() , packagingMaterials);
             }
-            aplCacheUtil.opsForValue().set("packaging:count:" + orderId , commodityPackMap);
+            AplCacheHelper.opsForValue("wareHouse").set("packaging:count:" + orderId , commodityPackMap);
         }
 
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS , commodityPackMap);
@@ -189,7 +190,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         List<PackagingMaterialsListVo> list = baseMapper.getList(page , packagingMaterialsKeyDto);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, AplCacheHelper);
         if(null!=joinCommodityFieldInfo) {
             //已经缓存字段
             joinCustomer.setJoinFieldInfo(joinCommodityFieldInfo);
@@ -219,7 +220,7 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
         List<CommodityReportBo> list = baseMapper.getCommodityReportBarcode(ids);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheUtil);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, AplCacheHelper);
         if(null!=joinCommodityReportBo) {
             //已经缓存字段
             joinCustomer.setJoinFieldInfo(joinCommodityReportBo);
@@ -258,12 +259,12 @@ public class PackagingMaterialsServiceImpl extends ServiceImpl<PackagingMaterial
 
 
     @Override
-    public ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds) {
+    public ResultUtil<List<PackagingMaterialsInfoVo>> getPackingMaterialsByCommodityIds(String tranId, List<Long> commodityIds) throws IOException {
 
         JoinKeyValues longKeys = JoinUtil.getLongKeys(commodityIds);
         List<PackagingMaterialsInfoVo> packagingMaterialsList = baseMapper.getPackingMaterialsByCommodityIds(longKeys.getSbKeys().toString());
         if(packagingMaterialsList.size() > 0) {
-            aplCacheUtil.opsForValue().set(tranId, 1);
+            AplCacheHelper.opsForValue("wareHouse").set(tranId, 1);
         }
         return ResultUtil.APPRESULT(CommonStatusCode.GET_SUCCESS, packagingMaterialsList);
 

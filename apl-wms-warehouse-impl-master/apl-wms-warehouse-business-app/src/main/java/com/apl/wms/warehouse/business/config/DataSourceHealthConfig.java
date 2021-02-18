@@ -30,6 +30,6 @@ public class DataSourceHealthConfig extends DataSourceHealthContributorAutoConfi
         if (!StringUtils.hasText(indicator.getQuery())) {
             indicator.setQuery(defaultQuery);
         }
-        return indicator;
+        return null;
     }
 }

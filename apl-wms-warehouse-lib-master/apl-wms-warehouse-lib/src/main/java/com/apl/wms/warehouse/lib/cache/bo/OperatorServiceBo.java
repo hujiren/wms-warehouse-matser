@@ -2,8 +2,10 @@ package com.apl.wms.warehouse.lib.cache.bo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class OperatorServiceBo {
+public class OperatorServiceBo implements Serializable {
 
     private String cacheKey;
 

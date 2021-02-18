@@ -8,6 +8,9 @@ import com.apl.wms.warehouse.dto.CommodityNameLibKeyDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.apl.lib.pojo.dto.PageDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.io.IOException;
+
 /**
  * <p>
  * 品名库 service接口
@@ -47,7 +50,7 @@ public interface CommodityNameLibService extends IService<CommodityNameLibPo> {
          * @author apl
          * @since 2019-12-20
          */
-        ResultUtil<CommodityNameLibInfoVo> selectById(Integer id);
+        ResultUtil<CommodityNameLibInfoVo> selectById(Integer id) throws IOException;
 
 
         /**

@@ -24,6 +24,8 @@ import java.util.Map;
  * @version 1.0.0
  * @ClassName InnerFeign.java
  * @createTime 2019年07月24日 17:51:00
+ *  coreDns
+ *  http://wms-warehouse-business/add-commodity-brand-cache
  */
 @Component
 @FeignClient(name = "apl-wms-warehouse-business-app" , path = "wms-warehouse-business", fallback = WarehouseFeignImpl.class)

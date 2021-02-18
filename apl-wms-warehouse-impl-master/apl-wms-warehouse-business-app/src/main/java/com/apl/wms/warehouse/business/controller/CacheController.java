@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,28 +27,28 @@ public class CacheController {
 
     @PostMapping("//add-packMaterials-cache")
     @ApiOperation(value = "添加包装材料缓存")
-    public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addPackMaterialsCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addPackMaterialsCache(keys, minKey, maxKey);
     }
 
     @PostMapping("/add-commodity-brand-cache")
     @ApiOperation(value = "添加商品品牌缓存")
-    public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addCommodityBrandCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addCommodityBrandCache(keys, minKey, maxKey);
     }
 
     @PostMapping("/add-warehouse-cache")
     @ApiOperation(value = "添加仓库缓存")
-    public ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addWarehouseCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addWarehouseCache(keys, minKey, maxKey);
     }
 
     @PostMapping("/add-commodity-cache-by-id")
     @ApiOperation(value = "添加商品缓存(根据id)")
-    public ResultUtil<Boolean> addCommodityCacheById(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addCommodityCacheById(String keys, Long minKey, Long maxKey) throws IOException {
         ApiParamValidate.notEmpty("keys", keys);
 
         return cacheService.addCommodityCacheById(keys, minKey, maxKey);
@@ -55,21 +56,21 @@ public class CacheController {
 
     @PostMapping("/add-commodity-cache-by-sku")
     @ApiOperation(value = "添加商品缓存(根据sku)")
-    public ResultUtil<Boolean> addCommodityCacheBySku(String skus, Long customerId){
+    public ResultUtil<Boolean> addCommodityCacheBySku(String skus, Long customerId) throws IOException {
 
         return cacheService.addCommodityCacheBySku(skus, customerId);
     }
 
     @PostMapping("/add-operator-service-cache")
     @ApiOperation(value = "添加操作服务缓存")
-    public ResultUtil<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addOperatorServiceCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addOperatorServiceCache(keys, minKey, maxKey);
     }
 
     @PostMapping("/add-operator-cache")
     @ApiOperation(value = "添加操作员缓存")
-    public ResultUtil<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addOperatorCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addOperatorCache(keys, minKey, maxKey);
     }
@@ -77,14 +78,14 @@ public class CacheController {
 
     @PostMapping("/add-store-cache")
     @ApiOperation(value = "添加店铺缓存")
-    public ResultUtil<Boolean> addStoreCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addStoreCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addStoreCache(keys, minKey, maxKey);
     }
 
     @PostMapping("/add-storage-local-cache")
     @ApiOperation(value = "添加店铺缓存")
-    public ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey){
+    public ResultUtil<Boolean> addStorageLocalCache(String keys, Long minKey, Long maxKey) throws IOException {
 
         return cacheService.addStorageLocalCache(keys, minKey, maxKey);
     }

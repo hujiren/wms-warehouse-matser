@@ -3,12 +3,14 @@ package com.apl.wms.warehouse.lib.cache.bo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author hjr start
  * @date 2020/8/1 - 10:46
  */
 
-public class CommodityBrandCacheBo {
+public class CommodityBrandCacheBo implements Serializable {
 
     // 商品品牌id
     @JsonFormat(shape = JsonFormat.Shape.STRING)

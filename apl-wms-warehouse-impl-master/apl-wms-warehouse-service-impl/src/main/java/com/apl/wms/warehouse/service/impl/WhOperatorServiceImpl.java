@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.exception.AplException;
 import com.apl.lib.utils.ResultUtil;
 import com.apl.wms.warehouse.lib.cache.bo.OperatorCacheBo;
@@ -20,6 +20,7 @@ import com.apl.wms.warehouse.vo.WhOperatorListVo;
 import com.apl.wms.warehouse.vo.WhOperatorInfoVo;
 import com.apl.wms.warehouse.dto.WhOperatorKeyDto;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.apl.lib.pojo.dto.PageDto;
@@ -54,7 +55,7 @@ public class WhOperatorServiceImpl extends ServiceImpl<WhOperatorMapper, WhOpera
     }*/
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     WarehouseFeign warehouseFeign;
@@ -109,9 +110,9 @@ public class WhOperatorServiceImpl extends ServiceImpl<WhOperatorMapper, WhOpera
 
 
     @Override
-    public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, WhOperatorKeyDto keyDto) {
+    public ResultUtil<Page<WhOperatorListVo>> getList(PageDto pageDto, WhOperatorKeyDto keyDto) throws IOException {
 
-        OperatorCacheBo operatorCacheBo = WmsWarehouseUtils.checkOperator(warehouseFeign, redisTemplate);
+        OperatorCacheBo operatorCacheBo = WmsWarehouseUtils.checkOperator(warehouseFeign, aplCacheHelper);
         keyDto.setWhId(operatorCacheBo.getWhId());
 
         Page<WhOperatorListVo> page = new Page();

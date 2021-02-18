@@ -1,6 +1,6 @@
 package com.apl.wms.warehouse.service.impl;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.constants.CommonStatusCode;
 import com.apl.lib.join.JoinBase;
 import com.apl.lib.join.JoinUtil;
@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
     }
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @Autowired
     InnerFeign innerFeign;
@@ -104,11 +105,11 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
 
 
     @Override
-    public ResultUtil<CommodityNameLibInfoVo> selectById(Integer id){
+    public ResultUtil<CommodityNameLibInfoVo> selectById(Integer id) throws IOException {
 
         CommodityNameLibInfoVo commodityNameLibInfoVo = baseMapper.getById(id);
 
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheHelper);
         CustomerCacheBo customerCacheBo = joinCustomer.getEntity(commodityNameLibInfoVo.getCustomerId());
         if(customerCacheBo!=null)
             commodityNameLibInfoVo.setCustomerName(customerCacheBo.getCustomerName());
@@ -127,7 +128,7 @@ public class CommodityNameLibServiceImpl extends ServiceImpl<CommodityNameLibMap
         List<CommodityNameLibListVo> list = baseMapper.getList(page , keyDto);
 
         List<JoinBase> joinTabs = new ArrayList<>();
-        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, redisTemplate);
+        JoinCustomer joinCustomer = new JoinCustomer(1, innerFeign, aplCacheHelper);
         joinCustomer.addField("customerId",  Long.class, "customerName",  String.class);
         joinTabs.add(joinCustomer);
 

@@ -1,6 +1,7 @@
 package com.apl.wms.warehouse.business.queuecustomer;
 
-import com.apl.cache.AplCacheUtil;
+import com.apl.cache.AplCacheHelper;
+import com.apl.cache.AplCacheHelper;
 import com.apl.lib.security.SecurityUser;
 import com.apl.lib.utils.CommonContextHolder;
 import com.apl.lib.utils.StringUtil;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * @author hjr start
  * @date 2020/7/8 - 16:56
@@ -28,7 +31,7 @@ public class AllocationWarehouseForOrderQueueCustomer {
     AllocationStockOrderService allocationStockOrderService;
 
     @Autowired
-    AplCacheUtil redisTemplate;
+    AplCacheHelper aplCacheHelper;
 
     @RabbitHandler
     @RabbitListener(queues = "allocationWarehouseForOrderQueue")
@@ -41,7 +44,10 @@ public class AllocationWarehouseForOrderQueueCustomer {
             SecurityUser securityUser  = outOrderBo.getSecurityUser();
 
             //创建临时token，并把securityUser放入redis中，供微服务调用
-            String token = CommonContextHolder.setSecurityUser(redisTemplate, securityUser);
+//            String token = CommonContextHolder.setSecurityUser(aplCacheHelper, securityUser);
+            String token = UUID.randomUUID().toString().replaceAll("-", "").replaceAll("_", "");
+            token = securityUser.getTenantGroup() + "_" + securityUser.getInnerOrgCode() + "_" + securityUser.getInnerOrgId() + "_" + token;
+            aplCacheHelper.opsForValue("wareHouse").set(token, token);
 
             //把临时token放入线程安全变量中, feign会用到
             CommonContextHolder.tokenContextHolder.set(token);
@@ -56,7 +62,7 @@ public class AllocationWarehouseForOrderQueueCustomer {
             allocationStockOrderService.allocationByQueue(outOrderBo);
 
             //删除临时token
-            redisTemplate.delete(token);
+            aplCacheHelper.opsForKey("wareHouse").delByKey(token);
 
             CommonContextHolder.tokenContextHolder.remove();
             CommonContextHolder.securityUserContextHolder.remove();

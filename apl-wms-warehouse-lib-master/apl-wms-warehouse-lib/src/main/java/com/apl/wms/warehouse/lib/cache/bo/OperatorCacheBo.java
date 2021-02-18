@@ -2,9 +2,12 @@ package com.apl.wms.warehouse.lib.cache.bo;
 
 import lombok.Data;
 
-@Data
-public class OperatorCacheBo {
+import java.io.Serializable;
 
+@Data
+public class OperatorCacheBo implements Serializable {
+
+    private static final long serialVersionUID = -4345232912039470520L;
     private String cacheKey;
 
     private Long id;

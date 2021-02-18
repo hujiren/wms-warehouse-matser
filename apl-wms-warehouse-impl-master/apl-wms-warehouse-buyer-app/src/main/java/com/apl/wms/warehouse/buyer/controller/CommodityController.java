@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 /**
  *
@@ -76,7 +77,7 @@ public class CommodityController {
     @PostMapping(value = "/get")
     @ApiOperation(value =  "获取详细" , notes = "获取详细")
     @ApiImplicitParam(name = "id",value = "id",required = true  , paramType = "query")
-    public ResultUtil<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) {
+    public ResultUtil<CommodityInfoVo> getById(@Min(value = 1 , message = "id不能小于 1") Long id) throws IOException {
         SecurityUser securityUser = CommonContextHolder.getSecurityUser();
 
         return commodityService.selectById(id, securityUser.getOuterOrgId());

@@ -8,6 +8,9 @@ import com.apl.wms.warehouse.dto.WhOperatorKeyDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.apl.lib.pojo.dto.PageDto;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.io.IOException;
+
 /**
  * <p>
  * 仓库操作员 service接口
@@ -55,6 +58,6 @@ public interface WhOperatorService extends IService<WhOperatorPo> {
          * @author cy
          * @since 2019-12-17
          */
-        ResultUtil<Page<WhOperatorListVo>>getList(PageDto pageDto, WhOperatorKeyDto keyDto);
+        ResultUtil<Page<WhOperatorListVo>>getList(PageDto pageDto, WhOperatorKeyDto keyDto) throws IOException;
 
 }
